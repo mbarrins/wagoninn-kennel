@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import LoginForm from './components/LoginForm'
+import { connect } from 'react-redux'
+import { validateUser, logoutUser } from './actions/userActions'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  componentDidMount() {
+    this.props.validateUser();
+  }
+
+  render() {
+    const { loggedIn } = this.props
+
+    return (
+      <div className="App">
+        {loggedIn ? <div><h1>Logged In</h1><button onClick={() => this.props.logoutUser()}>Logout</button></div> : <LoginForm />}
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.usersReducer.loggedIn
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return { 
+    validateUser: props => dispatch(validateUser(props)),
+    logoutUser: props => dispatch(logoutUser(props))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
