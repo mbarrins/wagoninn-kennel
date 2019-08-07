@@ -1,6 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { loginUser, validateUserError } from '../actions/userActions'
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 class SignIn extends React.Component {
   state = {
@@ -40,26 +45,35 @@ class SignIn extends React.Component {
     const { errors } = this.props
     
     return (
-      <div style={{padding: '10px'}}>
-        <p>Please login to view your bookings.</p>
-        <form onSubmit={this.handleSubmit}>
-          <h1>Sign In</h1>
-          {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
-          <div>
-            <label htmlFor='username' >Username</label>
-            <input type='text' id='username' name='username' required={true} value={this.state.user.username} onChange={(e) => this.handleChange('username', e.target.value)} />
-          </div>
-          <div>
-            <label htmlFor='Password'>Password</label>
-            <input type='password' id='password' name='password' required={true} value={this.state.user.password} onChange={(e) => this.handleChange('password', e.target.value)} />
-          </div>
-          <div>
-            <button type='submit'>Submit</button>
-          </div>
-          <hr/>
-          <p>If you do not already have an account, please speak with you manager.</p>
-        </form>
-      </div>
+      // <div id='cover'>
+      //   <div id='cover-caption'>
+      <Container>
+        <Row className='min-vh-100'>
+          <Col className='col-sm-6 offset-sm-3 text-center my-auto'>
+            <Form onSubmit={this.handleSubmit}>
+              <h1>Sign In</h1>
+              {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
+              <Form.Group as={Row}>
+                <Form.Label column sm='2' htmlFor='username'>Username</Form.Label>
+                <Col sm='10'>
+                  <Form.Control type='text' id='username' name='username' required={true} value={this.state.user.username} onChange={(e) => this.handleChange('username', e.target.value)} />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column sm='2' htmlFor='Password'>Password</Form.Label>
+                <Col sm='10'>
+                  <Form.Control type='password' id='password' name='password' required={true} value={this.state.user.password} onChange={(e) => this.handleChange('password', e.target.value)} />
+                </Col>
+              </Form.Group>
+              <Button variant='secondary' type='submit'>Submit</Button>
+              <hr/>
+              <p>If you do not already have an account, please speak with you manager.</p>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+      // </div>
+      // </div>
     )
   }
 }
