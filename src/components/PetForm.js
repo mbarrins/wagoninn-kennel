@@ -89,31 +89,31 @@ class PetForm extends React.Component {
             }
           </Col>
           <Col className='col-sm-6 text-center my-auto'>    
-          <Row>
-            <Col>
-              <SelectInput 
-                field='petType' 
-                label='Pet Type' 
-                tabIndex={2} 
-                labelSize={4}
-                selectSize={7}
-                value={petType} 
-                handleChange={this.handleChange} 
-                options={lookups.petTypes} 
-              />
-            </Col>
-            <Col>
-              <SelectInput 
-                field='sex' 
-                label='Sex' 
-                tabIndex={3} 
-                labelSize={5}
-                selectSize={7}
-                value={sex} 
-                handleChange={this.handleChange} 
-                options={lookups.sexes} 
-              />
-            </Col>
+            <Row>
+              <Col>
+                <SelectInput 
+                  field='petType' 
+                  label='Pet Type' 
+                  tabIndex={2} 
+                  labelSize={4}
+                  selectSize={7}
+                  value={petType} 
+                  handleChange={this.handleChange} 
+                  options={lookups.petTypes} 
+                />
+              </Col>
+              <Col>
+                <SelectInput 
+                  field='sex' 
+                  label='Sex' 
+                  tabIndex={3} 
+                  labelSize={5}
+                  selectSize={7}
+                  value={sex} 
+                  handleChange={this.handleChange} 
+                  options={lookups.sexes} 
+                />
+              </Col>
             </Row>
             <SelectInput 
               field='size' 
