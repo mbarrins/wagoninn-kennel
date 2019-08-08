@@ -45,7 +45,7 @@ const TopNavbar = ({ loggedIn, logoutUser}) => {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.usersReducer.loggedIn
+    loggedIn: state.users.loggedIn
   }
 }
 

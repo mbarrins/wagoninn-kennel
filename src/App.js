@@ -30,7 +30,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.usersReducer.loggedIn
+    loggedIn: state.users.loggedIn
   }
 }
 

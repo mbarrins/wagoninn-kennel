@@ -22,7 +22,6 @@ const getLookups = () => {
     headers: constructHeaders()
   }).then(jsonify)
   .then(data => {
-    console.log(data)
     if (data.errors) {
       return {errors: data.errors}
     } else {

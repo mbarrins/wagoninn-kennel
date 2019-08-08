@@ -80,7 +80,7 @@ class SignIn extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    errors: state.usersReducer.errors
+    errors: state.users.errors
   }
 }
 

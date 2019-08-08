@@ -1,5 +1,28 @@
 export default function lookupsReducer(state = {
-  lookups: [],
+  lookups: {
+    colors: [], 
+    breeds: [], 
+    sexes: [], 
+    sizes: [], 
+    petTypes: [],
+    immunisations: [],
+    healthDetails: [],
+    medications: [],
+    dose: [],
+    food: [],
+    measure: [],
+    personType: [],
+    phoneType: [],
+    roomType: [],
+    bookingStatus: [],
+    validity: [],
+    specialNeeds: [],
+    sociability: [],
+    schedule: [],
+    issues: [],
+    concerns: [],
+    penType: []
+  },
   errors: []
 }, action) {
   switch (action.type) {
