@@ -18,16 +18,40 @@ class PetForm extends React.Component {
       color: '', 
       size: '',
       spayedNeutered: false,
-      immunisations: {
-        immunisation: '',
-        validity: '',
-        effective_from: ''
-      }
+      immunisations: []
     }
   }
 
   handleChange = (key, value) => {
-    this.setState({pet: {...this.state.pet, [key]: value}})
+    
+    if (key === 'petType') {
+      this.updateWithImmunisations(value);
+    } else {
+      this.setState({pet: {...this.state.pet, [key]: value}})
+    }
+  }
+
+  updateWithImmunisations = (petType) => {
+    const { lookups: {lookups} } = this.props
+    
+    if (petType === '' || lookups.petTypes.length === 0) {
+
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: []}})
+    
+    } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) {
+
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.dog.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: '', expiryDate: ''}))}})
+    
+    } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Cat').id) {
+      
+
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.cat.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: '', expiryDate: ''}))}})
+
+    } else {
+
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: []}})
+
+    }
   }
 
   handleSubmit = (e) => {
@@ -54,7 +78,7 @@ class PetForm extends React.Component {
 
   render() {
     const { lookups: {lookups, errors} } = this.props
-    const { pet: {name, petType, sex, breed, color, size, spayedNeutered } } = this.state
+    const { pet: {name, petType, sex, breed, color, size, spayedNeutered, immunisations } } = this.state
 
     return (
       <Container className='mt-5'>
@@ -118,7 +142,7 @@ class PetForm extends React.Component {
             <SelectInput 
               field='size' 
               label='Size' 
-              tabIndex={4} 
+              tabIndex={5} 
               labelSize={2}
               selectSize={10}
               value={size} 
@@ -134,9 +158,37 @@ class PetForm extends React.Component {
             onChange={(e) => this.handleChange('spayedNeutered', e.target.checked)}
             checked={spayedNeutered}
             id="spayedNeutered"
+            tabIndex={6}
           />
         </Form.Group>
-          <hr/>
+        <hr/>
+        
+        
+          {immunisations.map((shot, index) => (
+            <Row key={`shot${index}`}>
+            <Col>
+            <SelectInput
+              disabled={true}
+              field={`immunisation-${index}`}
+              label=''
+              tabIndex={7}
+              labelSize={2}
+              selectSize={10}
+              value={shot.immunisation_id} 
+              options={(parseInt(petType,10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
+            />
+            </Col>
+            <Col>
+            
+            </Col>
+            <Col>
+  
+            </Col>
+            </Row>
+          ))}
+
+
+
         <div className='text-center'>
           <Button variant='secondary' type='submit'>Submit</Button>
         </div>
