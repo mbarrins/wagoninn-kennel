@@ -9,6 +9,11 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.validateUser();
+
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function(event) {
+      window.history.go(1);
+    };
   }
 
   render() {
