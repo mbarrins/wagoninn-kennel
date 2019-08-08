@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
+import moment from 'moment'
 
 class PetForm extends React.Component {
   state = {
@@ -33,8 +34,7 @@ class PetForm extends React.Component {
 
   handleImmunisationChange = (key, value, index) => {
     
-    console.log({pet: {...this.state.pet, immunisations: this.state.pet.immunisations.map((shot,i) => index === i ? {...shot, [key]: value} : shot)}})
-    // this.setState({pet: {...this.state.pet, immunisations: this.state.immunisations.map((shot,i) => index === i ? {...shot, [key]: value} : shot)}})
+    this.setState({pet: {...this.state.pet, immunisations: this.state.pet.immunisations.map((shot,i) => index === i ? {...shot, [key]: value} : shot)}})
     
   }
 
@@ -47,12 +47,12 @@ class PetForm extends React.Component {
     
     } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) {
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.dog.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: '', expiryDate: ''}))}})
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.dog.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: ''}))}})
     
     } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Cat').id) {
       
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.cat.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: '', expiryDate: ''}))}})
+      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.cat.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: ''}))}})
 
     } else {
 
@@ -213,7 +213,8 @@ class PetForm extends React.Component {
             <FieldInput 
               inputType='date' 
               field='effectiveDate' 
-              label='Effective Date' 
+              label='Effective Date'
+              index={index} 
               tabIndex={1} 
               labelSize={5}
               inputSize={7}
@@ -226,11 +227,12 @@ class PetForm extends React.Component {
               inputType='date' 
               field='expiryDate' 
               label='Expiry Date' 
+              index={index}
               tabIndex={1} 
               labelSize={5}
               inputSize={7}
-              value={shot.expiryDate} 
-              handleChange={this.handleImmunisationChange} 
+              value={shot.effectiveDate === '' ? '' : moment(shot.effectiveDate).add({years: 1, days: -1}).format('YYYY-MM-DD')} 
+              disabled={true}
             />
             </Col>
             </Row>
