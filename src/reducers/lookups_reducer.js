@@ -1,5 +1,4 @@
 export default function lookupsReducer(state = {
-  lookups: {
     colors: [], 
     breeds: [], 
     sexes: [], 
@@ -8,22 +7,20 @@ export default function lookupsReducer(state = {
     immunisations: [],
     healthDetails: [],
     medications: [],
-    dose: [],
-    food: [],
-    measure: [],
-    personType: [],
-    phoneType: [],
-    roomType: [],
-    bookingStatus: [],
+    doses: [],
+    foods: [],
+    measures: [],
+    phoneTypes: [],
+    roomTypes: [],
+    bookingStatuses: [],
     validity: [],
     specialNeeds: [],
-    sociability: [],
-    schedule: [],
+    sociabilities: [],
+    schedules: [],
     issues: [],
     concerns: [],
-    penType: []
-  },
-  errors: []
+    penTypes: [],
+    errors: []
 }, action) {
   switch (action.type) {
     case 'LOADING_LOOKUPS':
@@ -34,7 +31,7 @@ export default function lookupsReducer(state = {
       
       return {
         ...state,
-        lookups: action.payload.lookups
+        ...action.payload.lookups
       }
     
     case 'LOOKUPS_ERRORS':

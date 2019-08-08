@@ -12,6 +12,7 @@ import moment from 'moment'
 class PetForm extends React.Component {
   state = {
     pet: {
+      owner_id: '',
       name: '',
       petType: '',
       sex: '',
@@ -39,7 +40,7 @@ class PetForm extends React.Component {
   }
 
   updateWithImmunisations = (petType) => {
-    const { lookups: {lookups} } = this.props
+    const { lookups } = this.props
     
     if (petType === '' || lookups.petTypes.length === 0) {
 
@@ -84,7 +85,7 @@ class PetForm extends React.Component {
   }
 
   render() {
-    const { lookups: {lookups, errors} } = this.props
+    const { lookups, lookups: {errors} } = this.props
     const { pet: {name, petType, sex, breed, color, size, spayedNeutered, immunisations } } = this.state
 
     return (
@@ -184,58 +185,57 @@ class PetForm extends React.Component {
         {immunisations.length > 0 && <><hr/><h3 className='text-center'>Immunisations</h3></>}
           {immunisations.map((shot, index) => (
             <Row key={`shot${index}`}>
-            <Col>
-            <SelectInput
-              disabled={true}
-              field={`immunisation-${index}`}
-              label=''
-              tabIndex={7}
-              labelSize={0}
-              selectSize={10}
-              value={shot.immunisation_id} 
-              options={(parseInt(petType,10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
-            />
-            </Col>
-            <Col>
-            <SelectInput
-              field='validity_id'
-              label='Validity'
-              index={index}
-              tabIndex={7}
-              labelSize={5}
-              selectSize={7}
-              value={shot.validity_id} 
-              options={lookups.validity} 
-              handleChange={this.handleImmunisationChange} 
-            />
-            </Col>
-            <Col className='col-4'>
-            <FieldInput 
-              inputType='date' 
-              field='effectiveDate' 
-              label='Effective Date'
-              index={index} 
-              tabIndex={1} 
-              labelSize={5}
-              inputSize={7}
-              value={shot.effectiveDate} 
-              handleChange={this.handleImmunisationChange} 
-            />
-            </Col>
-            <Col className='col-4'>
-              {shot.validity_id === '' ? '' : console.log(lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).id)}
-            <FieldInput 
-              inputType='date' 
-              field='expiryDate' 
-              label='Expiry Date' 
-              index={index}
-              tabIndex={1} 
-              labelSize={5}
-              inputSize={7}
-              value={(shot.effectiveDate === '' || shot.validity_id === '') ? '' : moment(shot.effectiveDate).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
-              disabled={true}
-            />
-            </Col>
+              <Col>
+                <SelectInput
+                  disabled={true}
+                  field={`immunisation-${index}`}
+                  label=''
+                  tabIndex={7}
+                  labelSize={0}
+                  selectSize={10}
+                  value={shot.immunisation_id} 
+                  options={(parseInt(petType,10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
+                />
+              </Col>
+              <Col>
+                <SelectInput
+                  field='validity_id'
+                  label='Validity'
+                  index={index}
+                  tabIndex={7}
+                  labelSize={5}
+                  selectSize={7}
+                  value={shot.validity_id} 
+                  options={lookups.validity} 
+                  handleChange={this.handleImmunisationChange} 
+                />
+              </Col>
+              <Col className='col-4'>
+                <FieldInput 
+                  inputType='date' 
+                  field='effectiveDate' 
+                  label='Effective Date'
+                  index={index} 
+                  tabIndex={1} 
+                  labelSize={5}
+                  inputSize={7}
+                  value={shot.effectiveDate} 
+                  handleChange={this.handleImmunisationChange} 
+                />
+              </Col>
+              <Col className='col-4'>
+                <FieldInput 
+                  inputType='date' 
+                  field='expiryDate' 
+                  label='Expiry Date' 
+                  index={index}
+                  tabIndex={1} 
+                  labelSize={5}
+                  inputSize={7}
+                  value={(shot.effectiveDate === '' || shot.validity_id === '') ? '' : moment(shot.effectiveDate).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
+                  disabled={true}
+                />
+              </Col>
             </Row>
           ))}
 

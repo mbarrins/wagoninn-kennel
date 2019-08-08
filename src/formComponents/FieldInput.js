@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const TextInput = ({ inputType, field, label, tabIndex, value, handleChange, labelSize, inputSize, index, disabled}) => {
+const FieldInput = ({ inputType, field, label, tabIndex, value, handleChange, labelSize, inputSize, index, disabled}) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
@@ -23,4 +23,4 @@ const TextInput = ({ inputType, field, label, tabIndex, value, handleChange, lab
   )
 }
 
-export default TextInput;
+export default FieldInput;
