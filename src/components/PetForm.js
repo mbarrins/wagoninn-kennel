@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import TextInput from '../formComponents/TextInput'
+import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
 
 class PetForm extends React.Component {
@@ -29,6 +29,13 @@ class PetForm extends React.Component {
     } else {
       this.setState({pet: {...this.state.pet, [key]: value}})
     }
+  }
+
+  handleImmunisationChange = (key, value, index) => {
+    
+    console.log({pet: {...this.state.pet, immunisations: this.state.pet.immunisations.map((shot,i) => index === i ? {...shot, [key]: value} : shot)}})
+    // this.setState({pet: {...this.state.pet, immunisations: this.state.immunisations.map((shot,i) => index === i ? {...shot, [key]: value} : shot)}})
+    
   }
 
   updateWithImmunisations = (petType) => {
@@ -81,13 +88,25 @@ class PetForm extends React.Component {
     const { pet: {name, petType, sex, breed, color, size, spayedNeutered, immunisations } } = this.state
 
     return (
-      <Container className='mt-5'>
+      <Container className='mt-5' fluid={true}>
+        <Row className='justify-content-center'>
+        <Col className='col-9 text-center center-block'>
         <Form onSubmit={this.handleSubmit}>
         <h1 className='text-center'>New Pet</h1>
         {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
         <Row>
           <Col className='col-sm-6 text-center my-auto'>
-            <TextInput field='name' label='Name' tabIndex={1} value={name} handleChange={this.handleChange} />
+            <FieldInput 
+              inputType='text' 
+              field='name' 
+              label='Name' 
+              tabIndex={1} 
+              labelSize={2}
+              inputSize={10}
+              value={name} 
+              handleChange={this.handleChange} 
+            />
+
             {petType === ''  || parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id ?
               <SelectInput 
                 field='breed' 
@@ -161,9 +180,8 @@ class PetForm extends React.Component {
             tabIndex={6}
           />
         </Form.Group>
-        <hr/>
         
-        
+        {immunisations.length > 0 && <><hr/><h3 className='text-center'>Immunisations</h3></>}
           {immunisations.map((shot, index) => (
             <Row key={`shot${index}`}>
             <Col>
@@ -172,17 +190,48 @@ class PetForm extends React.Component {
               field={`immunisation-${index}`}
               label=''
               tabIndex={7}
-              labelSize={2}
+              labelSize={0}
               selectSize={10}
               value={shot.immunisation_id} 
               options={(parseInt(petType,10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
             />
             </Col>
             <Col>
-            
+            <SelectInput
+              field='validity_id'
+              label='Validity'
+              index={index}
+              tabIndex={7}
+              labelSize={5}
+              selectSize={7}
+              value={shot.validity_id} 
+              options={lookups.validity} 
+              handleChange={this.handleImmunisationChange} 
+            />
             </Col>
-            <Col>
-  
+            <Col className='col-4'>
+            <FieldInput 
+              inputType='date' 
+              field='effectiveDate' 
+              label='Effective Date' 
+              tabIndex={1} 
+              labelSize={5}
+              inputSize={7}
+              value={shot.effectiveDate} 
+              handleChange={this.handleImmunisationChange} 
+            />
+            </Col>
+            <Col className='col-4'>
+            <FieldInput 
+              inputType='date' 
+              field='expiryDate' 
+              label='Expiry Date' 
+              tabIndex={1} 
+              labelSize={5}
+              inputSize={7}
+              value={shot.expiryDate} 
+              handleChange={this.handleImmunisationChange} 
+            />
             </Col>
             </Row>
           ))}
@@ -193,6 +242,8 @@ class PetForm extends React.Component {
           <Button variant='secondary' type='submit'>Submit</Button>
         </div>
         </Form>
+        </Col>
+        </Row>
       </Container>
     )
   }

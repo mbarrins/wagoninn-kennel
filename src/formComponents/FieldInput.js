@@ -3,13 +3,13 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const TextInput = ({ field, label, tabIndex, value, handleChange }) => {
+const TextInput = ({ inputType, field, label, tabIndex, value, handleChange, labelSize, inputSize}) => {
   return (
     <Form.Group as={Row}>
-      <Form.Label column sm='2' htmlFor={field}>{label}</Form.Label>
-      <Col sm='10'>
+      <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
+      <Col xs={inputSize}>
         <Form.Control 
-          type='text' 
+          type={inputType}
           id={field} 
           name={field}
           required={true} 
