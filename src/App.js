@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
 import LoginForm from './components/LoginForm'
 import { connect } from 'react-redux'
-import { validateUser, logoutUser } from './actions/userActions'
+import { validateUser, logoutUser  } from './actions/userActions'
+import TopNavbar from './components/TopNavbar';
+import MainContainer from './containers/MainContainer'
 
 class App extends React.Component {
 
@@ -15,7 +16,8 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        {loggedIn ? <div><h1>Logged In</h1><button onClick={() => this.props.logoutUser()}>Logout</button></div> : <LoginForm />}
+        <TopNavbar />
+        {loggedIn ? <MainContainer /> : <LoginForm />}
       </div>
     );
   }

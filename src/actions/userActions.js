@@ -1,4 +1,4 @@
-import API from '../adapters/API'
+import API from '../adapters/usersAPI'
 
 export const validatingUser = () => {
   
