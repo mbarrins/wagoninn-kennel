@@ -223,6 +223,7 @@ class PetForm extends React.Component {
             />
             </Col>
             <Col className='col-4'>
+              {shot.validity_id === '' ? '' : console.log(lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).id)}
             <FieldInput 
               inputType='date' 
               field='expiryDate' 
@@ -231,7 +232,7 @@ class PetForm extends React.Component {
               tabIndex={1} 
               labelSize={5}
               inputSize={7}
-              value={shot.effectiveDate === '' ? '' : moment(shot.effectiveDate).add({years: 1, days: -1}).format('YYYY-MM-DD')} 
+              value={(shot.effectiveDate === '' || shot.validity_id === '') ? '' : moment(shot.effectiveDate).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
               disabled={true}
             />
             </Col>
