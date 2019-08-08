@@ -5,17 +5,24 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import TextInput from '../formComponents/TextInput'
+import SelectInput from '../formComponents/SelectInput'
 
 class PetForm extends React.Component {
   state = {
     pet: {
       name: '',
-      animal: '',
+      petType: '',
       sex: '',
       breed: '',
       color: '', 
       size: '',
-      spayedNeutered: false
+      spayedNeutered: false,
+      immunisations: {
+        immunisation: '',
+        validity: '',
+        effective_from: ''
+      }
     }
   }
 
@@ -47,7 +54,7 @@ class PetForm extends React.Component {
 
   render() {
     const { lookups: {lookups, errors} } = this.props
-    const { pet: {name, animal, sex, breed, color, size, spayedNeutered } } = this.state
+    const { pet: {name, petType, sex, breed, color, size, spayedNeutered } } = this.state
 
     return (
       <Container className='mt-5'>
@@ -56,116 +63,68 @@ class PetForm extends React.Component {
         {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
         <Row>
           <Col className='col-sm-6 text-center my-auto'>
-            <Form.Group as={Row}>
-              <Form.Label column sm='2' htmlFor='name'>Name</Form.Label>
-              <Col sm='10'>
-                <Form.Control 
-                  type='text' 
-                  id='name' 
-                  name='name' 
-                  required={true} 
-                  value={name} 
-                  onChange={(e) => this.handleChange('name', e.target.value)} 
-                  tabIndex={1}
-                />
-              </Col>
-            </Form.Group>
-            {animal === ''  || parseInt(animal, 10) === lookups.petTypes.find(petType => petType.animal === 'Dog').id ?
-              <Form.Group as={Row}>
-                <Form.Label column sm='2' htmlFor='breed'>Breed</Form.Label>
-                <Col sm='10'>
-                  <Form.Control 
-                    as='select' 
-                    id='breed' 
-                    name='breed' 
-                    required={true} 
-                    value={breed}
-                    onChange={(e) => this.handleChange('breed', e.target.value)} 
-                    tabIndex={4}
-                  >
-                  <option value="" disabled>Select</option>
-                  {lookups.breeds.map(breed => <option key={`breed-${breed.id}`} value={breed.id}>{breed.breed}</option>)}
-                  </Form.Control>
-                </Col>
-              </Form.Group>
+            <TextInput field='name' label='Name' tabIndex={1} value={name} handleChange={this.handleChange} />
+            {petType === ''  || parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id ?
+              <SelectInput 
+                field='breed' 
+                label='Breed' 
+                tabIndex={4} 
+                labelSize={2}
+                selectSize={10}
+                value={breed} 
+                handleChange={this.handleChange} 
+                options={lookups.breeds} 
+              />
             :
-              <Form.Group as={Row}>
-                <Form.Label column sm='2' htmlFor='color'>Color</Form.Label>
-                <Col sm='10'>
-                  <Form.Control 
-                    as='select' 
-                    id='color' 
-                    name='color' 
-                    required={true} 
-                    value={color} 
-                    onChange={(e) => this.handleChange('color', e.target.value)}
-                    tabIndex={5}
-                  >
-                  <option value="" disabled>Select</option>
-                  {lookups.colors.map(color => <option key={`color-${color.id}`} value={color.id}>{color.color}</option>)}
-                  </Form.Control>
-                </Col>
-              </Form.Group>
+              <SelectInput 
+                field='color' 
+                label='Color' 
+                tabIndex={4} 
+                labelSize={2}
+                selectSize={10}
+                value={color} 
+                handleChange={this.handleChange} 
+                options={lookups.colors} 
+              />
             }
           </Col>
           <Col className='col-sm-6 text-center my-auto'>    
           <Row>
             <Col>
-              <Form.Group as={Row}>
-                <Form.Label column sm='4' htmlFor='animal'>Animal</Form.Label>
-                <Col sm='7'>
-                <Form.Control 
-                  as='select' 
-                  id='animal' 
-                  name='animal' 
-                  required={true} 
-                  value={animal} 
-                  onChange={(e) => this.handleChange('animal', e.target.value)} 
-                  tabIndex={2}
-                >
-                <option value="" disabled>Select</option>
-                {lookups.petTypes.map(animal => <option key={`animal-${animal.id}`} value={animal.id}>{animal.animal}</option>)}
-                </Form.Control>
-                </Col>
-              </Form.Group>
+              <SelectInput 
+                field='petType' 
+                label='Pet Type' 
+                tabIndex={2} 
+                labelSize={4}
+                selectSize={7}
+                value={petType} 
+                handleChange={this.handleChange} 
+                options={lookups.petTypes} 
+              />
             </Col>
             <Col>
-              <Form.Group as={Row}>
-                <Form.Label column sm='5' htmlFor='sex'>Sex</Form.Label>
-                <Col sm='7'>
-                <Form.Control 
-                  as='select' 
-                  id='sex' 
-                  name='sex' 
-                  required={true} 
-                  value={sex} 
-                  onChange={(e) => this.handleChange('sex', e.target.value)} 
-                  tabIndex={3}
-                >
-                <option value="" disabled>Select</option>
-                {lookups.sexes.map(sex => <option key={sex.id} value={sex.id}>{sex.sex}</option>)}
-                </Form.Control>
-                </Col>
-              </Form.Group>
+              <SelectInput 
+                field='sex' 
+                label='Sex' 
+                tabIndex={3} 
+                labelSize={5}
+                selectSize={7}
+                value={sex} 
+                handleChange={this.handleChange} 
+                options={lookups.sexes} 
+              />
             </Col>
             </Row>
-            <Form.Group as={Row}>
-              <Form.Label column sm='2' htmlFor='size'>Size</Form.Label>
-              <Col sm='10'>
-              <Form.Control 
-                  as='select' 
-                  id='size' 
-                  name='size' 
-                  required={true} 
-                  value={size} 
-                  onChange={(e) => this.handleChange('size', e.target.value)}
-                  tabIndex={5}
-                >
-                <option value="" disabled>Select</option>
-                {lookups.sizes.map(size => <option key={size.id} value={size.id}>{size.size}</option>)}
-                </Form.Control>
-              </Col>
-            </Form.Group>
+            <SelectInput 
+              field='size' 
+              label='Size' 
+              tabIndex={4} 
+              labelSize={2}
+              selectSize={10}
+              value={size} 
+              handleChange={this.handleChange} 
+              options={lookups.sizes} 
+            />
           </Col>
         </Row>
         <Form.Group className='form-control-lg text-center'>
