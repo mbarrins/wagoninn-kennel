@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-// import SelectInput from '../formComponents/SelectInput'
 import moment from 'moment'
 
 class OwnerForm extends React.Component {
@@ -26,11 +25,15 @@ class OwnerForm extends React.Component {
       city: '',
       state: '',
       zipcode: '',
+      emergency_contact_name: '',
+      emergency_contact_phone: '',
       partner_name: '',
       partner_phone: '',
       agreed_terms: false,
       agreed_date: '',
-      notes: ''
+      notes: '',
+      pets: [],
+      concerns: []
     }
   }
 
@@ -77,7 +80,8 @@ class OwnerForm extends React.Component {
     const { lookups, lookups: {errors} } = this.props
     const { owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
-      partner_name, partner_phone, agreed_terms, agreed_date, notes } } = this.state
+      partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
+      agreed_date, notes } } = this.state
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -142,6 +146,33 @@ class OwnerForm extends React.Component {
                     selectField='secondary_phone_type_id'
                     selectValue={secondary_phone_type_id}
                     options={lookups.phoneTypes}
+                  />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput 
+                    inputType='text' 
+                    field='emergency_contact_name' 
+                    label='Emergency Contact Name' 
+                    tabIndex={1} 
+                    labelSize={3}
+                    inputSize={9}
+                    value={emergency_contact_name} 
+                    handleChange={this.handleChange} 
+                  />
+                </Col>
+                <Col className='text-center my-auto'>    
+                  <FieldInput 
+                    inputType='text' 
+                    field='emergency_contact_phone' 
+                    label='Emergency Contact Phone' 
+                    tabIndex={2} 
+                    labelSize={3}
+                    inputSize={9}
+                    value={emergency_contact_phone} 
+                    handleChange={this.handleChange} 
                   />
                 </Col>
               </Row>
@@ -300,7 +331,7 @@ class OwnerForm extends React.Component {
                 </Col>
                 <Col>
                   <FieldInput 
-                    inputType='text' 
+                    inputType='date' 
                     field='agreed_date' 
                     label='Date Terms Agreed' 
                     tabIndex={1} 
