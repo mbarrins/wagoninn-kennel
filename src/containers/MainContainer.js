@@ -15,8 +15,8 @@ class MainContainer extends React.Component {
 
     return (
       <div className="App">
-        {loggedIn ? <PetForm /> : <h1>Not Logged In</h1>}
-        {/* {loggedIn ? <OwnerForm /> : <h1>Not Logged In</h1>} */}
+        {/* {loggedIn ? <PetForm /> : <h1>Not Logged In</h1>} */}
+        {loggedIn ? <OwnerForm /> : <h1>Not Logged In</h1>}
       </div>
     );
   }

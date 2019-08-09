@@ -7,11 +7,13 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
+import { postOwner } from '../actions/ownerActions'
 import moment from 'moment'
 
 class OwnerForm extends React.Component {
   state = {
     owner: {
+      owner_id: '',
       first_name: '',
       last_name: '',
       email: '',
@@ -56,24 +58,11 @@ class OwnerForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = []
-    if (this.state.user.name === '') errors.push('The name cannot be blank')
-    if (this.state.user.type === '') errors.push('The type cannot be blank')
+    const {pets, concerns, owner_id, ...ownerToCreate} = this.state.owner
+    console.log(ownerToCreate)
 
-    if (errors.length === 0) {
-
-      // this.props.loginUser(this.state.user);
-
-      this.setState({
-        user: {
-          name: '',
-          type: ''
-        }
-      })
-
-    } else {
-      // this.props.validateUserError({ errors })
-    }
+    this.props.postOwner(ownerToCreate)
+      .then('returnData', console.log)
   }
 
   render() {
@@ -156,7 +145,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='emergency_contact_name' 
                     label='Emergency Contact Name' 
-                    tabIndex={1} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={emergency_contact_name} 
@@ -168,7 +157,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='emergency_contact_phone' 
                     label='Emergency Contact Phone' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={emergency_contact_phone} 
@@ -183,7 +172,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='email' 
                     label='Email' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={email} 
@@ -200,7 +189,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='address_line_1' 
                     label='Address Line 1' 
-                    tabIndex={2} 
+                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={address_line_1} 
@@ -217,7 +206,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='address_line_2' 
                     label='Address Line 2' 
-                    tabIndex={2} 
+                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={address_line_2} 
@@ -234,7 +223,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='address_line_3' 
                     label='Address Line 3' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={address_line_3} 
@@ -251,7 +240,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='city' 
                     label='City' 
-                    tabIndex={2} 
+                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={city} 
@@ -265,7 +254,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='state' 
                     label='State' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={state} 
@@ -277,7 +266,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='zipcode' 
                     label='Zipcode' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={zipcode} 
@@ -294,7 +283,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='partner_name' 
                     label='Partner Name' 
-                    tabIndex={1} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={partner_name} 
@@ -306,7 +295,7 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='partner_phone' 
                     label='Partner Phone' 
-                    tabIndex={2} 
+                    tabIndex={10} 
                     labelSize={3}
                     inputSize={9}
                     value={partner_phone} 
@@ -325,7 +314,7 @@ class OwnerForm extends React.Component {
                       onChange={(e) => this.handleChange('agreed_terms', e.target.checked)}
                       checked={agreed_terms}
                       id="agreed_terms"
-                      tabIndex={6}
+                      tabIndex={10}
                     />
                   </Form.Group>
                 </Col>
@@ -334,7 +323,7 @@ class OwnerForm extends React.Component {
                     inputType='date' 
                     field='agreed_date' 
                     label='Date Terms Agreed' 
-                    tabIndex={1} 
+                    tabIndex={10} 
                     labelSize={5}
                     inputSize={7}
                     value={agreed_date} 
@@ -372,4 +361,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(OwnerForm);
+const mapDispatchToProps = dispatch => {
+  return { 
+    postOwner: props => dispatch(postOwner(props))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OwnerForm);
