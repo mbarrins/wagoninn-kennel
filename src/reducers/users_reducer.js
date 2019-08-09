@@ -1,32 +1,42 @@
 export default function usersReducer(state = {
-  loggedIn: false,
+  isAuthenticated: false,
+  isLoading: false,
   errors: []
 }, action) {
   switch (action.type) {
     case 'CHECKING_USER':
       
-      return state
+      return {...state, isLoading: true}
       
     case 'LOG_IN_USER':
-      
+        
       return {
         ...state,
-        loggedIn: true,
+        isAuthenticated: true,
+        isLoading: false,
         errors: []
       }
     
     case 'USER_ERRORS':
-      
+        
       return {
         ...state,
-        errors: action.payload.errors
+        errors: action.payload.errors,
+        isLoading: false
+      }
+
+    case 'NO_TOKEN':
+        
+      return {
+        ...state,
+        isLoading: false
       }
 
     case 'LOG_OUT_USER':
       
       return {
         ...state,
-        loggedIn: false
+        isAuthenticated: false
       }
 
     default:

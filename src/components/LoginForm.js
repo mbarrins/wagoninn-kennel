@@ -36,6 +36,8 @@ class SignIn extends React.Component {
         }
       })
 
+      this.props.history.push("/main");
+
     } else {
       this.props.validateUserError({ errors })
     }
@@ -43,10 +45,8 @@ class SignIn extends React.Component {
 
   render() {
     const { errors } = this.props
-    
+
     return (
-      // <div id='cover'>
-      //   <div id='cover-caption'>
       <Container>
         <Row className='min-vh-100'>
           <Col className='col-sm-6 offset-sm-3 text-center my-auto'>
@@ -72,8 +72,6 @@ class SignIn extends React.Component {
           </Col>
         </Row>
       </Container>
-      // </div>
-      // </div>
     )
   }
 }

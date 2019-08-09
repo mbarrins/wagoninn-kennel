@@ -6,10 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 
-const TopNavbar = ({ loggedIn, logoutUser}) => {
+const TopNavbar = ({ isAuthenticated, logoutUser}) => {
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="/main">
         <img
           alt=""
           src="/logo.svg"
@@ -19,13 +19,13 @@ const TopNavbar = ({ loggedIn, logoutUser}) => {
         />
         {' React Bootstrap'}
       </Navbar.Brand>
-      <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      <Navbar.Brand href="/main">React-Bootstrap</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      {loggedIn ? 
+      {isAuthenticated ? 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link href="/main">Home</Nav.Link>
+            <Nav.Link href="/owner/new">New Boarder</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -45,7 +45,7 @@ const TopNavbar = ({ loggedIn, logoutUser}) => {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.users.loggedIn
+    isAuthenticated: state.users.isAuthenticated
   }
 }
 

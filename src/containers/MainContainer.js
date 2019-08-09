@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { getLookups } from '../actions/lookupsActions'
-import PetForm from '../components/PetForm'
-import OwnerForm from '../components/OwnerForm'
 
 class MainContainer extends React.Component {
 
@@ -11,12 +9,9 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { loggedIn } = this.props
-
     return (
       <div className="App">
-        {/* {loggedIn ? <PetForm /> : <h1>Not Logged In</h1>} */}
-        {loggedIn ? <OwnerForm /> : <h1>Not Logged In</h1>}
+        <h1>Dashboard</h1>
       </div>
     );
   }
@@ -24,7 +19,7 @@ class MainContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.users.loggedIn,
+    isAuthenticated: state.users.isAuthenticated,
     lookups: state.lookups.lookups
   }
 }
