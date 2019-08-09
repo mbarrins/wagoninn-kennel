@@ -1,5 +1,5 @@
 // const apiEndpoint = 'https://localhost:3000/api/v1'
-const apiEndpoint = 'https://wagoninn.herokuapp.com/login'
+const apiEndpoint = 'https://wagoninn.herokuapp.com/'
 const ownersUrl = `${apiEndpoint}/owners`
 
 const jsonify = res => {
