@@ -7,273 +7,106 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner } from '../actions/ownerActions'
-import moment from 'moment'
+import { getOwner } from '../actions/ownerActions'
 
 class OwnerDisplay extends React.Component {
-  state = {
-    owner: {
-      owner_id: '',
-      first_name: '',
-      last_name: '',
-      email: '',
-      primary_phone: '',
-      primary_phone_type_id: '', 
-      secondary_phone: '',
-      secondary_phone_type_id: '', 
-      address_line_1: '',
-      address_line_2: '',
-      address_line_3: '',
-      city: '',
-      state: '',
-      zipcode: '',
-      emergency_contact_name: '',
-      emergency_contact_phone: '',
-      partner_name: '',
-      partner_phone: '',
-      agreed_terms: false,
-      agreed_date: '',
-      notes: '',
-      pets: [],
-      concerns: []
-    }
+
+  componentDidMount() {
+    this.props.getOwner(2);
   }
 
   render() {
-    const { lookups, lookups: {errors} } = this.props
-    const { owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
+    const { lookups, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
       partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
-      agreed_date, notes } } = this.state
+      agreed_date, notes } } = this.props
       
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
-            <Form onSubmit={this.handleSubmit}>
               <h1 className='text-center'>Owner Details</h1>
-              <Row>
+
+              <Row className='mt-3'>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='first_name' 
-                    label='First Name' 
-                    tabIndex={1} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={first_name} 
-                    handleChange={this.handleChange} 
-                  />
+                  <Row>
+                    <Col xs={4} className='text-right'><h5>Name</h5></Col>
+                    <Col xs={7} className='text-left' ><h5>{first_name} {last_name}</h5></Col>
+                  </Row>
                 </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='last_name' 
-                    label='Last Name' 
-                    tabIndex={2} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={last_name} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInputSelect
-                    inputType='text' 
-                    field='primary_phone' 
-                    label='Primary Phone' 
-                    tabIndex={3} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={primary_phone} 
-                    handleChange={this.handleChange}
-                    selectField='primary_phone_type_id'
-                    selectValue={primary_phone_type_id}
-                    options={lookups.phoneTypes}
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                <FieldInputSelect
-                    inputType='text' 
-                    field='secondary_phone' 
-                    label='Secondary Phone' 
-                    tabIndex={5} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={secondary_phone} 
-                    handleChange={this.handleChange}
-                    selectField='secondary_phone_type_id'
-                    selectValue={secondary_phone_type_id}
-                    options={lookups.phoneTypes}
-                  />
-                </Col>
-              </Row>
-
-              <Row>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='emergency_contact_name' 
-                    label='Emergency Contact Name' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={emergency_contact_name} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='emergency_contact_phone' 
-                    label='Emergency Contact Phone' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={emergency_contact_phone} 
-                    handleChange={this.handleChange} 
-                  />
                 </Col>
               </Row>
 
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='email' 
-                    label='Email' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={email} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_1' 
-                    label='Address Line 1' 
-                    tabIndex={10}
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_1} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_2' 
-                    label='Address Line 2' 
-                    tabIndex={10}
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_2} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_3' 
-                    label='Address Line 3' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_3} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='city' 
-                    label='City' 
-                    tabIndex={10}
-                    labelSize={3}
-                    inputSize={9}
-                    value={city} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col>
-                <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='state' 
-                    label='State' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={state} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='zipcode' 
-                    label='Zipcode' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={zipcode} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                </Row>
-                </Col>
-              </Row>
-
-              <Row>
+              <Row className='mt-3'>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='partner_name' 
-                    label='Partner Name' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={partner_name} 
-                    handleChange={this.handleChange} 
-                  />
+                  <Row>
+                    <Col xs={4} className='text-right'><h6>Primary Phone</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{primary_phone}</h6></Col>
+                  </Row>
                 </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='partner_phone' 
-                    label='Partner Phone' 
-                    tabIndex={10} 
-                    labelSize={3}
-                    inputSize={9}
-                    value={partner_phone} 
-                    handleChange={this.handleChange} 
-                  />
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={5} className='text-right'><h6>Secondary Phone</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{secondary_phone}</h6></Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <Row className='mt-3'>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6>Partner</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{partner_name}</h6></Col>
+                  </Row>
+                </Col>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={5} className='text-right'><h6>Partner Phone</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{partner_phone}</h6></Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <Row className='mt-3'>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6>Emergency Contact</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{emergency_contact_name}</h6></Col>
+                  </Row>
+                </Col>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={5} className='text-right'><h6>Emergency Contact Phone</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{emergency_contact_phone}</h6></Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <Row className='mt-3'>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6>Address</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{address_line_1}</h6></Col>
+                  </Row>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6></h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{address_line_2}</h6></Col>
+                  </Row>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6></h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{address_line_3}</h6></Col>
+                  </Row>
+                  <Row>
+                    <Col xs={4} className='text-right'><h6></h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{city}, {state} {zipcode}</h6></Col>
+                  </Row>
+                </Col>
+                <Col className='text-center my-auto'>
+                  <Row>
+                    <Col xs={5} className='text-right'><h6>Email</h6></Col>
+                    <Col xs={7} className='text-left' ><h6>{email}</h6></Col>
+                  </Row>
                 </Col>
               </Row>
 
@@ -315,12 +148,6 @@ class OwnerDisplay extends React.Component {
                 </Col>
               </Row>
 
-              <hr />
-
-              <div className='text-center'>
-                <Button variant='secondary' type='submit'>Submit</Button>
-              </div>
-            </Form>
           </Col>
         </Row>
       </Container>
@@ -330,13 +157,14 @@ class OwnerDisplay extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    lookups: state.lookups
+    lookups: state.lookups,
+    owner: state.owner
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return { 
-    postOwner: props => dispatch(postOwner(props))
+    getOwner: props => dispatch(getOwner(props))
   }
 }
 

@@ -8,7 +8,7 @@ export const loadingOwner = () => {
 }
 
 export const ownerSuccess = (data) => {
-  console.log('fetch success', data)
+  
   return {
     type: "LOAD_OWNER",
     payload: data
