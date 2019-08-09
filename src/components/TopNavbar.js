@@ -9,17 +9,15 @@ import Button from 'react-bootstrap/Button';
 const TopNavbar = ({ isAuthenticated, logoutUser}) => {
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/main">
+      <Navbar.Brand href="/main" >
         <img
           alt=""
-          src="/logo.svg"
-          width="30"
-          height="30"
+          src="/logo.gif"
+          width="210"
+          height="56"
           className="d-inline-block align-top"
         />
-        {' React Bootstrap'}
       </Navbar.Brand>
-      <Navbar.Brand href="/main">React-Bootstrap</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       {isAuthenticated ? 
         <Navbar.Collapse id="basic-navbar-nav">
