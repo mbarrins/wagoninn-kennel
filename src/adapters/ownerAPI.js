@@ -18,8 +18,8 @@ const constructHeaders = (moreHeaders = {}) => (
   }
 )
 
-const getOwner = (owner) => {
-  return fetch(`${ownersUrl}/${owner.id}`, {
+const getOwner = id => {
+  return fetch(`${ownersUrl}/${id}`, {
     headers: constructHeaders()
   }).then(jsonify)
   .then(data => {

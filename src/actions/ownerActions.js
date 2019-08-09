@@ -23,12 +23,12 @@ export const ownerError = (data) => {
   }
 }
 
-export const getOwner = () => {
+export const getOwner = id => {
   
   return dispatch => {
     dispatch(loadingOwner());
 
-    return API.getOwner()
+    return API.getOwner(id)
       .then(data => {
         
         return data
