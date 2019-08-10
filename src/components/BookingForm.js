@@ -42,9 +42,9 @@ class BookingForm extends React.Component {
 
   addItem = e => {
     switch (e.target.id) {
-      case 'foods':
+      case 'booking_pens':
 
-        return this.setState({booking: {...this.state.booking, foods: [...this.state.booking.foods, {food_id: '', quantity: 0, measure_id: '', schedule_id: ''}]}})
+        return this.setState({booking: {...this.state.booking, booking_pens: [...this.state.booking.booking_pens, {booking_id: '', pen_type_id: '', pet_id: '', rate_id: ''}]}})
         
       case 'health_details':
             
@@ -144,6 +144,77 @@ class BookingForm extends React.Component {
             />
           </Col>
         </Row>
+
+        {booking_pens.length > 0 && <><h3 className='text-center'>{booking_pens.length === 1 ? 'Pen Required' : 'Pens Required'}</h3></>}
+          {booking_pens.map((pen, index) => (
+            <Row key={`pen${index}`}>
+              <Col>
+              <SelectInput
+                  field='pen_type_id'
+                  label='pen_type'
+                  index={index}
+                  tabIndex={7}
+                  labelSize={5}
+                  selectSize={7}
+                  value={pen.pen_type_id} 
+                  options={lookups.penTypes} 
+                  section='booking_pens'
+                  handleChange={this.handleNestedChange} 
+                />
+              </Col>
+              <Col>
+                <FieldInput
+                  type='number'
+                  field='quantity'
+                  label='Quantity'
+                  index={index}
+                  tabIndex={7}
+                  labelSize={5}
+                  selectSize={7}
+                  value={pen.quantity} 
+                  section='booking_pens'
+                  handleChange={this.handleNestedChange} 
+                />
+              </Col>
+              <Col>
+              <SelectInput
+                  field='measure_id'
+                  label='Measure'
+                  index={index}
+                  tabIndex={7}
+                  labelSize={5}
+                  selectSize={7}
+                  value={pen.measure_id} 
+                  options={lookups.measures} 
+                  section='booking_pens'
+                  handleChange={this.handleNestedChange} 
+                />
+              </Col>
+              <Col>
+              <SelectInput
+                  field='schedule_id'
+                  label='Schedule'
+                  index={index}
+                  tabIndex={7}
+                  labelSize={5}
+                  selectSize={7}
+                  value={pen.schedule_id} 
+                  options={lookups.schedules} 
+                  section='booking_pens'
+                  handleChange={this.handleNestedChange} 
+                />
+              </Col>
+              <div className='text-center'>
+                <Button variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >delete</Button>
+              </div>
+            </Row>
+          ))}
+
+          <div className='text-center'>
+            <Button variant='lg link light' id='booking_pens' onClick={this.addItem} >+ Add Pen</Button>
+          </div>
+
+          <hr />
 
             {/* {petType === ''  || parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id ?
               <SelectInput 
