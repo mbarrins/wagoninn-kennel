@@ -9,6 +9,7 @@ import MainContainer from './containers/MainContainer'
 import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
 import OwnerDisplay from './components/OwnerDisplay';
+import BookingForm from './components/BookingForm';
 
 class App extends React.Component {
   state = {
@@ -45,6 +46,7 @@ class App extends React.Component {
           <Route path='owners/:id/pets/new' component={PetForm} />
           <Route exact path='/owners/:id' component={OwnerDisplay} />
           <Route exact path='/pets/new' component={PetForm} />
+          <Route exact path='/bookings/new' component={BookingForm} />
         </Switch>
       </div>
     )

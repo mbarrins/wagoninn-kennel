@@ -31,7 +31,7 @@ const FieldInputSelect = ({ inputType, field, label, tabIndex, value, handleChan
             className='col-3'
           >
             <option value="" disabled>Select</option>
-            {options && options.map(option => <option key={`${field}-${option.id}`} value={option.id}>{option.name}</option>)}
+            {options && options.map((option,index) => <option key={`${field}-${option.id || index}`} value={option.id || option}>{option.name || option}</option>)}
           </Form.Control>
         </InputGroup>
       </Col>

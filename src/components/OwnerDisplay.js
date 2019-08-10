@@ -216,7 +216,9 @@ class OwnerDisplay extends React.Component {
 
             <ButtonToolbar className='justify-content-center mt-3'>
               <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Concern</Button>
-              <Button variant='secondary' type='submit'>Create New Booking</Button>
+              <Link to={{pathname: '/bookings/new', ownerId: parseInt(match.params.id,10)}} >
+                <Button variant='secondary' type='submit'>Create New Booking</Button>
+              </Link>
             </ButtonToolbar>
 
           </Col>
