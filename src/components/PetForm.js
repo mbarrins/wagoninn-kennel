@@ -31,6 +31,11 @@ class PetForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const ownerId = this.props.location.ownerId
+    if (ownerId) return this.handleChange('owner_id', ownerId)
+  }
+
   handleChange = (key, value) => {
     
     if (key === 'petType') {
@@ -131,10 +136,10 @@ class PetForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors} } = this.props
+    const { lookups, lookups: {errors}} = this.props
     const { pet: {name, petType, sex, breed, color, size, spayedNeutered, immunisations, 
             foods, health_details, special_needs, medications, sociabilities, issues } } = this.state
-
+      
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>

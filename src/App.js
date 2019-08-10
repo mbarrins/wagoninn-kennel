@@ -1,9 +1,10 @@
 import React from 'react';
 import LoginForm from './components/LoginForm'
 import { connect } from 'react-redux'
-import { validateUser, logoutUser  } from './actions/userActions'
-import TopNavbar from './components/TopNavbar';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { validateUser, logoutUser  } from './actions/userActions'
+import { getLookups } from './actions/lookupsActions'
+import TopNavbar from './components/TopNavbar';
 import MainContainer from './containers/MainContainer'
 import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
@@ -17,6 +18,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.validateUser()
       .then(data => this.setState({loading: false}))
+      .then(this.props.getLookups())
   }
 
   checkAuth = () => {
@@ -39,9 +41,10 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/login' component={LoginForm} />
           <Route exact path='/main' component={MainContainer} />
-          <Route exact path='/owners/:id' component={OwnerDisplay} />
           <Route exact path='/owners/new' component={OwnerForm} />
-          <Route exact path='/pet' component={PetForm} />
+          <Route path='owners/:id/pets/new' component={PetForm} />
+          <Route exact path='/owners/:id' component={OwnerDisplay} />
+          <Route exact path='/pets/new' component={PetForm} />
         </Switch>
       </div>
     )
@@ -57,7 +60,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     validateUser: props => dispatch(validateUser(props)),
-    logoutUser: props => dispatch(logoutUser(props))
+    logoutUser: props => dispatch(logoutUser(props)),
+    getLookups: props => dispatch(getLookups(props))
   }
 }
 
