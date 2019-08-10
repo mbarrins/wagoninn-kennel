@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const SelectInput = ({ field, label, tabIndex, labelSize, selectSize, value, options, handleChange, disabled, index, section }) => {
+const SelectInput = ({ field, label, tabIndex, labelSize, selectSize, value, options, handleChange, disabled, index, section, parentIndex }) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
@@ -14,7 +14,7 @@ const SelectInput = ({ field, label, tabIndex, labelSize, selectSize, value, opt
           name={field} 
           required={true} 
           value={value}
-          onChange={(e) => handleChange(field, e.target.value, index, section)} 
+          onChange={(e) => handleChange(field, e.target.value, index, section, parentIndex)} 
           tabIndex={tabIndex}
           disabled={disabled}
         >
