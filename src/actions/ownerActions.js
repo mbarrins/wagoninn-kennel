@@ -39,10 +39,14 @@ export const postOwner = owner => {
     dispatch(loadingOwner());
 
     return API.postOwner(owner)
-      .then(data => {
-        console.log('datafrom api', data)
-        return data
-      })
       .then(data => data.error ? dispatch(ownerError(data)) : dispatch(ownerSuccess(data)))
   };
+}
+
+export const updateOwner = (props) => {
+
+  return {
+    type: "UPDATE_OWNER",
+    payload: props
+  }
 }

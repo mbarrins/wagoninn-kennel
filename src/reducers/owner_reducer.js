@@ -36,6 +36,13 @@ switch (action.type) {
       ...action.payload.owner
     }
   
+  case 'UPDATE_OWNER':
+
+    return {
+      ...state,
+      ...action.payload
+    }
+
   case 'OWNER_ERRORS':
     
     return {

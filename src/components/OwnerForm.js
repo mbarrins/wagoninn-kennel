@@ -7,69 +7,41 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner } from '../actions/ownerActions'
+import { postOwner, updateOwner } from '../actions/ownerActions'
 import moment from 'moment'
 
 class OwnerForm extends React.Component {
-  state = {
-    owner: {
-      owner_id: '',
-      first_name: '',
-      last_name: '',
-      email: '',
-      primary_phone: '',
-      primary_phone_type_id: '', 
-      secondary_phone: '',
-      secondary_phone_type_id: '', 
-      address_line_1: '',
-      address_line_2: '',
-      address_line_3: '',
-      city: '',
-      state: '',
-      zipcode: '',
-      emergency_contact_name: '',
-      emergency_contact_phone: '',
-      partner_name: '',
-      partner_phone: '',
-      agreed_terms: false,
-      agreed_date: '',
-      notes: '',
-      pets: [],
-      concerns: []
-    }
-  }
 
   handleChange = (key, value) => {
     
     if (key === 'agreed_terms' &&  value === true ) {
 
-      this.setState({owner: {...this.state.owner, agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD')}})
+      this.props.updateOwner({ agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD') })
     
     } else if (key === 'agreed_terms' &&  value === false) {
 
-      this.setState({owner: {...this.state.owner, agreed_terms: value, agreed_date: ''}})
+      this.props.updateOwner({ agreed_terms: value, agreed_date: '' })
     
     } else {
-
-      this.setState({owner: {...this.state.owner, [key]: value}})
+      
+      this.props.updateOwner({[key]: value})
     
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {pets, concerns, owner_id, ...ownerToCreate} = this.state.owner
+    const {pets, concerns, owner_id, ...ownerToCreate} = this.props.owner
 
     this.props.postOwner(ownerToCreate)
       .then(data => this.props.history.push(`/owners/${data.payload.owner.id}`))
   }
 
   render() {
-    const { lookups, lookups: {errors} } = this.props
-    const { owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
+    const { lookups, lookups: {errors}, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
       partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
-      agreed_date, notes } } = this.state
+      agreed_date, notes } } = this.props
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -356,13 +328,15 @@ class OwnerForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    lookups: state.lookups
+    lookups: state.lookups,
+    owner: state.owner
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return { 
-    postOwner: props => dispatch(postOwner(props))
+    postOwner: props => dispatch(postOwner(props)),
+    updateOwner: props => dispatch(updateOwner(props))
   }
 }
 

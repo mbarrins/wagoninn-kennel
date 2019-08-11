@@ -40,9 +40,9 @@ const postOwner = owner => {
   }).then(jsonify)
   .then(data => {
     if (data.errors) {
-      return {errors: data.errors}
+      return {errors: data}
     } else {
-      return {owner: data.owner}
+      return {owner: data}
     }
   })
   .catch(handleServerError)
