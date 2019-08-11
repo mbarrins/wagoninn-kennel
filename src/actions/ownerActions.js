@@ -29,10 +29,6 @@ export const getOwner = id => {
     dispatch(loadingOwner());
 
     return API.getOwner(id)
-      .then(data => {
-        
-        return data
-      })
       .then(data => data.error ? dispatch(ownerError(data)) : dispatch(ownerSuccess(data)))
   };
 }
@@ -44,7 +40,7 @@ export const postOwner = owner => {
 
     return API.postOwner(owner)
       .then(data => {
-        
+        console.log('datafrom api', data)
         return data
       })
       .then(data => data.error ? dispatch(ownerError(data)) : dispatch(ownerSuccess(data)))

@@ -59,10 +59,9 @@ class OwnerForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const {pets, concerns, owner_id, ...ownerToCreate} = this.state.owner
-    console.log(ownerToCreate)
 
     this.props.postOwner(ownerToCreate)
-      .then('returnData', console.log)
+      .then(data => this.props.history.push(`/owners/${data.payload.owner.id}`))
   }
 
   render() {
