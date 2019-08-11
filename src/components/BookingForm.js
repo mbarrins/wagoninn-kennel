@@ -8,21 +8,10 @@ import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
+import { postBooking, updateBooking } from '../actions/bookingActions'
 import moment from 'moment'
 
 class BookingForm extends React.Component {
-  state = {
-    booking: {
-      owner_id: '',
-      check_in: '',
-      check_in_time: '',
-      check_out: '',
-      check_out_time: '',
-      booking_status_id: 1, 
-      booking_ref: '',
-      booking_pens: []
-    }
-  }
 
   componentDidMount() {
     const ownerId = this.props.location.ownerId
@@ -31,35 +20,35 @@ class BookingForm extends React.Component {
 
   handleChange = (key, value) => {
     
-    this.setState({booking: {...this.state.booking, [key]: value}})
+    this.props.updateBooking({[key]: value})
   
   }
 
   handleNestedChange = (key, value, index, section) => {
 
-    this.setState({booking: {...this.state.booking, [section]: this.state.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)}})
+    this.props.updateBooking({[section]: this.props.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
   }
 
   handleNestedChange = (key, value, index, section) => {
 
-    this.setState({booking: {...this.state.booking, [section]: this.state.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)}})
+    this.props.updateBooking({[section]: this.props.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
   }
 
   handlePetChange = (key, value, index, section, parentIndex) => {
 
-    this.setState({booking: {...this.state.booking, booking_pens: [...this.state.booking.booking_pens.map((pen,i)=> i === parentIndex ? {...pen, booking_pen_pets: [...pen.booking_pen_pets.map((pet,idx) => idx === index ? {...pet, [key]: value} : pet)]} : pen)]}})
+    this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens.map((pen,i)=> i === parentIndex ? {...pen, booking_pen_pets: [...pen.booking_pen_pets.map((pet,idx) => idx === index ? {...pet, [key]: value} : pet)]} : pen)]})
   }
 
   addItem = e => {
     switch (e.target.id) {
       case 'booking_pens':
 
-        return this.setState({booking: {...this.state.booking, booking_pens: [...this.state.booking.booking_pens, {booking_id: '', pen_type_id: '', rate_id: '', pen_id: '', booking_pen_pets: [{booking_pen_id: '', pet_id: '', special_needs_fee: false}]}]}})
+        return this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens, {booking_id: '', pen_type_id: '', rate_id: '', pen_id: '', booking_pen_pets: [{booking_pen_id: '', pet_id: '', special_needs_fee: false}]}]})
              
       case 'booking_pen_pets':
         const pen_index = e.target.name.slice(e.target.name.indexOf('[')+1, e.target.name.indexOf(']'))
 
-        return this.setState({booking: {...this.state.booking, booking_pens: [...this.state.booking.booking_pens.map((pen,i)=> i === parseInt(pen_index,10) ? {...pen, booking_pen_pets: [...pen.booking_pen_pets, {booking_pen_id: '', pet_id: '', special_needs_fee: false}]} : pen)]}})
+        return this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens.map((pen,i)=> i === parseInt(pen_index,10) ? {...pen, booking_pen_pets: [...pen.booking_pen_pets, {booking_pen_id: '', pet_id: '', special_needs_fee: false}]} : pen)]})
 
       default:
         
@@ -69,36 +58,24 @@ class BookingForm extends React.Component {
 
   removeItem = (section, index) => {
 
-    this.setState({booking: {...this.state.booking, [section]: this.state.booking[section].filter((item,i) => i !== index)}})
+    this.props.updateBooking({[section]: this.props.booking[section].filter((item,i) => i !== index)})
 
   }
 
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = []
-    if (this.state.user.name === '') errors.push('The name cannot be blank')
-    if (this.state.user.type === '') errors.push('The type cannot be blank')
 
-    if (errors.length === 0) {
-
-      // this.props.loginUser(this.state.user);
-
-      this.setState({
-        user: {
-          name: '',
-          type: ''
-        }
+    this.props.postBooking(this.props.booking)
+      .then(data => {
+        console.log(data)
+        return data
       })
-
-    } else {
-      // this.props.validateUserError({ errors })
-    }
+      // .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
   }
 
   render() {
-    const { lookups, lookups: {errors}, ownerPets} = this.props
-    const { booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens } } = this.state
+    const { lookups, lookups: {errors}, ownerPets, booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -131,7 +108,7 @@ class BookingForm extends React.Component {
               tabIndex={3} 
               labelSize={3}
               inputSize={9}
-              value={check_in} 
+              value={check_out} 
               handleChange={this.handleChange}
               selectField='check_out_time'
               selectValue={check_out_time}
@@ -144,9 +121,9 @@ class BookingForm extends React.Component {
           <Col>
             {booking_pens.length > 0 && <><h3 className='text-center'>Pens Required</h3></>}
             {booking_pens.map((pen, index) => (
-              <>
+              <React.Fragment key={`pen${index}`}>
               <hr />
-              <Row key={`pen${index}`}>
+              <Row >
                 <Col className='col-sm-7'>
                   <Row>
                     <Col xs={8}>
@@ -171,10 +148,10 @@ class BookingForm extends React.Component {
                       </Col>
                   </Row>
                   <Row>
-                    <Col xs={3} className='text-center'>
+                    <Col xs={3} className='text-center' >
                       <Button size='sm' variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >Remove Pen</Button>
                     </Col>  
-                    <Col xs={4} className='text-center'>
+                    <Col xs={4} className='text-center' >
                       <Button size='sm' variant='outline-dark' id='booking_pen_pets' name={`booking_pens[${index}]booking_pen_pets`} onClick={this.addItem} >Add Pet to Pen</Button>
                     </Col>
                   </Row>
@@ -202,7 +179,7 @@ class BookingForm extends React.Component {
                 </Col>
                 
               </Row>
-              </>
+              </React.Fragment>
               ))}
             </Col>
           </Row>
@@ -227,8 +204,16 @@ class BookingForm extends React.Component {
 const mapStateToProps = state => {
   return {
     lookups: state.lookups,
-    ownerPets: state.owner.pets
+    ownerPets: state.owner.pets,
+    booking: state.booking
   }
 }
 
-export default connect(mapStateToProps)(BookingForm);
+const mapDispatchToProps = dispatch => {
+  return { 
+    postBooking: props => dispatch(postBooking(props)),
+    updateBooking: props => dispatch(updateBooking(props))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingForm);
