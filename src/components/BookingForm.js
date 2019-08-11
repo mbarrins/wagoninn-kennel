@@ -5,11 +5,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking } from '../actions/bookingActions'
-import moment from 'moment'
 
 class BookingForm extends React.Component {
 
@@ -25,7 +23,7 @@ class BookingForm extends React.Component {
   }
 
   handleNestedChange = (key, value, index, section) => {
-    if (key == 'pen_type_id') {
+    if (key === 'pen_type_id') {
       this.props.updateBooking({booking_pens: this.props.booking.booking_pens.map((pen,i) => {
         const { lookups } = this.props
         const rate_id = value && lookups.currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length ).id

@@ -22,7 +22,7 @@ class OwnerDisplay extends React.Component {
     const { lookups, match, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
       partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
-      agreed_date, notes, pets } } = this.props
+      agreed_date, notes, pets, bookings } } = this.props
 
     const primary_phone_type = (primary_phone_type_id && lookups.phoneTypes.length > 0) ? lookups.phoneTypes.find(type => type.id === parseInt(primary_phone_type_id,10)).name : null
 
@@ -212,6 +212,103 @@ class OwnerDisplay extends React.Component {
 
                 </Card.Body>
               </Card>
+
+              <Card>
+                <Card.Header>Current Bookings</Card.Header>
+                <Card.Body>  
+                  {bookings.filter(booking => moment(booking.check_out) >= moment()).map(booking => (
+                    <Row key={`booking${booking.id}`} className='mt-3'>
+                      <Col>
+                        <Row >
+                          <Col className='text-center my-auto'>
+                            <Row>
+                              <Col xs={5} className='text-right'><h6>Check In</h6></Col>
+                              <Col xs={7} className='text-left' ><h6>{moment(booking.check_in).format('DD/MM/YYYY')}</h6></Col>
+                            </Row>
+                          </Col>
+                          <Col className='text-center my-auto'>
+                            <Row>
+                              <Col xs={6} className='text-right'><h6>Check Out</h6></Col>
+                              <Col xs={6} className='text-left' ><h6>{moment(booking.check_out).format('DD/MM/YYYY')}</h6></Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                            {booking.booking_pens.map(pen => (
+                              <React.Fragment key={`booking_pen${pen.id}`}>
+                              <Col className='text-center my-auto'>
+                              <Row>
+                              <Col xs={5} className='text-right'><h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6></Col>
+                              </Row>
+                              </Col>
+                              <Col className='text-center my-auto'>
+                                {pen.booking_pen_pets.map(pet => (
+                                  <Row key={`booking_pen_pet${pet.id}`}>
+                                    <Col xs={5} className='text-right'><h6>{pet.name}</h6></Col>
+                                  </Row>
+                                ))}
+                              </Col>
+                              </React.Fragment>
+                            ))}
+                        </Row>
+                      </Col>
+                    </Row>
+                  ))}
+                </Card.Body>
+              </Card>
+
+              <Card>
+                <Accordion.Toggle as={Card.Header} eventKey="1">
+                  Click for past bookings
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="1">
+                  <Card.Body>
+                  {bookings.filter(booking => moment(booking.check_out) < moment()).map(booking => (
+                    <Row key={`booking${booking.id}`} className='mt-3'>
+                      <Col>
+                        <Row >
+                          <Col className='text-center my-auto'>
+                            <Row>
+                              <Col xs={5} className='text-right'><h6>Check In</h6></Col>
+                              <Col xs={7} className='text-left' ><h6>{moment(booking.check_in).format('DD/MM/YYYY')}</h6></Col>
+                            </Row>
+                          </Col>
+                          <Col className='text-center my-auto'>
+                            <Row>
+                              <Col xs={6} className='text-right'><h6>Check Out</h6></Col>
+                              <Col xs={6} className='text-left' ><h6>{moment(booking.check_out).format('DD/MM/YYYY')}</h6></Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                            {booking.booking_pens.map(pen => (
+                              <React.Fragment key={`booking_pen${pen.id}`}>
+                              <Col className='text-center my-auto'>
+                              <Row>
+                              <Col xs={5} className='text-right'><h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6></Col>
+                              </Row>
+                              </Col>
+                              <Col className='text-center my-auto'>
+                                {pen.booking_pen_pets.map(pet => (
+                                  <Row key={`booking_pen_pet${pet.id}`}>
+                                    <Col xs={5} className='text-right'><h6>{pet.name}</h6></Col>
+                                  </Row>
+                                ))}
+                              </Col>
+                              </React.Fragment>
+                            ))}
+                        </Row>
+                      </Col>
+                    </Row>
+                  ))}
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
             </Accordion>
 
             <ButtonToolbar className='justify-content-center mt-3'>

@@ -21,6 +21,7 @@ export default function ownerReducer(state = {
   agreed_date: '',
   notes: '',
   pets: [],
+  bookings: [],
   concerns: [],
   errors: []
 }, action) {
