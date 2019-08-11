@@ -14,7 +14,7 @@ const SelectInput = ({ field, label, tabIndex, labelSize, selectSize, value, opt
           name={field} 
           required={true} 
           value={value}
-          onChange={(e) => handleChange(field, e.target.value, index, section, parentIndex)} 
+          onChange={(e) => handleChange(field, parseInt(e.target.value,10), index, section, parentIndex)} 
           tabIndex={tabIndex}
           disabled={disabled}
         >

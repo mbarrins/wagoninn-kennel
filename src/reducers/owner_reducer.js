@@ -21,7 +21,7 @@ export default function ownerReducer(state = {
   agreed_date: '',
   notes: '',
   pets: [],
-  conerns: [],
+  concerns: [],
   errors: []
 }, action) {
 switch (action.type) {

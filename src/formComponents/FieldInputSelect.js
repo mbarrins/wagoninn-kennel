@@ -26,7 +26,7 @@ const FieldInputSelect = ({ inputType, field, label, tabIndex, value, handleChan
             name={selectField} 
             required={true} 
             value={selectValue}
-            onChange={(e) => handleChange(selectField, e.target.value)} 
+            onChange={(e) => handleChange(selectField, parseInt(e.target.value,10))} 
             tabIndex={tabIndex + 1}
             className='col-3'
           >

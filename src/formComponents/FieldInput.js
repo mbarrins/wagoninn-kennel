@@ -14,7 +14,7 @@ const FieldInput = ({ inputType, field, label, tabIndex, value, handleChange, la
           name={field}
           required={true} 
           value={value} 
-          onChange={(e) => handleChange(field, e.target.value, index, section)} 
+          onChange={(e) => handleChange(field, (inputType === 'number' ? parseInt(e.target.value,10) : e.target.value), index, section)} 
           tabIndex={tabIndex}
           disabled={disabled}
         />

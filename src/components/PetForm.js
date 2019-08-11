@@ -7,29 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
+import { postPet, updatePet } from '../actions/petActions'
 import moment from 'moment'
 
 class PetForm extends React.Component {
-  state = {
-    pet: {
-      owner_id: '',
-      name: '',
-      petType: '',
-      sex: '',
-      breed: '',
-      color: '', 
-      size: '',
-      spayedNeutered: false,
-      immunisations: [],
-      foods: [],
-      health_details: [],
-      special_needs: [],
-      medications: [],
-      sociabilities: [],
-      issues: []
-
-    }
-  }
 
   componentDidMount() {
     const ownerId = this.props.location.ownerId
@@ -38,38 +19,38 @@ class PetForm extends React.Component {
 
   handleChange = (key, value) => {
     
-    if (key === 'petType') {
+    if (key === 'pet_type_id') {
       this.updateWithImmunisations(value);
     } else {
-      this.setState({pet: {...this.state.pet, [key]: value}})
+      this.props.updatePet({[key]: value})
     }
   }
 
   handleNestedChange = (key, value, index, section) => {
 
-    this.setState({pet: {...this.state.pet, [section]: this.state.pet[section].map((item,i) => i === index ? {...item, [key]: value} : item)}})
+    this.props.updatePet({[section]: this.props.pet[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
   }
 
 
-  updateWithImmunisations = (petType) => {
+  updateWithImmunisations = (pet_type_id) => {
     const { lookups } = this.props
     
-    if (petType === '' || lookups.petTypes.length === 0) {
+    if (pet_type_id === '' || lookups.petTypes.length === 0) {
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: []}})
+      this.props.updatePet({pet_type_id: pet_type_id, immunisations: []})
     
-    } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) {
+    } else if (parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id) {
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.dog.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: ''}))}})
+      this.props.updatePet({pet_type_id: pet_type_id, immunisations: lookups.immunisations.dog.map(shot => ({immunisation_id: shot.id, validity_id: '', effective_date: '', expiry_date: ''}))})
     
-    } else if (parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Cat').id) {
+    } else if (parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Cat').id) {
       
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: lookups.immunisations.cat.map(shot => ({immunisation_id: shot.id, validity_id: '', effectiveDate: ''}))}})
+      this.props.updatePet({pet_type_id: pet_type_id, immunisations: lookups.immunisations.cat.map(shot => ({immunisation_id: shot.id, validity_id: '', effective_date: '', expiry_date: ''}))})
 
     } else {
 
-      this.setState({pet: {...this.state.pet, petType: petType, immunisations: []}})
+      this.props.updatePet({pet_type_id: pet_type_id, immunisations: []})
 
     }
   }
@@ -78,27 +59,27 @@ class PetForm extends React.Component {
     switch (e.target.id) {
       case 'foods':
 
-        return this.setState({pet: {...this.state.pet, foods: [...this.state.pet.foods, {food_id: '', quantity: 0, measure_id: '', schedule_id: ''}]}})
+        return this.props.updatePet({foods: [...this.props.pet.foods, {food_id: '', quantity: '', measure_id: '', schedule_id: ''}]})
         
       case 'health_details':
             
-        return this.setState({pet: {...this.state.pet, health_details: [...this.state.pet.health_details, {health_detail_id: '', effective_from: '', effective_to: ''}]}})
+        return this.props.updatePet({health_details: [...this.props.pet.health_details, {health_detail_id: '', inactive: false}]})
 
       case 'special_needs':
           
-        return this.setState({pet: {...this.state.pet, special_needs: [...this.state.pet.special_needs, {special_need_id: '', effective_from: '', effective_to: ''}]}})
+        return this.props.updatePet({special_needs: [...this.props.pet.special_needs, {special_need_id: '', inactive: false}]})
 
       case 'medications':
 
-          return this.setState({pet: {...this.state.pet, medications: [...this.state.pet.medications, {medication_id: '', quantity: 0, dose_id: '', schedule_id: ''}]}})
+          return this.props.updatePet({medications: [...this.props.pet.medications, {medication_id: '', dose_quantity: '', dose_id: '', schedule_id: ''}]})
 
       case 'sociabilities':
 
-          return this.setState({pet: {...this.state.pet, sociabilities: [...this.state.pet.sociabilities, {sociability_id: '', inactive: false}]}})
+          return this.props.updatePet({sociabilities: [...this.props.pet.sociabilities, {sociability_id: '', inactive: false}]})
           
       case 'issues':
 
-          return this.setState({pet: {...this.state.pet, issues: [...this.state.pet.issues, {issue_id: '', inactive: false}]}})
+          return this.props.updatePet({issues: [...this.props.pet.issues, {issue_id: '', inactive: false}]})
               
       default:
         
@@ -108,44 +89,28 @@ class PetForm extends React.Component {
 
   removeItem = (section, index) => {
 
-    this.setState({pet: {...this.state.pet, [section]: this.state.pet[section].filter((item,i) => i !== index)}})
+    this.props.updatePet({[section]: this.props.pet[section].filter((item,i) => i !== index)})
 
   }
 
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = []
-    if (this.state.user.name === '') errors.push('The name cannot be blank')
-    if (this.state.user.type === '') errors.push('The type cannot be blank')
 
-    if (errors.length === 0) {
-
-      // this.props.loginUser(this.state.user);
-
-      this.setState({
-        user: {
-          name: '',
-          type: ''
-        }
-      })
-
-    } else {
-      // this.props.validateUserError({ errors })
-    }
+    this.props.postPet(this.props.pet)
+      .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
   }
 
   render() {
-    const { lookups, lookups: {errors}} = this.props
-    const { pet: {name, petType, sex, breed, color, size, spayedNeutered, immunisations, 
-            foods, health_details, special_needs, medications, sociabilities, issues } } = this.state
+    const { lookups, lookups: {errors}, pet: {id, name, pet_type_id, sex_id, breed_id, color_id, size_id, spayed_neutered, immunisations, 
+      foods, health_details, special_needs, medications, sociabilities, issues } } = this.props
       
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
         <Col className='col-9 text-center center-block'>
         <Form onSubmit={this.handleSubmit}>
-        <h1 className='text-center'>New Pet</h1>
+        <h1 className='text-center'>{id === '' ? 'New Pet' : 'Edit Pet'}</h1>
         {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
         <Row>
           <Col className='col-sm-6 text-center my-auto'>
@@ -160,25 +125,25 @@ class PetForm extends React.Component {
               handleChange={this.handleChange} 
             />
 
-            {petType === ''  || parseInt(petType, 10) === lookups.petTypes.find(petType => petType.name === 'Dog').id ?
+            {pet_type_id === ''  || parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id ?
               <SelectInput 
-                field='breed' 
+                field='breed_id' 
                 label='Breed' 
                 tabIndex={4} 
                 labelSize={2}
                 selectSize={10}
-                value={breed} 
+                value={breed_id} 
                 handleChange={this.handleChange} 
                 options={lookups.breeds} 
               />
             :
               <SelectInput 
-                field='color' 
+                field='color_id' 
                 label='Color' 
                 tabIndex={4} 
                 labelSize={2}
                 selectSize={10}
-                value={color} 
+                value={color_id} 
                 handleChange={this.handleChange} 
                 options={lookups.colors} 
               />
@@ -188,36 +153,37 @@ class PetForm extends React.Component {
             <Row>
               <Col>
                 <SelectInput 
-                  field='petType' 
+                  field='pet_type_id' 
                   label='Pet Type' 
                   tabIndex={2} 
                   labelSize={4}
                   selectSize={7}
-                  value={petType} 
+                  value={pet_type_id} 
                   handleChange={this.handleChange} 
                   options={lookups.petTypes} 
+                  disabled={id === '' ? false : true}
                 />
               </Col>
               <Col>
                 <SelectInput 
-                  field='sex' 
+                  field='sex_id' 
                   label='Sex' 
                   tabIndex={3} 
                   labelSize={5}
                   selectSize={7}
-                  value={sex} 
+                  value={sex_id} 
                   handleChange={this.handleChange} 
                   options={lookups.sexes} 
                 />
               </Col>
             </Row>
             <SelectInput 
-              field='size' 
+              field='size_id' 
               label='Size' 
               tabIndex={5} 
               labelSize={2}
               selectSize={10}
-              value={size} 
+              value={size_id} 
               handleChange={this.handleChange} 
               options={lookups.sizes} 
             />
@@ -225,11 +191,11 @@ class PetForm extends React.Component {
         </Row>
         <Form.Group className='form-control-lg text-center'>
           <Form.Check
-            name="spayedNeutered"
+            name="spayed_neutered"
             label="Tick if the pet has been spayed or neutered"
-            onChange={(e) => this.handleChange('spayedNeutered', e.target.checked)}
-            checked={spayedNeutered}
-            id="spayedNeutered"
+            onChange={(e) => this.handleChange('spayed_neutered', e.target.checked)}
+            checked={spayed_neutered}
+            id="spayed_neutered"
             tabIndex={6}
           />
         </Form.Group>
@@ -247,7 +213,7 @@ class PetForm extends React.Component {
                   selectSize={10}
                   value={shot.immunisation_id} 
                   section='immunisations'
-                  options={(parseInt(petType,10) === lookups.petTypes.find(petType => petType.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
+                  options={(parseInt(pet_type_id,10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id) ? lookups.immunisations.dog : lookups.immunisations.cat} 
                 />
               </Col>
               <Col>
@@ -267,13 +233,13 @@ class PetForm extends React.Component {
               <Col className='col-4'>
                 <FieldInput 
                   inputType='date' 
-                  field='effectiveDate' 
+                  field='effective_date' 
                   label='Effective Date'
                   index={index} 
                   tabIndex={7} 
                   labelSize={5}
                   inputSize={7}
-                  value={shot.effectiveDate} 
+                  value={shot.effective_date} 
                   section='immunisations'
                   handleChange={this.handleNestedChange} 
                 />
@@ -281,20 +247,22 @@ class PetForm extends React.Component {
               <Col className='col-4'>
                 <FieldInput 
                   inputType='date' 
-                  field='expiryDate' 
+                  field='expiry_date' 
                   label='Expiry Date' 
                   index={index}
                   tabIndex={7} 
                   labelSize={5}
                   inputSize={7}
                   section='immunisations'
-                  value={(shot.effectiveDate === '' || shot.validity_id === '') ? '' : moment(shot.effectiveDate).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
+                  value={(shot.effective_date === '' || shot.validity_id === '') ? '' : moment(shot.effective_date).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
                   disabled={true}
+                  handleChange={this.handleNestedChange} 
                 />
               </Col>
-              <div className='text-center'>
+              {/* Button to show Update when immunisation expired */}
+              {/* <div className='text-center'>
                 <Button variant='outline-dark' onClick={this.removeItem}>delete</Button>
-              </div>
+              </div> */}
             </Row>
           ))}
 
@@ -388,32 +356,24 @@ class PetForm extends React.Component {
                   handleChange={this.handleNestedChange} 
                 />
               </Col>
-              <Col className='col-3'>
-                <FieldInput 
-                  inputType='date' 
-                  field='effective_from' 
-                  label='Effective from'
-                  index={index} 
-                  tabIndex={7} 
-                  labelSize={5}
-                  inputSize={7}
-                  value={health_detail.effective_from} 
-                  section='health_details'
-                  handleChange={this.handleNestedChange} 
-                />
+              <Col>
+                <div className='text-center'>
+                  <Button variant='outline-dark' data-toggle='button' active={!health_detail.inactive} onClick={e => this.handleNestedChange('inactive', !health_detail.inactive, index, 'health_details')} >{health_detail.inactive ? 'Inactive' : 'Active'}</Button>
+                </div>
               </Col>
-              <Col className='col-3'>
+              <Col>
                 <FieldInput 
-                  inputType='date' 
-                  field='effective_to' 
-                  label='Effective to'
+                  inputType='text'
+                  diabled={true} 
+                  field='alert' 
+                  label=''
                   index={index} 
                   tabIndex={7} 
-                  labelSize={5}
-                  inputSize={7}
-                  value={health_detail.effective_to} 
+                  labelSize={2}
+                  inputSize={10}
+                  value={health_detail.health_detail_id === '' ? '' : lookups.healthDetails.find(need => need.id === parseInt(health_detail.health_detail_id, 10)).alert}
+                  handleChange={e => e}
                   section='health_details'
-                  handleChange={this.handleNestedChange} 
                 />
               </Col>
               <div className='text-center'>
@@ -446,32 +406,24 @@ class PetForm extends React.Component {
                   handleChange={this.handleNestedChange} 
                 />
               </Col>
-              <Col className='col-3'>
-                <FieldInput 
-                  inputType='date' 
-                  field='effective_from' 
-                  label='Effective from'
-                  index={index} 
-                  tabIndex={7} 
-                  labelSize={5}
-                  inputSize={7}
-                  value={special_need.effective_from} 
-                  section='special_needs'
-                  handleChange={this.handleNestedChange} 
-                />
+              <Col>
+                <div className='text-center'>
+                  <Button variant='outline-dark' data-toggle='button' active={!special_need.inactive} onClick={e => this.handleNestedChange('inactive', !special_need.inactive, index, 'special_needs')} >{special_need.inactive ? 'Inactive' : 'Active'}</Button>
+                </div>
               </Col>
-              <Col className='col-3'>
+              <Col>
                 <FieldInput 
-                  inputType='date' 
-                  field='effective_to' 
-                  label='Effective to'
+                  inputType='text'
+                  diabled={true} 
+                  field='alert' 
+                  label=''
                   index={index} 
                   tabIndex={7} 
-                  labelSize={5}
-                  inputSize={7}
-                  value={special_need.effective_to} 
+                  labelSize={2}
+                  inputSize={10}
+                  value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).alert}
+                  handleChange={e => e}
                   section='special_needs'
-                  handleChange={this.handleNestedChange} 
                 />
               </Col>
               <div className='text-center'>
@@ -480,21 +432,21 @@ class PetForm extends React.Component {
             </Row>
               <Row>
                 <Col>
-                <FieldInput 
-                  inputType='text'
-                  diabled={true} 
-                  field='action_needed' 
-                  label='Action needed'
-                  index={index} 
-                  tabIndex={7} 
-                  labelSize={2}
-                  inputSize={10}
-                  value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).action_needed}
-                  handleChange={e => e}
-                  section='special_needs'
-                />
-              </Col>
-            </Row>
+                  <FieldInput 
+                    inputType='text'
+                    diabled={true} 
+                    field='action_needed' 
+                    label='Action needed'
+                    index={index} 
+                    tabIndex={7} 
+                    labelSize={2}
+                    inputSize={10}
+                    value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).action_needed}
+                    handleChange={e => e}
+                    section='special_needs'
+                  />
+                </Col>
+              </Row>
             </ React.Fragment>
           ))}
 
@@ -524,13 +476,13 @@ class PetForm extends React.Component {
               <Col>
                 <FieldInput
                   type='number'
-                  field='quantity'
+                  field='dose_quantity'
                   label='Quantity'
                   index={index}
                   tabIndex={7}
                   labelSize={5}
                   selectSize={7}
-                  value={medication.quantity} 
+                  value={medication.dose_quantity} 
                   section='medications'
                   handleChange={this.handleNestedChange} 
                 />
@@ -686,8 +638,16 @@ class PetForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    lookups: state.lookups
+    lookups: state.lookups,
+    pet: state.pet
   }
 }
 
-export default connect(mapStateToProps)(PetForm);
+const mapDispatchToProps = dispatch => {
+  return { 
+    postPet: props => dispatch(postPet(props)),
+    updatePet: props => dispatch(updatePet(props))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PetForm);
