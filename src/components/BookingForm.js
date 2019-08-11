@@ -25,13 +25,19 @@ class BookingForm extends React.Component {
   }
 
   handleNestedChange = (key, value, index, section) => {
+    if (key == 'pen_type_id') {
+      this.props.updateBooking({booking_pens: this.props.booking.booking_pens.map((pen,i) => {
+        const { lookups } = this.props
+        const rate_id = value && lookups.currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length ).id
 
-    this.props.updateBooking({[section]: this.props.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
-  }
-
-  handleNestedChange = (key, value, index, section) => {
-
-    this.props.updateBooking({[section]: this.props.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
+        if (i === index) {
+          return {...pen, rate_id, [key]: value}
+        } else {
+          return pen
+        }})})
+    } else {
+      this.props.updateBooking({[section]: this.props.booking[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
+    }
   }
 
   handlePetChange = (key, value, index, section, parentIndex) => {
@@ -47,8 +53,17 @@ class BookingForm extends React.Component {
              
       case 'booking_pen_pets':
         const pen_index = e.target.name.slice(e.target.name.indexOf('[')+1, e.target.name.indexOf(']'))
+        const { lookups } = this.props
 
-        return this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens.map((pen,i)=> i === parseInt(pen_index,10) ? {...pen, booking_pen_pets: [...pen.booking_pen_pets, {booking_pen_id: '', pet_id: '', special_needs_fee: false}]} : pen)]})
+        return this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens.map((pen,i)=> {
+          const rate_id = pen.pen_type_id && lookups.currentRates.find(rate => rate.pen_type_id === pen.pen_type_id && rate.no === (pen.booking_pen_pets.length+1) ).id
+
+          if (i === parseInt(pen_index,10)) {
+            return  {...pen, rate_id, booking_pen_pets: [...pen.booking_pen_pets, {booking_pen_id: '', pet_id: '', special_needs_fee: false}]}
+          } else {
+            return pen
+          }
+        })]})
 
       default:
         
@@ -71,7 +86,7 @@ class BookingForm extends React.Component {
         console.log(data)
         return data
       })
-      // .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+      .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
   }
 
   render() {
@@ -143,6 +158,13 @@ class BookingForm extends React.Component {
                       <Col xs={4} className='text-center my-auto'>
                         <Row>
                           <Col xs={8} className='align-center'><h4>Rate</h4></Col>
+                          <input 
+                            type="hidden" 
+                            id="rate_id" 
+                            name="rate_id" 
+                            value={pen.pen_type_id && lookups.currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length ).id} 
+                            onChange={e => this.handleNestedChange('rate_id', parseInt(e.target.value,10), index, 'booking_pens')}
+                          />
                           <Col xs={4} className='text-center' ><h4>{pen.pen_type_id && '$' + parseFloat(lookups.currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length ).amount)}</h4></Col>
                         </Row>
                       </Col>
