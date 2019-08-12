@@ -32,6 +32,20 @@ const getBooking = id => {
   .catch(handleServerError)
 }
 
+const getAvailability = ({dateFrom, dateTo}) => {
+  return fetch(`${bookingsUrl}?date_from=${dateFrom}&date_to=${dateTo}`, {
+    headers: constructHeaders()
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data.errors}
+    } else {
+      return {availability: data.availability}
+    }
+  })
+  .catch(handleServerError)
+}
+
 const postBooking = booking => {
   return fetch(bookingsUrl, {
     method: 'POST',
@@ -50,5 +64,6 @@ const postBooking = booking => {
 
 export default {
   getBooking,
+  getAvailability,
   postBooking
 }

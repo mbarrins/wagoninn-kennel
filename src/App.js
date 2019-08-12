@@ -47,6 +47,7 @@ class App extends React.Component {
           <Route exact path='/owners/:id' component={OwnerDisplay} />
           <Route exact path='/pets/new' component={PetForm} />
           <Route exact path='/bookings/new' component={BookingForm} />
+          <Route path='/' component={MainContainer} />
         </Switch>
       </div>
     )

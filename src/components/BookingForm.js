@@ -5,18 +5,31 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking } from '../actions/bookingActions'
+import { getAvailability } from '../actions/availabilityActions'
+import moment from 'moment'
 
 class BookingForm extends React.Component {
 
   componentDidMount() {
     const ownerId = this.props.location.ownerId
     if (ownerId) return this.handleChange('owner_id', ownerId)
+
+    // this.props.getAvailability({dateFrom: '2019-08-01', dateTo: '2019-08-09'});
   }
 
   handleChange = (key, value) => {
+    let { check_in, check_out } = this.props.booking
+    key === 'check_in' && (check_in = value)
+    key === 'check_out' && (check_out = value)
+
+    if ((key === 'check_in' && check_out !== '' && value !=='') || (key === 'check_out' && check_in !== '' && value !=='')) {
+      this.props.getAvailability({dateFrom: check_in, dateTo: check_out});
+    }
     
     this.props.updateBooking({[key]: value})
   
@@ -87,8 +100,36 @@ class BookingForm extends React.Component {
       .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
   }
 
+  weekly_availabliilty = () => {
+    const availability = this.props.availability
+    let days = availability.map(date => date.day_of_week)
+    
+    let prevSplit = 0
+    let split = days.indexOf(6) + 1
+    let weekly = []
+
+    while (split !== 0 && availability.length >= split) {
+      let week = availability.slice(prevSplit, split)
+      
+      while (week.length < 7) {
+        week.unshift(false)
+      }
+      
+      weekly.push(week)
+      prevSplit = split
+      split = days.indexOf(6, prevSplit) + 1
+
+      if (split === 0 && availability.slice(prevSplit).length > 0) {
+        weekly.push(availability.slice(prevSplit))
+      }
+    }
+    
+    return weekly
+  }
+
   render() {
-    const { lookups, lookups: {errors}, ownerPets, booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
+    const { lookups, lookups: {errors}, ownerPets, availability,
+    booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -216,6 +257,97 @@ class BookingForm extends React.Component {
         </Form>
         </Col>
         </Row>
+        <Row className='justify-content-center mt-5'>
+          <Col className='col-9 text-center center-block'>
+            
+          {this.weekly_availabliilty().length > 0 && 
+          <CardGroup>
+              <Card>
+                <Card.Header>Sunday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Monday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Tuesday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Wednesday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Thursday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Friday</Card.Header>
+              </Card>
+              <Card>
+                <Card.Header>Saturday</Card.Header>
+              </Card>
+            </CardGroup>
+          }
+
+          {this.weekly_availabliilty().map(week => (
+            <CardGroup key={`week${week[0].date}${this.weekly_availabliilty().indexOf(week)}`}>
+              <Card>
+                <Card.Body>
+                  <Card.Title>{week[0] && moment(week[0].date).format('DD-MMM')}</Card.Title>
+                    {week[0] && week[0].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[1] && moment(week[1].date).format('DD-MMM')}</Card.Title>
+                    {week[1] && week[1].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[2] && moment(week[2].date).format('DD-MMM')}</Card.Title>
+                    {week[2] && week[2].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[3] && moment(week[3].date).format('DD-MMM')}</Card.Title>
+                    {week[3] && week[3].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[4] && moment(week[4].date).format('DD-MMM')}</Card.Title>
+                    {week[4] && week[4].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[5] && moment(week[5].date).format('DD-MMM')}</Card.Title>
+                    {week[5] && week[5].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                <Card.Title>{week[6] && moment(week[6].date).format('DD-MMM')}</Card.Title>
+                    {week[6] && week[6].pens.map(pen => (
+                      <Row key={`pen${week.date}${pen.pen_type}`}>{pen.pen_type}: {pen.booked} ({pen.no_pets})</Row>
+                    ))}
+                </Card.Body>
+              </Card>
+            </CardGroup>
+          ))}
+          </Col>
+        </Row>
       </Container>
     )
   }
@@ -225,14 +357,16 @@ const mapStateToProps = state => {
   return {
     lookups: state.lookups,
     ownerPets: state.owner.pets,
-    booking: state.booking
+    booking: state.booking,
+    availability: state.availability.availability
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return { 
     postBooking: props => dispatch(postBooking(props)),
-    updateBooking: props => dispatch(updateBooking(props))
+    updateBooking: props => dispatch(updateBooking(props)),
+    getAvailability: props => dispatch(getAvailability(props))
   }
 }
 
