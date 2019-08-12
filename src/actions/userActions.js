@@ -56,9 +56,10 @@ export const loginUser = (user) => {
 }
 
 export const logoutUser = () => {
+
   API.clearToken();
 
   return {
-    type: "LOG_OUT_USER"
+    type: "USER_LOGOUT"
   }
 }

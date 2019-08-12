@@ -128,8 +128,9 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors}, ownerPets, availability,
-    booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
+    const { lookups, lookups: {errors}, ownerPets, booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
+
+    const availability = this.weekly_availabliilty()
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -260,7 +261,7 @@ class BookingForm extends React.Component {
         <Row className='justify-content-center mt-5'>
           <Col className='col-9 text-center center-block'>
             
-          {this.weekly_availabliilty().length > 0 && 
+          {availability.length > 0 && 
           <CardGroup>
               <Card>
                 <Card.Header>Sunday</Card.Header>
@@ -286,8 +287,8 @@ class BookingForm extends React.Component {
             </CardGroup>
           }
 
-          {this.weekly_availabliilty().map(week => (
-            <CardGroup key={`week${week[0].date}${this.weekly_availabliilty().indexOf(week)}`}>
+          {availability.map(week => (
+            <CardGroup key={`week${week[0].date}${availability.indexOf(week)}`}>
               <Card>
                 <Card.Body>
                   <Card.Title>{week[0] && moment(week[0].date).format('DD-MMM')}</Card.Title>

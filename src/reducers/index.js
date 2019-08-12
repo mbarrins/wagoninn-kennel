@@ -6,7 +6,7 @@ import petReducer from './pet_reducer';
 import bookingReducer from './booking_reducer';
 import availabilityReducer from './availability_reducer';
 
-export default combineReducers({
+const appReducer = combineReducers({
   users: usersReducer,
   lookups: lookupsReducer,
   owner: ownerReducer,
@@ -14,3 +14,13 @@ export default combineReducers({
   booking: bookingReducer,
   availability: availabilityReducer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'USER_LOGOUT') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
+export default rootReducer;

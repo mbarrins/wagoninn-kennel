@@ -32,7 +32,7 @@ export default function usersReducer(state = {
         isLoading: false
       }
 
-    case 'LOG_OUT_USER':
+    case 'USER_LOGOUT':
       
       return {
         ...state,
