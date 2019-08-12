@@ -103,7 +103,7 @@ class MainContainer extends React.Component {
             <Card>
               <Card.Header>Cats</Card.Header>
                 <Card.Body>
-                  {todays_pens.CatRoom && todays_pens.CatRoom.map(booking => <p>{booking.pet_listing}</p>)}
+                  {todays_pens.CatRoom && todays_pens.CatRoom.map(booking => <p key={`catbooking${booking.id}`}>{booking.pet_listing}</p>)}
                 </Card.Body>
             </Card>
           </CardGroup>
