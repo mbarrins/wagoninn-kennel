@@ -18,8 +18,6 @@ class BookingForm extends React.Component {
   componentDidMount() {
     const ownerId = this.props.location.ownerId
     if (ownerId) return this.handleChange('owner_id', ownerId)
-
-    // this.props.getAvailability({dateFrom: '2019-08-01', dateTo: '2019-08-09'});
   }
 
   handleChange = (key, value) => {

@@ -32,3 +32,11 @@ export const getDashboard = (props) => {
       .then(data => data.error ? dispatch(dashboardError(data)) : dispatch(dashboardSuccess(data)))
   };
 }
+
+export const updateDashboard = (props) => {
+
+  return {
+    type: "UPDATE_DASHBOARD",
+    payload: props
+  }
+}

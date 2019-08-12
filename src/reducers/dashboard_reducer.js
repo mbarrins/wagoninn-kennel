@@ -1,4 +1,7 @@
+import moment from 'moment'
+
 export default function dashboardReducer(state = {
+  date: moment().format('YYYY-MM-DD'),
   today_drop_off: {am: [], pm: []},
   today_pick_up: {am: [], pm: []},
   todays_pens: [],
@@ -15,6 +18,13 @@ switch (action.type) {
     return {
       ...state,
       ...action.payload.dashboard
+    }
+
+  case 'UPDATE_DASHBOARD':
+
+    return {
+      ...state,
+      ...action.payload
     }
 
   case 'DASHBOARD_ERRORS':

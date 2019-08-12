@@ -1,30 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { getLookups } from '../actions/lookupsActions'
-import { getDashboard } from '../actions/dashboardActions'
+import { getDashboard, updateDashboard } from '../actions/dashboardActions'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import Button from 'react-bootstrap/Button';
 import moment from 'moment'
 
 class MainContainer extends React.Component {
 
   componentDidMount() {
+    const { date } = this.props.dashboard
+
     this.props.getLookups();
-    this.props.getDashboard({date: moment('2019-08-11').format('YYYY-MM-DD')});
+    this.props.getDashboard({ date });
+  }
+
+  changeDate = e => {
+    const { date } = this.props.dashboard
+    const newDate = (e.target.name === 'next' ? moment(date).add(1, 'd') : moment(date).add(-1, 'd')).format('YYYY-MM-DD')
+
+    this.props.updateDashboard({date: newDate});
+    this.props.getDashboard({ date: newDate });
+
   }
 
   render() {
-    const { today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off } = this.props.dashboard
+    const { date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off } = this.props.dashboard
     
     return (
       <Container className='mt-3' fluid={true}>
         <Row className='justify-content-center'>
         <Col className='col-8 text-center center-block'>
           <Card style={{height: '58vh'}}>
-            <Card.Header>Today's Information</Card.Header>
+            <Card.Header>
+              <h4>
+                <Button variant='outline-dark' className='mr-5' name='prev' onClick={this.changeDate} >&#8249;</Button>
+                {`Daily Information for ${moment(date).format('dddd, MMMM DD, YYYY')}`}
+                <Button variant='outline-dark' className='ml-5' name='next' onClick={this.changeDate} >&#8250;</Button></h4>
+              </Card.Header>
             <Card.Title className='mt-2'>
               <Row style={{marginTop: '2px', height: '2vh'}}>
               <Col xs={2} className='text-center my-auto'>
@@ -70,7 +87,7 @@ class MainContainer extends React.Component {
                   <h4>AM</h4>
                 </Col>
                 <Col className='text-left my-auto'>
-                  {today_pick_up.am.map(pet => <h6 key={`pickup${pet.id}`}>{pet.pet_listing}</h6>)}
+                  {tomorrow_drop_off.am.map(pet => <h6 key={`pickup${pet.id}`}>{pet.pet_listing}</h6>)}
                 </Col>
               </Row>
               <hr />
@@ -79,7 +96,7 @@ class MainContainer extends React.Component {
                   <h4>PM</h4>
                 </Col>
                 <Col className='text-left my-auto'>
-                  {today_pick_up.pm.map(pet => <h6 key={`pickup${pet.id}`}>{pet.pet_listing}</h6>)}
+                  {tomorrow_drop_off.pm.map(pet => <h6 key={`pickup${pet.id}`}>{pet.pet_listing}</h6>)}
                 </Col>
               </Row>
             </Card>
@@ -171,7 +188,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     getLookups: props => dispatch(getLookups(props)),
-    getDashboard: props => dispatch(getDashboard(props))
+    getDashboard: props => dispatch(getDashboard(props)),
+    updateDashboard: props => dispatch(updateDashboard(props))
   }
 }
 
