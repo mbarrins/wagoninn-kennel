@@ -102,6 +102,9 @@ class MainContainer extends React.Component {
             </Card>
             <Card>
               <Card.Header>Cats</Card.Header>
+                <Card.Body>
+                  {todays_pens.CatRoom && todays_pens.CatRoom.map(booking => <p>{booking.pet_listing}</p>)}
+                </Card.Body>
             </Card>
           </CardGroup>
         </Col>
@@ -109,62 +112,77 @@ class MainContainer extends React.Component {
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>8</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 8) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>9</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 9) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>7</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 7) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>10</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 10) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>6</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 6) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>11</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 11) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>5</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 5) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>12</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 12) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>4</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 4) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>13</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 13) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>3</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 3) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>14</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 14) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>2</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 2) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               <Card.Header>15</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 15) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
           </CardGroup>
           <CardGroup style={{height: '11vh'}}>
             <Card>
               <Card.Header>1</Card.Header>
+              <Card.Body>{todays_pens.DogRun && (todays_pens.DogRun.find(pen => pen.pen_no === 1) || {pet_listing: ''}).pet_listing}</Card.Body>
             </Card>
             <Card>
               
