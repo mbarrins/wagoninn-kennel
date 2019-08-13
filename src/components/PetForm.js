@@ -27,8 +27,20 @@ class PetForm extends React.Component {
   }
 
   handleNestedChange = (key, value, index, section) => {
+    const eff_date = key === 'effective_date' ? value : this.props.pet[section][index].effective_date
+    const valid_id = key === 'validity_id' ? value : this.props.pet[section][index].validity_id
 
-    this.props.updatePet({[section]: this.props.pet[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
+    if ((key === 'effective_date' || key === 'validity_id') && eff_date !== '' && valid_id !== '' && section === 'immunisations') {
+        const valid_year = this.props.lookups.validity.find(validity => validity.id === parseInt(valid_id, 10)).code
+        const expiry_date = moment(eff_date).add({years: valid_year, days: -1}).format('YYYY-MM-DD')
+
+        this.props.updatePet({[section]: this.props.pet[section].map((item,i) => {
+        
+          return i === index ? {...item, [key]: value, expiry_date } : item
+        })})
+    } else {
+      this.props.updatePet({[section]: this.props.pet[section].map((item,i) => i === index ? {...item, [key]: value} : item)})
+    }
   }
 
 
@@ -97,8 +109,10 @@ class PetForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.postPet(this.props.pet)
-      .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
+    console.log(this.props.pet)
+
+    // this.props.postPet(this.props.pet)
+      // .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
   }
 
   render() {
@@ -254,7 +268,7 @@ class PetForm extends React.Component {
                   labelSize={5}
                   inputSize={7}
                   section='immunisations'
-                  value={(shot.effective_date === '' || shot.validity_id === '') ? '' : moment(shot.effective_date).add({years: lookups.validity.find(validity => validity.id === parseInt(shot.validity_id, 10)).code, days: -1}).format('YYYY-MM-DD')} 
+                  value={shot.expiry_date} 
                   disabled={true}
                   handleChange={this.handleNestedChange} 
                 />
