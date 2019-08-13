@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import { getOwner } from '../actions/ownerActions'
+import { getOwner, updateOwner } from '../actions/ownerActions'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
@@ -16,6 +16,23 @@ class OwnerDisplay extends React.Component {
 
   componentDidMount() {
     this.props.getOwner(this.props.match.params.id);
+  }
+
+  handleChange = (key, value) => {
+    
+    if (key === 'agreed_terms' &&  value === true ) {
+
+      this.props.updateOwner({ agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD') })
+    
+    } else if (key === 'agreed_terms' &&  value === false) {
+
+      this.props.updateOwner({ agreed_terms: value, agreed_date: '' })
+    
+    } else {
+      
+      this.props.updateOwner({[key]: value})
+    
+    }
   }
 
   render() {
@@ -328,9 +345,9 @@ class OwnerDisplay extends React.Component {
 
             </Accordion>
 
-            <ButtonToolbar className='justify-content-center mt-3'>
+            {/* <ButtonToolbar className='justify-content-center mt-3'>
               <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Concern</Button>
-            </ButtonToolbar>
+            </ButtonToolbar> */}
 
           </Col>
         </Row>
@@ -348,7 +365,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-    getOwner: props => dispatch(getOwner(props))
+    getOwner: props => dispatch(getOwner(props)),
+    updateOwner: props => dispatch(updateOwner(props))
   }
 }
 
