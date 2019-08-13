@@ -6,6 +6,7 @@ import petReducer from './pet_reducer';
 import bookingReducer from './booking_reducer';
 import availabilityReducer from './availability_reducer';
 import dashboardReducer from './dashboard_reducer';
+import searchReducer from './search_reducer';
 
 const appReducer = combineReducers({
   users: usersReducer,
@@ -14,7 +15,8 @@ const appReducer = combineReducers({
   pet: petReducer,
   booking: bookingReducer,
   availability: availabilityReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  search: searchReducer
 });
 
 const rootReducer = (state, action) => {

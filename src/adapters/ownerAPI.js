@@ -1,5 +1,5 @@
-// const apiEndpoint = 'http://localhost:3000/api/v1'
-const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
+const apiEndpoint = 'http://localhost:3000/api/v1'
+// const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
 const ownersUrl = `${apiEndpoint}/owners`
 
 const jsonify = res => {
@@ -32,6 +32,20 @@ const getOwner = id => {
   .catch(handleServerError)
 }
 
+const searchOwners = searchTerm => {
+  return fetch(`${ownersUrl}/?q=${searchTerm}`, {
+    headers: constructHeaders()
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data}
+    } else {
+      return {owners: data}
+    }
+  })
+  .catch(handleServerError)
+}
+
 const postOwner = owner => {
   return fetch(ownersUrl, {
     method: 'POST',
@@ -50,5 +64,6 @@ const postOwner = owner => {
 
 export default {
   getOwner,
-  postOwner
+  postOwner,
+  searchOwners
 }

@@ -1,5 +1,5 @@
-// const apiEndpoint = 'http://localhost:3000/api/v1'
-const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
+const apiEndpoint = 'http://localhost:3000/api/v1'
+// const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
 const bookingsUrl = `${apiEndpoint}/bookings`
 
 const jsonify = res => {
@@ -46,6 +46,20 @@ const getAvailability = ({dateFrom, dateTo}) => {
   .catch(handleServerError)
 }
 
+const getDashboard = ({ date }) => {
+  return fetch(`${bookingsUrl}?detail=${date}`, {
+    headers: constructHeaders()
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data.errors}
+    } else {
+      return {dashboard: data}
+    }
+  })
+  .catch(handleServerError)
+}
+
 const postBooking = booking => {
   return fetch(bookingsUrl, {
     method: 'POST',
@@ -65,5 +79,6 @@ const postBooking = booking => {
 export default {
   getBooking,
   getAvailability,
+  getDashboard,
   postBooking
 }

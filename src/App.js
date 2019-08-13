@@ -10,6 +10,7 @@ import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
 import OwnerDisplay from './components/OwnerDisplay';
 import BookingForm from './components/BookingForm';
+import SearchForm from './components/SearchForm';
 
 class App extends React.Component {
   state = {
@@ -42,6 +43,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/login' component={LoginForm} />
           <Route exact path='/main' component={MainContainer} />
+          <Route exact path='/search' component={SearchForm} />
           <Route exact path='/owners/new' component={OwnerForm} />
           <Route path='owners/:id/pets/new' component={PetForm} />
           <Route exact path='/owners/:id' component={OwnerDisplay} />
