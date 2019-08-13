@@ -39,7 +39,18 @@ class OwnerDisplay extends React.Component {
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
-            <h1 className='text-center'>Owner Details</h1>
+            <Row>
+              <Col>
+                <h1 className='text-center'>Owner Details</h1>
+              </Col>
+              <Col>
+                <ButtonToolbar className='justify-content-center mt-3'>
+                  <Link to='/bookings/new' >
+                    <Button variant='secondary' type='submit'>Create New Booking</Button>
+                  </Link>
+                </ButtonToolbar>
+              </Col>
+            </Row>
 
             <Row className='mt-3'>
               <Col className='text-center my-auto'>
@@ -86,7 +97,7 @@ class OwnerDisplay extends React.Component {
               </Col>
             </Row>
 
-            <Accordion>
+            <Accordion className='mt-3'>
               <Card>
                 <Accordion.Toggle as={Card.Header} eventKey="0">
                   Click for more owner details
@@ -237,20 +248,20 @@ class OwnerDisplay extends React.Component {
                       <Col>
                         <Row>
                             {booking.booking_pens.map(pen => (
-                              <React.Fragment key={`booking_pen${pen.id}`}>
-                              <Col className='text-center my-auto'>
+                             <Col className='text-center' key={`booking_pen${pen.id}`} >
                               <Row>
-                              <Col xs={5} className='text-right'><h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6></Col>
+                                <Col xs={5} className='text-left'>
+                                  <h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6>
+                                </Col>
+                                <Col xs={7} className='text-left'>
+                                  {pen.booking_pen_pets.map(pen_pet => (
+                                    <Row key={`booking_pen_pen_pet${pen_pet.pet_id}`}>
+                                      <Col className='text-rpen_ight'><h6>{pets.find(pet => pet.id === pen_pet.pet_id).name}</h6></Col>
+                                    </Row>
+                                  ))}
+                                </Col>
                               </Row>
-                              </Col>
-                              <Col className='text-center my-auto'>
-                                {pen.booking_pen_pets.map(pet => (
-                                  <Row key={`booking_pen_pet${pet.id}`}>
-                                    <Col xs={5} className='text-right'><h6>{pet.name}</h6></Col>
-                                  </Row>
-                                ))}
-                              </Col>
-                              </React.Fragment>
+                            </Col>
                             ))}
                         </Row>
                       </Col>
@@ -285,22 +296,22 @@ class OwnerDisplay extends React.Component {
                       </Col>
                       <Col>
                         <Row>
-                            {booking.booking_pens.map(pen => (
-                              <React.Fragment key={`booking_pen${pen.id}`}>
-                              <Col className='text-center my-auto'>
+                          {booking.booking_pens.map(pen => (
+                            <Col className='text-center' key={`booking_pen${pen.id}`} >
                               <Row>
-                              <Col xs={5} className='text-right'><h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6></Col>
+                                <Col xs={5} className='text-left'>
+                                  <h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6>
+                                </Col>
+                                <Col xs={7} className='text-left'>
+                                  {pen.booking_pen_pets.map(pen_pet => (
+                                    <Row key={`booking_pen_pen_pet${pen_pet.pet_id}`}>
+                                      <Col className='text-rpen_ight'><h6>{pets.find(pet => pet.id === pen_pet.pet_id).name}</h6></Col>
+                                    </Row>
+                                  ))}
+                                </Col>
                               </Row>
-                              </Col>
-                              <Col className='text-center my-auto'>
-                                {pen.booking_pen_pets.map(pet => (
-                                  <Row key={`booking_pen_pet${pet.id}`}>
-                                    <Col xs={5} className='text-right'><h6>{pet.name}</h6></Col>
-                                  </Row>
-                                ))}
-                              </Col>
-                              </React.Fragment>
-                            ))}
+                            </Col>
+                          ))}
                         </Row>
                       </Col>
                     </Row>
@@ -313,9 +324,6 @@ class OwnerDisplay extends React.Component {
 
             <ButtonToolbar className='justify-content-center mt-3'>
               <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Concern</Button>
-              <Link to='/bookings/new' >
-                <Button variant='secondary' type='submit'>Create New Booking</Button>
-              </Link>
             </ButtonToolbar>
 
           </Col>
