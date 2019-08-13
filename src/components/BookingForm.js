@@ -16,8 +16,7 @@ import moment from 'moment'
 class BookingForm extends React.Component {
 
   componentDidMount() {
-    const ownerId = this.props.location.ownerId
-    if (ownerId) return this.handleChange('owner_id', ownerId)
+    if (this.props.owner.id) return this.handleChange('owner_id', this.props.owner.id)
   }
 
   handleChange = (key, value) => {
@@ -86,6 +85,12 @@ class BookingForm extends React.Component {
 
   }
 
+  removeNestedItem = (section, index, parentSection, parentIndex) => {
+
+    this.props.updateBooking({[parentSection]: this.props.booking[parentSection].map((pen,penIndex) => penIndex === parentIndex ? {...pen, [section]: pen[section].filter((pet,i) => i !== index)} : pen)})
+
+  }
+
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -128,6 +133,8 @@ class BookingForm extends React.Component {
   render() {
     const { lookups, lookups: {errors}, ownerPets, booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
 
+    const booked_pets = booking_pens.map(pen => pen.booking_pen_pets.reduce((acc,pet) => pet.pet_id !== '' ? [...acc, pet.pet_id] : acc, [])).flat()
+
     const availability = this.weekly_availabliilty()
       
     return (
@@ -150,7 +157,7 @@ class BookingForm extends React.Component {
               handleChange={this.handleChange}
               selectField='check_in_time'
               selectValue={check_in_time}
-              options={['AM','PM']}
+              options={[{id: 'AM', name: 'AM'},{id: 'PM', name: 'PM'}]}
             />
           </Col>
           <Col className='col-sm-6 text-center my-auto'>
@@ -220,19 +227,30 @@ class BookingForm extends React.Component {
                 <Col className='col-sm-5'>
                   {pen.booking_pen_pets.map((pet,i) => (
                     <React.Fragment key={`pet${i}`}>
-                      <SelectInput
-                      field='pet_id'
-                      label='Pet'
-                      parentIndex={index}
-                      index={i}
-                      tabIndex={7}
-                      labelSize={3}
-                      selectSize={7}
-                      value={pet.pet_id} 
-                      options={ownerPets}
-                      section='booking_pen_pets'
-                      handleChange={this.handlePetChange} 
-                    />
+                      <Row>
+                        <Col>
+                          <SelectInput
+                          field='pet_id'
+                          label='Pet'
+                          parentIndex={index}
+                          index={i}
+                          tabIndex={7}
+                          labelSize={3}
+                          selectSize={9}
+                          value={pet.pet_id} 
+                          options={(ownerPets && pen.pen_type_id !== '') ? ownerPets.filter(pet => pet.pet_type_id === lookups.penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
+                          section='booking_pen_pets'
+                          handleChange={this.handlePetChange}
+                        />
+                      </Col>
+                      <Col xs={4} className='text-center' >
+                        {pen.booking_pen_pets.length > 1 ? 
+                          <Button size='sm' variant='outline-dark' onClick={e => this.removeNestedItem('booking_pen_pets', i, 'booking_pens', index)} >
+                            Remove Pet
+                          </Button>
+                        : '' }
+                      </Col>
+                    </Row>
                   </React.Fragment>
                   ))}
                     
@@ -355,6 +373,7 @@ class BookingForm extends React.Component {
 const mapStateToProps = state => {
   return {
     lookups: state.lookups,
+    owner: state.owner,
     ownerPets: state.owner.pets,
     booking: state.booking,
     availability: state.availability.availability

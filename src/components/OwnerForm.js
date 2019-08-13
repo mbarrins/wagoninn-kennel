@@ -106,6 +106,7 @@ class OwnerForm extends React.Component {
                     selectField='secondary_phone_type_id'
                     selectValue={secondary_phone_type_id}
                     options={lookups.phoneTypes}
+                    required={false}
                   />
                 </Col>
               </Row>
@@ -132,7 +133,7 @@ class OwnerForm extends React.Component {
                     labelSize={3}
                     inputSize={9}
                     value={emergency_contact_phone} 
-                    handleChange={this.handleChange} 
+                    handleChange={this.handleChange}
                   />
                 </Col>
               </Row>
@@ -181,7 +182,8 @@ class OwnerForm extends React.Component {
                     labelSize={3}
                     inputSize={9}
                     value={address_line_2} 
-                    handleChange={this.handleChange} 
+                    handleChange={this.handleChange}
+                    required={false}
                   />
                 </Col>
                 <Col className='text-center my-auto'>    
@@ -198,7 +200,8 @@ class OwnerForm extends React.Component {
                     labelSize={3}
                     inputSize={9}
                     value={address_line_3} 
-                    handleChange={this.handleChange} 
+                    handleChange={this.handleChange}
+                    required={false}
                   />
                 </Col>
                 <Col className='text-center my-auto'>    
@@ -258,7 +261,8 @@ class OwnerForm extends React.Component {
                     labelSize={3}
                     inputSize={9}
                     value={partner_name} 
-                    handleChange={this.handleChange} 
+                    handleChange={this.handleChange}
+                    required={false}
                   />
                 </Col>
                 <Col className='text-center my-auto'>    
@@ -270,7 +274,8 @@ class OwnerForm extends React.Component {
                     labelSize={3}
                     inputSize={9}
                     value={partner_phone} 
-                    handleChange={this.handleChange} 
+                    handleChange={this.handleChange}
+                    required={false}
                   />
                 </Col>
               </Row>

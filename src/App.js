@@ -5,7 +5,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { validateUser, logoutUser  } from './actions/userActions'
 import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
-import MainContainer from './containers/MainContainer'
+import Dashboard from './components/Dashboard'
 import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
 import OwnerDisplay from './components/OwnerDisplay';
@@ -42,14 +42,14 @@ class App extends React.Component {
         {this.checkAuth()}
         <Switch>
           <Route exact path='/login' component={LoginForm} />
-          <Route exact path='/main' component={MainContainer} />
+          <Route exact path='/main' component={Dashboard} />
           <Route exact path='/search' component={SearchForm} />
           <Route exact path='/owners/new' component={OwnerForm} />
           <Route path='owners/:id/pets/new' component={PetForm} />
           <Route exact path='/owners/:id' component={OwnerDisplay} />
           <Route exact path='/pets/new' component={PetForm} />
           <Route exact path='/bookings/new' component={BookingForm} />
-          <Route path='/' component={MainContainer} />
+          <Route path='/' component={Dashboard} />
         </Switch>
       </div>
     )
