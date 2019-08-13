@@ -36,7 +36,7 @@ class BookingForm extends React.Component {
     if (key === 'pen_type_id') {
       this.props.updateBooking({booking_pens: this.props.booking.booking_pens.map((pen,i) => {
         const { lookups } = this.props
-        const rate_id = value && lookups.currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length ).id
+        const rate_id = value && (lookups.currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length ) || {id: undefined}).id
 
         if (i === index) {
           return {...pen, rate_id, [key]: value}
@@ -64,7 +64,7 @@ class BookingForm extends React.Component {
         const { lookups } = this.props
 
         return this.props.updateBooking({booking_pens: [...this.props.booking.booking_pens.map((pen,i)=> {
-          const rate_id = pen.pen_type_id && lookups.currentRates.find(rate => rate.pen_type_id === pen.pen_type_id && rate.no === (pen.booking_pen_pets.length+1) ).id
+          const rate_id = pen.pen_type_id && (lookups.currentRates.find(rate => rate.pen_type_id === pen.pen_type_id && rate.no === (pen.booking_pen_pets.length+1) ) || {id: undefined}).id
 
           if (i === parseInt(pen_index,10)) {
             return  {...pen, rate_id, booking_pen_pets: [...pen.booking_pen_pets, {booking_pen_id: '', pet_id: '', special_needs_fee: false}]}
@@ -224,10 +224,13 @@ class BookingForm extends React.Component {
                   <Row>
                     <Col xs={3} className='text-center' >
                       <Button size='sm' variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >Remove Pen</Button>
-                    </Col>  
+                    </Col>
+                    {lookups.penTypes && pen.pen_type_id && lookups.penTypes.find(type => type.id === pen.pen_type_id).max_per_pen > pen.booking_pen_pets.length 
+                    ?
                     <Col xs={4} className='text-center' >
                       <Button size='sm' variant='outline-dark' id='booking_pen_pets' name={`booking_pens[${index}]booking_pen_pets`} onClick={this.addItem} >Add Pet to Pen</Button>
                     </Col>
+                    : '' }
                   </Row>
                 </Col>
 
