@@ -96,10 +96,6 @@ class BookingForm extends React.Component {
     e.preventDefault();
 
     this.props.postBooking(this.props.booking)
-      .then(data => {
-        console.log(data)
-        return data
-      })
       .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
   }
 
@@ -131,9 +127,10 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors}, ownerPets, booking: {booking_ref, check_in, check_in_time, check_out, check_out_time, booking_status_id, booking_pens }} = this.props
+    const { lookups, lookups: {errors}, ownerPets, booking: {check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
 
     const booked_pets = booking_pens.map(pen => pen.booking_pen_pets.reduce((acc,pet) => pet.pet_id !== '' ? [...acc, pet.pet_id] : acc, [])).flat()
+    const available_pets = ownerPets.filter(pet => !booked_pets.includes(pet.id))
 
     const availability = this.weekly_availabliilty()
       
@@ -238,7 +235,7 @@ class BookingForm extends React.Component {
                           labelSize={3}
                           selectSize={9}
                           value={pet.pet_id} 
-                          options={(ownerPets && pen.pen_type_id !== '') ? ownerPets.filter(pet => pet.pet_type_id === lookups.penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
+                          options={(ownerPets && pen.pen_type_id !== '') ? (pet.pet_id !== '' ? [...available_pets, ownerPets.find(ownerPet => ownerPet.id === pet.pet_id)] : available_pets).filter(pet => pet.pet_type_id === lookups.penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
                           section='booking_pen_pets'
                           handleChange={this.handlePetChange}
                         />
