@@ -34,6 +34,9 @@ class OwnerDisplay extends React.Component {
     const dogs = pets.filter(pet => parseInt(pet.pet_type_id,10) === dog_type_id)
     const cats = pets.filter(pet => parseInt(pet.pet_type_id,10) === cat_type_id)
     const otherPets = lookups.petTypes.length > 0 ? pets.filter(pet => ![dog_type_id, cat_type_id].includes(parseInt(pet.pet_type_id,10))) : []
+
+    const current_bookings = bookings.filter(booking => moment(booking.check_out) >= moment())
+    const past_bookings = bookings.filter(booking => moment(booking.check_out) < moment())
       
     return (
       <Container className='mt-5' fluid={true}>
@@ -224,10 +227,11 @@ class OwnerDisplay extends React.Component {
                 </Card.Body>
               </Card>
 
+              {current_bookings.length > 0 ? 
               <Card>
-                <Card.Header>Current Bookings</Card.Header>
+                <Card.Header>Current Booking{current_bookings.length === 1 ? '' : 's'}</Card.Header>
                 <Card.Body>  
-                  {bookings.filter(booking => moment(booking.check_out) >= moment()).map(booking => (
+                  {current_bookings.map(booking => (
                     <Row key={`booking${booking.id}`} className='mt-3'>
                       <Col>
                         <Row >
@@ -269,10 +273,12 @@ class OwnerDisplay extends React.Component {
                   ))}
                 </Card.Body>
               </Card>
+              : ''}
 
+              {past_bookings.length > 0 ? 
               <Card>
                 <Accordion.Toggle as={Card.Header} eventKey="1">
-                  Click for past bookings
+                  Click for past booking{past_bookings.length === 1 ? '' : 's'}
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
                   <Card.Body>
@@ -319,6 +325,7 @@ class OwnerDisplay extends React.Component {
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
+            : '' }
 
             </Accordion>
 
