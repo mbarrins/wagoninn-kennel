@@ -40,7 +40,7 @@ const getAvailability = ({dateFrom, dateTo}) => {
     if (data.errors) {
       return {errors: data.errors}
     } else {
-      return {availability: data.availability}
+      return {...data}
     }
   })
   .catch(handleServerError)

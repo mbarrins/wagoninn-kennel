@@ -135,7 +135,7 @@ class OwnerForm extends React.Component {
               <Row>
                 <Col className='text-center my-auto'>    
                   <FieldInput 
-                    inputType='text' 
+                    inputType='email' 
                     field='email' 
                     label='Email'  
                     labelSize={3}

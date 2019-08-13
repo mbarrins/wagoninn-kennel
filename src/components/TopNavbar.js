@@ -22,9 +22,9 @@ const TopNavbar = ({ isAuthenticated, logoutUser}) => {
       {isAuthenticated ? 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/main">Home</Nav.Link>
-            <Nav.Link href="/owners/new">New Boarder</Nav.Link>
-            <Nav.Link href="/search">Search</Nav.Link>
+            <Nav.Link className='text-dark' href="/main">Home</Nav.Link>
+            <Nav.Link className='text-dark' href="/owners/new">New Boarder</Nav.Link>
+            <Nav.Link className='text-dark' href="/search">Search</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

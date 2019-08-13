@@ -1,5 +1,6 @@
 export default function availabilityReducer(state = {
-  availability: [],
+  dates: [],
+  pens_available: [],
   errors: []
 }, action) {
 switch (action.type) {
