@@ -146,8 +146,7 @@ class BookingForm extends React.Component {
             <FieldInputSelect
               inputType='date' 
               field='check_in' 
-              label='Check-In Date'
-              tabIndex={3} 
+              label='Check-In Date' 
               labelSize={3}
               inputSize={9}
               value={check_in} 
@@ -161,8 +160,7 @@ class BookingForm extends React.Component {
             <FieldInputSelect
               inputType='date' 
               field='check_out' 
-              label='Check-Out Date'
-              tabIndex={3} 
+              label='Check-Out Date' 
               labelSize={3}
               inputSize={9}
               value={check_out} 
@@ -188,7 +186,6 @@ class BookingForm extends React.Component {
                         field='pen_type_id'
                         label='Pen Type'
                         index={index}
-                        tabIndex={7}
                         labelSize={4}
                         selectSize={8}
                         value={pen.pen_type_id} 
@@ -231,7 +228,6 @@ class BookingForm extends React.Component {
                           label='Pet'
                           parentIndex={index}
                           index={i}
-                          tabIndex={7}
                           labelSize={3}
                           selectSize={9}
                           value={pet.pet_id} 

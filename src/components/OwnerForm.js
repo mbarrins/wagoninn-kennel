@@ -56,7 +56,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='first_name' 
                     label='First Name' 
-                    tabIndex={1} 
                     labelSize={3}
                     inputSize={9}
                     value={first_name} 
@@ -68,7 +67,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='last_name' 
                     label='Last Name' 
-                    tabIndex={2} 
                     labelSize={3}
                     inputSize={9}
                     value={last_name} 
@@ -83,7 +81,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='primary_phone' 
                     label='Primary Phone' 
-                    tabIndex={3} 
                     labelSize={3}
                     inputSize={9}
                     value={primary_phone} 
@@ -98,7 +95,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='secondary_phone' 
                     label='Secondary Phone' 
-                    tabIndex={5} 
                     labelSize={3}
                     inputSize={9}
                     value={secondary_phone} 
@@ -116,8 +112,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='emergency_contact_name' 
-                    label='Emergency Contact Name' 
-                    tabIndex={10} 
+                    label='Emergency Contact Name'  
                     labelSize={3}
                     inputSize={9}
                     value={emergency_contact_name} 
@@ -128,8 +123,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='emergency_contact_phone' 
-                    label='Emergency Contact Phone' 
-                    tabIndex={10} 
+                    label='Emergency Contact Phone'  
                     labelSize={3}
                     inputSize={9}
                     value={emergency_contact_phone} 
@@ -143,8 +137,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='email' 
-                    label='Email' 
-                    tabIndex={10} 
+                    label='Email'  
                     labelSize={3}
                     inputSize={9}
                     value={email} 
@@ -161,7 +154,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='address_line_1' 
                     label='Address Line 1' 
-                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={address_line_1} 
@@ -178,7 +170,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='address_line_2' 
                     label='Address Line 2' 
-                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={address_line_2} 
@@ -195,8 +186,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='address_line_3' 
-                    label='Address Line 3' 
-                    tabIndex={10} 
+                    label='Address Line 3'  
                     labelSize={3}
                     inputSize={9}
                     value={address_line_3} 
@@ -214,7 +204,6 @@ class OwnerForm extends React.Component {
                     inputType='text' 
                     field='city' 
                     label='City' 
-                    tabIndex={10}
                     labelSize={3}
                     inputSize={9}
                     value={city} 
@@ -227,8 +216,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='state' 
-                    label='State' 
-                    tabIndex={10} 
+                    label='State'  
                     labelSize={3}
                     inputSize={9}
                     value={state} 
@@ -239,8 +227,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='zipcode' 
-                    label='Zipcode' 
-                    tabIndex={10} 
+                    label='Zipcode'  
                     labelSize={3}
                     inputSize={9}
                     value={zipcode} 
@@ -256,8 +243,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='partner_name' 
-                    label='Partner Name' 
-                    tabIndex={10} 
+                    label='Partner Name'  
                     labelSize={3}
                     inputSize={9}
                     value={partner_name} 
@@ -269,8 +255,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='text' 
                     field='partner_phone' 
-                    label='Partner Phone' 
-                    tabIndex={10} 
+                    label='Partner Phone'  
                     labelSize={3}
                     inputSize={9}
                     value={partner_phone} 
@@ -290,7 +275,6 @@ class OwnerForm extends React.Component {
                       onChange={(e) => this.handleChange('agreed_terms', e.target.checked)}
                       checked={agreed_terms}
                       id="agreed_terms"
-                      tabIndex={10}
                     />
                   </Form.Group>
                 </Col>
@@ -298,8 +282,7 @@ class OwnerForm extends React.Component {
                   <FieldInput 
                     inputType='date' 
                     field='agreed_date' 
-                    label='Date Terms Agreed' 
-                    tabIndex={10} 
+                    label='Date Terms Agreed'  
                     labelSize={5}
                     inputSize={7}
                     value={agreed_date} 

@@ -116,7 +116,7 @@ class PetForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors}, pet: {id, name, pet_type_id, sex_id, breed_id, color_id, size_id, spayed_neutered, immunisations, 
+    const { lookups, lookups: {errors}, pet: {id, name, pet_type_id, dob, sex_id, breed_id, color_id, size_id, spayed_neutered, immunisations, 
       foods, health_details, special_needs, medications, sociabilities, issues } } = this.props
       
     return (
@@ -132,18 +132,42 @@ class PetForm extends React.Component {
               inputType='text' 
               field='name' 
               label='Name' 
-              tabIndex={1} 
               labelSize={2}
               inputSize={10}
               value={name} 
               handleChange={this.handleChange} 
             />
-
+          </Col>
+          <Col className='col-sm-3 text-center my-auto'>
+            <SelectInput 
+              field='pet_type_id' 
+              label='Pet Type' 
+              labelSize={5}
+              selectSize={7}
+              value={pet_type_id} 
+              handleChange={this.handleChange} 
+              options={lookups.petTypes} 
+              disabled={id === '' ? false : true}
+            />
+          </Col>
+          <Col className='col-sm-3 text-center my-auto'>
+            <SelectInput 
+              field='sex_id' 
+              label='Sex' 
+              labelSize={4}
+              selectSize={7}
+              value={sex_id} 
+              handleChange={this.handleChange} 
+              options={lookups.sexes} 
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col className='col-sm-4 text-center my-auto'>
             {pet_type_id === ''  || parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id ?
               <SelectInput 
                 field='breed_id' 
                 label='Breed' 
-                tabIndex={4} 
                 labelSize={2}
                 selectSize={10}
                 value={breed_id} 
@@ -154,7 +178,6 @@ class PetForm extends React.Component {
               <SelectInput 
                 field='color_id' 
                 label='Color' 
-                tabIndex={4} 
                 labelSize={2}
                 selectSize={10}
                 value={color_id} 
@@ -163,38 +186,10 @@ class PetForm extends React.Component {
               />
             }
           </Col>
-          <Col className='col-sm-6 text-center my-auto'>    
-            <Row>
-              <Col>
-                <SelectInput 
-                  field='pet_type_id' 
-                  label='Pet Type' 
-                  tabIndex={2} 
-                  labelSize={4}
-                  selectSize={7}
-                  value={pet_type_id} 
-                  handleChange={this.handleChange} 
-                  options={lookups.petTypes} 
-                  disabled={id === '' ? false : true}
-                />
-              </Col>
-              <Col>
-                <SelectInput 
-                  field='sex_id' 
-                  label='Sex' 
-                  tabIndex={3} 
-                  labelSize={5}
-                  selectSize={7}
-                  value={sex_id} 
-                  handleChange={this.handleChange} 
-                  options={lookups.sexes} 
-                />
-              </Col>
-            </Row>
+          <Col className='col-sm-3 text-center my-auto'> 
             <SelectInput 
               field='size_id' 
               label='Size' 
-              tabIndex={5} 
               labelSize={2}
               selectSize={10}
               value={size_id} 
@@ -202,7 +197,35 @@ class PetForm extends React.Component {
               options={lookups.sizes} 
             />
           </Col>
+          <Col className='col-sm-5 text-center my-auto'> 
+            <Row>
+              <Col xs={8} >
+                <FieldInput 
+                inputType='date' 
+                field='dob' 
+                label='DOB' 
+                labelSize={2}
+                inputSize={9}
+                value={dob} 
+                handleChange={this.handleChange} 
+                />
+              </Col>
+              <Col xs={4} >
+                <FieldInput 
+                inputType='text' 
+                field='age' 
+                label='Age' 
+                labelSize={2}
+                inputSize={8}
+                value={dob === '' ? '' : moment().diff(dob, 'years')} 
+                handleChange={this.handleChange} 
+                disabled={true}
+                />
+              </Col>
+            </Row>
+          </Col>
         </Row>
+          
         <Form.Group className='form-control-lg text-center'>
           <Form.Check
             name="spayed_neutered"
@@ -210,7 +233,6 @@ class PetForm extends React.Component {
             onChange={(e) => this.handleChange('spayed_neutered', e.target.checked)}
             checked={spayed_neutered}
             id="spayed_neutered"
-            tabIndex={6}
           />
         </Form.Group>
         
@@ -222,7 +244,6 @@ class PetForm extends React.Component {
                   disabled={true}
                   field={`immunisation-${index}`}
                   label=''
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={shot.immunisation_id} 
@@ -235,7 +256,6 @@ class PetForm extends React.Component {
                   field='validity_id'
                   label='Validity'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={shot.validity_id} 
@@ -250,7 +270,6 @@ class PetForm extends React.Component {
                   field='effective_date' 
                   label='Effective Date'
                   index={index} 
-                  tabIndex={7} 
                   labelSize={5}
                   inputSize={7}
                   value={shot.effective_date} 
@@ -264,7 +283,6 @@ class PetForm extends React.Component {
                   field='expiry_date' 
                   label='Expiry Date' 
                   index={index}
-                  tabIndex={7} 
                   labelSize={5}
                   inputSize={7}
                   section='immunisations'
@@ -290,7 +308,6 @@ class PetForm extends React.Component {
                   field='food_id'
                   label='Food'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={food.food_id} 
@@ -305,7 +322,6 @@ class PetForm extends React.Component {
                   field='quantity'
                   label='Quantity'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={food.quantity} 
@@ -318,7 +334,6 @@ class PetForm extends React.Component {
                   field='measure_id'
                   label='Measure'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={food.measure_id} 
@@ -332,7 +347,6 @@ class PetForm extends React.Component {
                   field='schedule_id'
                   label='Schedule'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={food.schedule_id} 
@@ -361,7 +375,6 @@ class PetForm extends React.Component {
                   field='health_detail_id'
                   label=''
                   index={index}
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={health_detail.health_detail_id} 
@@ -382,7 +395,6 @@ class PetForm extends React.Component {
                   field='alert' 
                   label=''
                   index={index} 
-                  tabIndex={7} 
                   labelSize={2}
                   inputSize={10}
                   value={health_detail.health_detail_id === '' ? '' : lookups.healthDetails.find(need => need.id === parseInt(health_detail.health_detail_id, 10)).alert}
@@ -411,7 +423,6 @@ class PetForm extends React.Component {
                   field='special_need_id'
                   label=''
                   index={index}
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={special_need.special_need_id} 
@@ -432,7 +443,6 @@ class PetForm extends React.Component {
                   field='alert' 
                   label=''
                   index={index} 
-                  tabIndex={7} 
                   labelSize={2}
                   inputSize={10}
                   value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).alert}
@@ -452,7 +462,6 @@ class PetForm extends React.Component {
                     field='action_needed' 
                     label='Action needed'
                     index={index} 
-                    tabIndex={7} 
                     labelSize={2}
                     inputSize={10}
                     value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).action_needed}
@@ -478,7 +487,6 @@ class PetForm extends React.Component {
                   field='medication_id'
                   label=''
                   index={index}
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={medication.medication_id} 
@@ -493,7 +501,6 @@ class PetForm extends React.Component {
                   field='dose_quantity'
                   label='Quantity'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={medication.dose_quantity} 
@@ -506,7 +513,6 @@ class PetForm extends React.Component {
                   field='dose_id'
                   label='Dose'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={medication.dose_id} 
@@ -520,7 +526,6 @@ class PetForm extends React.Component {
                   field='schedule_id'
                   label='Schedule'
                   index={index}
-                  tabIndex={7}
                   labelSize={5}
                   selectSize={7}
                   value={medication.schedule_id} 
@@ -549,7 +554,6 @@ class PetForm extends React.Component {
                   field='sociability_id'
                   label=''
                   index={index}
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={sociability.sociability_id} 
@@ -570,7 +574,6 @@ class PetForm extends React.Component {
                   field='alert' 
                   label=''
                   index={index} 
-                  tabIndex={7} 
                   labelSize={2}
                   inputSize={10}
                   value={sociability.sociability_id === '' ? '' : lookups.sociabilities.find(need => need.id === parseInt(sociability.sociability_id, 10)).alert}
@@ -598,7 +601,6 @@ class PetForm extends React.Component {
                   field='issue_id'
                   label=''
                   index={index}
-                  tabIndex={7}
                   labelSize={0}
                   selectSize={10}
                   value={issue.issue_id} 
@@ -619,7 +621,6 @@ class PetForm extends React.Component {
                   field='alert' 
                   label=''
                   index={index} 
-                  tabIndex={7} 
                   labelSize={2}
                   inputSize={10}
                   value={issue.issue_id === '' ? '' : lookups.issues.find(need => need.id === parseInt(issue.issue_id, 10)).alert}

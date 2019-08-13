@@ -93,7 +93,6 @@ class OwnerDisplay extends React.Component {
                       onChange={(e) => this.handleChange('agreed_terms', e.target.checked)}
                       checked={agreed_terms}
                       id="agreed_terms"
-                      tabIndex={10}
                     />
                   </Form.Group> 
                 }

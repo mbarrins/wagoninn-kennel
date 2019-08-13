@@ -3,6 +3,7 @@ export default function petReducer(state = {
   owner_id: '',
   name: '',
   pet_type_id: '',
+  dob: '',
   sex_id: '',
   breed_id: '',
   color_id: '', 
