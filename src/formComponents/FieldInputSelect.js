@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const FieldInputSelect = ({ inputType, field, label, tabIndex, value, handleChange, labelSize, inputSize,
-    selectField, selectValue, options}) => {
+    selectField, selectValue, options, required = true}) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
@@ -15,7 +15,7 @@ const FieldInputSelect = ({ inputType, field, label, tabIndex, value, handleChan
             type={inputType}
             id={field} 
             name={field}
-            required={true} 
+            required={required} 
             value={value} 
             onChange={(e) => handleChange(field, e.target.value)} 
             tabIndex={tabIndex}
@@ -24,7 +24,7 @@ const FieldInputSelect = ({ inputType, field, label, tabIndex, value, handleChan
             as='select' 
             id={selectField} 
             name={selectField} 
-            required={true} 
+            required={required} 
             value={selectValue}
             onChange={(e) => handleChange(selectField, parseInt(e.target.value,10))} 
             tabIndex={tabIndex + 1}
