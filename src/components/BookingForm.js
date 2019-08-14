@@ -9,8 +9,8 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postBooking, updateBooking } from '../actions/bookingActions'
-import { getAvailability } from '../actions/availabilityActions'
+import { postBooking, updateBooking, clearBooking } from '../actions/bookingActions'
+import { getAvailability, clearAvailability } from '../actions/availabilityActions'
 import moment from 'moment'
 
 class BookingForm extends React.Component {
@@ -97,6 +97,8 @@ class BookingForm extends React.Component {
 
     this.props.postBooking(this.props.booking)
       .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+      .then(() => this.props.clearBooking())
+      .then(() => this.props.clearAvailability())
   }
 
   weekly_availabliilty = () => {
@@ -355,7 +357,9 @@ const mapDispatchToProps = dispatch => {
   return { 
     postBooking: props => dispatch(postBooking(props)),
     updateBooking: props => dispatch(updateBooking(props)),
-    getAvailability: props => dispatch(getAvailability(props))
+    clearBooking: () => dispatch(clearBooking()),
+    getAvailability: props => dispatch(getAvailability(props)),
+    clearAvailability: () => dispatch(clearAvailability())
   }
 }
 

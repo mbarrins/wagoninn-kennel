@@ -50,3 +50,10 @@ export const updatePet = (props) => {
     payload: props
   }
 }
+
+export const clearPet = (props) => {
+
+  return {
+    type: "CLEAR_PET"
+  }
+}

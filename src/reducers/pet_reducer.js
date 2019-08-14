@@ -1,4 +1,4 @@
-export default function petReducer(state = {
+const initialState = {
   id: '',
   owner_id: '',
   name: '',
@@ -17,35 +17,41 @@ export default function petReducer(state = {
   sociabilities: [],
   issues: [],
   errors: []
-}, action) {
-switch (action.type) {
-  case 'LOADING_PET':
-    
-    return state
-    
-  case 'LOAD_PET':
-    
-    return {
-      ...state,
-      ...action.payload.pet
-    }
-  
-  case 'UPDATE_PET':
-
-    return {
-      ...state,
-      ...action.payload
-    }
-
-  case 'PET_ERRORS':
-    
-    return {
-      ...state,
-      errors: action.payload.errors
-    }
-
-  default:
-    
-    return state;
 }
+
+export default function petReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'LOADING_PET':
+      
+      return state
+      
+    case 'LOAD_PET':
+      
+      return {
+        ...state,
+        ...action.payload.pet
+      }
+    
+    case 'UPDATE_PET':
+
+      return {
+        ...state,
+        ...action.payload
+      }
+
+    case 'CLEAR_PET':
+
+        return initialState;
+
+    case 'PET_ERRORS':
+      
+      return {
+        ...state,
+        errors: action.payload.errors
+      }
+
+    default:
+      
+      return state;
+  }
 }

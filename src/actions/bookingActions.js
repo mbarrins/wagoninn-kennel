@@ -50,3 +50,10 @@ export const updateBooking = (props) => {
     payload: props
   }
 }
+
+export const clearBooking = (props) => {
+
+  return {
+    type: "CLEAR_BOOKING"
+  }
+}

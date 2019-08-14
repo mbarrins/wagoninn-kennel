@@ -1,4 +1,4 @@
-export default function bookingReducer(state = {
+const intialState = {
   id: '',
   owner_id: '',
   check_in: '',
@@ -9,35 +9,41 @@ export default function bookingReducer(state = {
   booking_ref: '',
   booking_pens: [],
   errors: []
-}, action) {
-switch (action.type) {
-  case 'LOADING_BOOKING':
-    
-    return state
-    
-  case 'LOAD_BOOKING':
-    
-    return {
-      ...state,
-      ...action.payload.booking
-    }
-  
-  case 'UPDATE_BOOKING':
-
-    return {
-      ...state,
-      ...action.payload
-    }
-
-  case 'BOOKING_ERRORS':
-    
-    return {
-      ...state,
-      errors: action.payload.errors
-    }
-
-  default:
-    
-    return state;
 }
+
+export default function bookingReducer(state = intialState, action) {
+  switch (action.type) {
+    case 'LOADING_BOOKING':
+      
+      return state
+      
+    case 'LOAD_BOOKING':
+      
+      return {
+        ...state,
+        ...action.payload.booking
+      }
+    
+    case 'UPDATE_BOOKING':
+
+      return {
+        ...state,
+        ...action.payload
+      }
+
+    case 'BOOKING_ERRORS':
+      
+      return {
+        ...state,
+        errors: action.payload.errors
+      }
+
+    case 'CLEAR_BOOKING':
+      
+      return intialState
+
+    default:
+      
+      return state;
+  }
 }

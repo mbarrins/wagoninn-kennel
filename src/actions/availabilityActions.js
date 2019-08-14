@@ -32,3 +32,10 @@ export const getAvailability = (props) => {
       .then(data => data.error ? dispatch(availabilityError(data)) : dispatch(availabilitySuccess(data)))
   };
 }
+
+export const clearAvailability = (props) => {
+
+  return {
+    type: "CLEAR_AVAILABILITY"
+  }
+}

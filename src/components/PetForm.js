@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
-import { postPet, updatePet } from '../actions/petActions'
+import { postPet, updatePet, clearPet } from '../actions/petActions'
 import moment from 'moment'
 
 class PetForm extends React.Component {
@@ -111,6 +111,7 @@ class PetForm extends React.Component {
 
     this.props.postPet(this.props.pet)
       .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
+      .then(() => this.props.clearPet())
   }
 
   render() {
@@ -297,8 +298,26 @@ class PetForm extends React.Component {
           ))}
 
           <hr />
-        
-        {foods.length > 0 && <><h3 className='text-center'>Food Requirements</h3></>}
+          
+
+        {foods.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Food Requirements</h3>
+            </Col>
+            <Col>
+              <div className='text-center'>
+                <Button variant='lg link light' id='foods' onClick={this.addItem} >+ Add Another Pet Food</Button>
+              </div>
+            </Col>
+            <Col></Col>
+          </Row>
+        :
+          <div className='text-center'>
+            <Button variant='lg link light' id='foods' onClick={this.addItem} >+ Add Pet Food</Button>
+          </div>
+        }
           {foods.map((food, index) => (
             <Row key={`food${index}`}>
               <Col>
@@ -359,288 +378,354 @@ class PetForm extends React.Component {
             </Row>
           ))}
 
-          <div className='text-center'>
-            <Button variant='lg link light' id='foods' onClick={this.addItem} >+ Add Pet Food</Button>
-          </div>
-
           <hr />
         
-        {health_details.length > 0 && <><h3 className='text-center'>Health Details</h3></>}
-          {health_details.map((health_detail, index) => (
-            <Row key={`health_detail${index}`}>
-              <Col className='col-5'>
-              <SelectInput
-                  field='health_detail_id'
-                  label=''
-                  index={index}
-                  labelSize={0}
-                  selectSize={10}
-                  value={health_detail.health_detail_id} 
-                  options={lookups.healthDetails} 
-                  section='health_details'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-                <div className='text-center'>
-                  <Button variant='outline-dark' data-toggle='button' active={!health_detail.inactive} onClick={e => this.handleNestedChange('inactive', !health_detail.inactive, index, 'health_details')} >{health_detail.inactive ? 'Inactive' : 'Active'}</Button>
-                </div>
-              </Col>
-              <Col>
-                <FieldInput 
-                  inputType='text'
-                  diabled={true} 
-                  field='alert' 
-                  label=''
-                  index={index} 
-                  labelSize={2}
-                  inputSize={10}
-                  value={health_detail.health_detail_id === '' ? '' : lookups.healthDetails.find(need => need.id === parseInt(health_detail.health_detail_id, 10)).alert}
-                  handleChange={e => e}
-                  section='health_details'
-                />
-              </Col>
+        {health_details.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Health Details</h3>
+            </Col>
+            <Col>
               <div className='text-center'>
-                <Button variant='outline-dark' onClick={e => this.removeItem('health_details', index)} >delete</Button>
+              <Button variant='lg link light' id='health_details' onClick={this.addItem} >+ Add More Health Details</Button>
               </div>
-            </Row>
-          ))}
-
+            </Col>
+            <Col></Col>
+         </Row>
+        :
           <div className='text-center'>
             <Button variant='lg link light' id='health_details' onClick={this.addItem} >+ Add Health Details</Button>
           </div>
+        }
 
-          <hr />
-        
-        {special_needs.length > 0 && <><h3 className='text-center'>Special Needs</h3></>}
-          {special_needs.map((special_need, index) => (
-            < React.Fragment key={`special_need${index}`} >
-            <Row>
-              <Col className='col-5'>
-                <SelectInput
-                  field='special_need_id'
-                  label=''
-                  index={index}
-                  labelSize={0}
-                  selectSize={10}
-                  value={special_need.special_need_id} 
-                  options={lookups.specialNeeds} 
-                  section='special_needs'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-                <div className='text-center'>
-                  <Button variant='outline-dark' data-toggle='button' active={!special_need.inactive} onClick={e => this.handleNestedChange('inactive', !special_need.inactive, index, 'special_needs')} >{special_need.inactive ? 'Inactive' : 'Active'}</Button>
-                </div>
-              </Col>
-              <Col>
-                <FieldInput 
-                  inputType='text'
-                  diabled={true} 
-                  field='alert' 
-                  label=''
-                  index={index} 
-                  labelSize={2}
-                  inputSize={10}
-                  value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).alert}
-                  handleChange={e => e}
-                  section='special_needs'
-                />
-              </Col>
+        {health_details.map((health_detail, index) => (
+          <Row key={`health_detail${index}`}>
+            <Col className='col-5'>
+            <SelectInput
+                field='health_detail_id'
+                label=''
+                index={index}
+                labelSize={0}
+                selectSize={10}
+                value={health_detail.health_detail_id} 
+                options={lookups.healthDetails} 
+                section='health_details'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
               <div className='text-center'>
-                <Button variant='outline-dark' onClick={e => this.removeItem('special_needs', index)} >delete</Button>
+                <Button variant='outline-dark' data-toggle='button' active={!health_detail.inactive} onClick={e => this.handleNestedChange('inactive', !health_detail.inactive, index, 'health_details')} >{health_detail.inactive ? 'Inactive' : 'Active'}</Button>
               </div>
-            </Row>
-              <Row>
-                <Col>
-                  <FieldInput 
-                    inputType='text'
-                    diabled={true} 
-                    field='action_needed' 
-                    label='Action needed'
-                    index={index} 
-                    labelSize={2}
-                    inputSize={10}
-                    value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).action_needed}
-                    handleChange={e => e}
-                    section='special_needs'
-                  />
-                </Col>
-              </Row>
-            </ React.Fragment>
-          ))}
+            </Col>
+            <Col>
+              <FieldInput 
+                inputType='text'
+                diabled={true} 
+                field='alert' 
+                label=''
+                index={index} 
+                labelSize={2}
+                inputSize={10}
+                value={health_detail.health_detail_id === '' ? '' : lookups.healthDetails.find(need => need.id === parseInt(health_detail.health_detail_id, 10)).alert}
+                handleChange={e => e}
+                section='health_details'
+              />
+            </Col>
+            <div className='text-center'>
+              <Button variant='outline-dark' onClick={e => this.removeItem('health_details', index)} >delete</Button>
+            </div>
+          </Row>
+        ))}
 
+        <hr />
+        
+        {special_needs.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Special Needs</h3>
+            </Col>
+            <Col>
+              <div className='text-center'>
+              <Button variant='lg link light' id='special_needs' onClick={this.addItem} >+ Add More Special Needs</Button>
+              </div>
+            </Col>
+            <Col></Col>
+         </Row>
+        :
           <div className='text-center'>
             <Button variant='lg link light' id='special_needs' onClick={this.addItem} >+ Add Special Needs</Button>
           </div>
+        }
 
-          <hr />
-        
-        {medications.length > 0 && <><h3 className='text-center'>Medication Requirements</h3></>}
-          {medications.map((medication, index) => (
-            <Row key={`medication${index}`}>
-              <Col>
+        {special_needs.map((special_need, index) => (
+          < React.Fragment key={`special_need${index}`} >
+          <Row>
+            <Col className='col-5'>
               <SelectInput
-                  field='medication_id'
-                  label=''
-                  index={index}
-                  labelSize={0}
-                  selectSize={10}
-                  value={medication.medication_id} 
-                  options={lookups.medications} 
-                  section='medications'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-                <FieldInput
-                  type='number'
-                  field='dose_quantity'
-                  label='Quantity'
-                  index={index}
-                  labelSize={5}
-                  selectSize={7}
-                  value={medication.dose_quantity} 
-                  section='medications'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-              <SelectInput
-                  field='dose_id'
-                  label='Dose'
-                  index={index}
-                  labelSize={5}
-                  selectSize={7}
-                  value={medication.dose_id} 
-                  options={lookups.doses} 
-                  section='medications'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-              <SelectInput
-                  field='schedule_id'
-                  label='Schedule'
-                  index={index}
-                  labelSize={5}
-                  selectSize={7}
-                  value={medication.schedule_id} 
-                  options={lookups.schedules} 
-                  section='medications'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
+                field='special_need_id'
+                label=''
+                index={index}
+                labelSize={0}
+                selectSize={10}
+                value={special_need.special_need_id} 
+                options={lookups.specialNeeds} 
+                section='special_needs'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
               <div className='text-center'>
-                <Button variant='outline-dark' onClick={e => this.removeItem('medications', index)} >delete</Button>
+                <Button variant='outline-dark' data-toggle='button' active={!special_need.inactive} onClick={e => this.handleNestedChange('inactive', !special_need.inactive, index, 'special_needs')} >{special_need.inactive ? 'Inactive' : 'Active'}</Button>
               </div>
+            </Col>
+            <Col>
+              <FieldInput 
+                inputType='text'
+                diabled={true} 
+                field='alert' 
+                label=''
+                index={index} 
+                labelSize={2}
+                inputSize={10}
+                value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).alert}
+                handleChange={e => e}
+                section='special_needs'
+              />
+            </Col>
+            <div className='text-center'>
+              <Button variant='outline-dark' onClick={e => this.removeItem('special_needs', index)} >delete</Button>
+            </div>
+          </Row>
+            <Row>
+              <Col>
+                <FieldInput 
+                  inputType='text'
+                  diabled={true} 
+                  field='action_needed' 
+                  label='Action needed'
+                  index={index} 
+                  labelSize={2}
+                  inputSize={10}
+                  value={special_need.special_need_id === '' ? '' : lookups.specialNeeds.find(need => need.id === parseInt(special_need.special_need_id, 10)).action_needed}
+                  handleChange={e => e}
+                  section='special_needs'
+                />
+              </Col>
             </Row>
-          ))}
+          </ React.Fragment>
+        ))}
 
+        <hr />
+        
+        {medications.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Medication</h3>
+            </Col>
+            <Col>
+              <div className='text-center'>
+                <Button variant='lg link light' id='medications' onClick={this.addItem} >+ Add More Medications</Button>
+              </div>
+            </Col>
+            <Col></Col>
+         </Row>
+        :
           <div className='text-center'>
             <Button variant='lg link light' id='medications' onClick={this.addItem} >+ Add Medication</Button>
           </div>
+        }
 
-          <hr />
+        {medications.map((medication, index) => (
+          <Row key={`medication${index}`}>
+            <Col>
+            <SelectInput
+                field='medication_id'
+                label=''
+                index={index}
+                labelSize={0}
+                selectSize={10}
+                value={medication.medication_id} 
+                options={lookups.medications} 
+                section='medications'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
+              <FieldInput
+                type='number'
+                field='dose_quantity'
+                label='Quantity'
+                index={index}
+                labelSize={5}
+                selectSize={7}
+                value={medication.dose_quantity} 
+                section='medications'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
+            <SelectInput
+                field='dose_id'
+                label='Dose'
+                index={index}
+                labelSize={5}
+                selectSize={7}
+                value={medication.dose_id} 
+                options={lookups.doses} 
+                section='medications'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
+            <SelectInput
+                field='schedule_id'
+                label='Schedule'
+                index={index}
+                labelSize={5}
+                selectSize={7}
+                value={medication.schedule_id} 
+                options={lookups.schedules} 
+                section='medications'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <div className='text-center'>
+              <Button variant='outline-dark' onClick={e => this.removeItem('medications', index)} >delete</Button>
+            </div>
+          </Row>
+        ))}
 
-          {sociabilities.length > 0 && <><h3 className='text-center'>Sociability Details</h3></>}
-          {sociabilities.map((sociability, index) => (
-            <Row key={`sociability${index}`}>
-              <Col className='col-5'>
-              <SelectInput
-                  field='sociability_id'
-                  label=''
-                  index={index}
-                  labelSize={0}
-                  selectSize={10}
-                  value={sociability.sociability_id} 
-                  options={lookups.sociabilities} 
-                  section='sociabilities'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-                <div className='text-center'>
-                  <Button variant='outline-dark' data-toggle='button' active={!sociability.inactive} onClick={e => this.handleNestedChange('inactive', !sociability.inactive, index, 'sociabilities')} >{sociability.inactive ? 'Inactive' : 'Active'}</Button>
-                </div>
-              </Col>
-              <Col>
-                <FieldInput 
-                  inputType='text'
-                  diabled={true} 
-                  field='alert' 
-                  label=''
-                  index={index} 
-                  labelSize={2}
-                  inputSize={10}
-                  value={sociability.sociability_id === '' ? '' : lookups.sociabilities.find(need => need.id === parseInt(sociability.sociability_id, 10)).alert}
-                  handleChange={e => e}
-                  section='sociabilities'
-                />
-              </Col>
+        <hr />
+
+          {sociabilities.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Sociability</h3>
+            </Col>
+            <Col>
               <div className='text-center'>
-                <Button variant='outline-dark' onClick={e => this.removeItem('sociabilities', index)} >delete</Button>
+              <Button variant='lg link light' id='sociabilities' onClick={this.addItem} >+ Add More Sociability Notes</Button>
               </div>
-            </Row>
-          ))}
-
+            </Col>
+            <Col></Col>
+         </Row>
+        :
           <div className='text-center'>
             <Button variant='lg link light' id='sociabilities' onClick={this.addItem} >+ Add Sociability</Button>
           </div>
+        }
 
-          <hr />
-
-          {issues.length > 0 && <><h3 className='text-center'>Issues</h3></>}
-          {issues.map((issue, index) => (
-            <Row key={`issue${index}`}>
-              <Col className='col-5'>
-              <SelectInput
-                  field='issue_id'
-                  label=''
-                  index={index}
-                  labelSize={0}
-                  selectSize={10}
-                  value={issue.issue_id} 
-                  options={lookups.issues} 
-                  section='issues'
-                  handleChange={this.handleNestedChange} 
-                />
-              </Col>
-              <Col>
-                <div className='text-center'>
-                  <Button variant='outline-dark' data-toggle='button' active={!issue.inactive} onClick={e => this.handleNestedChange('inactive', !issue.inactive, index, 'issues')} >{issue.inactive ? 'Inactive' : 'Active'}</Button>
-                </div>
-              </Col>
-              <Col>
-                <FieldInput 
-                  inputType='text'
-                  diabled={true} 
-                  field='alert' 
-                  label=''
-                  index={index} 
-                  labelSize={2}
-                  inputSize={10}
-                  value={issue.issue_id === '' ? '' : lookups.issues.find(need => need.id === parseInt(issue.issue_id, 10)).alert}
-                  handleChange={e => e}
-                  section='issues'
-                />
-              </Col>
+        {sociabilities.map((sociability, index) => (
+          <Row key={`sociability${index}`}>
+            <Col className='col-5'>
+            <SelectInput
+                field='sociability_id'
+                label=''
+                index={index}
+                labelSize={0}
+                selectSize={10}
+                value={sociability.sociability_id} 
+                options={lookups.sociabilities} 
+                section='sociabilities'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
               <div className='text-center'>
-                <Button variant='outline-dark' onClick={e => this.removeItem('issues', index)} >delete</Button>
+                <Button variant='outline-dark' data-toggle='button' active={!sociability.inactive} onClick={e => this.handleNestedChange('inactive', !sociability.inactive, index, 'sociabilities')} >{sociability.inactive ? 'Inactive' : 'Active'}</Button>
               </div>
-            </Row>
-          ))}
+            </Col>
+            <Col>
+              <FieldInput 
+                inputType='text'
+                diabled={true} 
+                field='alert' 
+                label=''
+                index={index} 
+                labelSize={2}
+                inputSize={10}
+                value={sociability.sociability_id === '' ? '' : lookups.sociabilities.find(need => need.id === parseInt(sociability.sociability_id, 10)).alert}
+                handleChange={e => e}
+                section='sociabilities'
+              />
+            </Col>
+            <div className='text-center'>
+              <Button variant='outline-dark' onClick={e => this.removeItem('sociabilities', index)} >delete</Button>
+            </div>
+          </Row>
+        ))}
 
+        <hr />
+
+        {issues.length > 0 ?
+          <Row className='mb-3'>
+            <Col></Col>
+            <Col className='align-center'>
+              <h3 className='text-center'>Issues</h3>
+            </Col>
+            <Col>
+              <div className='text-center'>
+              <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Issue</Button>
+              </div>
+            </Col>
+            <Col></Col>
+         </Row>
+        :
           <div className='text-center'>
             <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Issue</Button>
           </div>
+        }
+        
+        {issues.map((issue, index) => (
+          <Row key={`issue${index}`}>
+            <Col className='col-5'>
+            <SelectInput
+                field='issue_id'
+                label=''
+                index={index}
+                labelSize={0}
+                selectSize={10}
+                value={issue.issue_id} 
+                options={lookups.issues} 
+                section='issues'
+                handleChange={this.handleNestedChange} 
+              />
+            </Col>
+            <Col>
+              <div className='text-center'>
+                <Button variant='outline-dark' data-toggle='button' active={!issue.inactive} onClick={e => this.handleNestedChange('inactive', !issue.inactive, index, 'issues')} >{issue.inactive ? 'Inactive' : 'Active'}</Button>
+              </div>
+            </Col>
+            <Col>
+              <FieldInput 
+                inputType='text'
+                diabled={true} 
+                field='alert' 
+                label=''
+                index={index} 
+                labelSize={2}
+                inputSize={10}
+                value={issue.issue_id === '' ? '' : lookups.issues.find(need => need.id === parseInt(issue.issue_id, 10)).alert}
+                handleChange={e => e}
+                section='issues'
+              />
+            </Col>
+            <div className='text-center'>
+              <Button variant='outline-dark' onClick={e => this.removeItem('issues', index)} >delete</Button>
+            </div>
+          </Row>
+        ))}
 
-          <hr />
+        <hr />
 
-          <div className='text-center'>
-            <Button variant='secondary' type='submit'>Submit</Button>
-          </div>
+        <div className='text-center'>
+          <Button variant='secondary' type='submit'>Submit</Button>
+        </div>
         </Form>
         </Col>
         </Row>
@@ -659,7 +744,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     postPet: props => dispatch(postPet(props)),
-    updatePet: props => dispatch(updatePet(props))
+    updatePet: props => dispatch(updatePet(props)),
+    clearPet: () => dispatch(clearPet())
   }
 }
 
