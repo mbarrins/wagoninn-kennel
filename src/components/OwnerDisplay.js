@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import { getOwner, updateOwner } from '../actions/ownerActions'
+import { getOwner, submitUpdateOwner } from '../actions/ownerActions'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
@@ -22,11 +22,11 @@ class OwnerDisplay extends React.Component {
     
     if (key === 'agreed_terms' &&  value === true ) {
 
-      this.props.updateOwner({ agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD') })
+      this.props.submitUpdateOwner({ owner: {agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD')}, id: this.props.owner.id })
     
     } else if (key === 'agreed_terms' &&  value === false) {
 
-      this.props.updateOwner({ agreed_terms: value, agreed_date: '' })
+      this.props.submitUpdateOwner({ agreed_terms: value, agreed_date: '' })
     
     } else {
       
@@ -366,7 +366,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     getOwner: props => dispatch(getOwner(props)),
-    updateOwner: props => dispatch(updateOwner(props))
+    submitUpdateOwner: props => dispatch(submitUpdateOwner(props))
   }
 }
 

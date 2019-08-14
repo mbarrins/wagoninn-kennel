@@ -109,10 +109,8 @@ class PetForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(this.props.pet)
-
-    // this.props.postPet(this.props.pet)
-      // .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
+    this.props.postPet(this.props.pet)
+      .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
   }
 
   render() {

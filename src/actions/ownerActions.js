@@ -43,6 +43,15 @@ export const postOwner = owner => {
   };
 }
 
+export const submitUpdateOwner = (props) => {
+  return dispatch => {
+    dispatch(loadingOwner());
+
+  return API.patchOwner(props)
+      .then(data => data.error ? dispatch(ownerError(data)) : dispatch(ownerSuccess(data)))
+  };
+}
+
 export const updateOwner = (props) => {
 
   return {

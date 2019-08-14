@@ -62,8 +62,26 @@ const postOwner = owner => {
   .catch(handleServerError)
 }
 
+const patchOwner = ({id, owner}) => {
+  console.log(`${ownersUrl}/${id}`, {owner})
+  return fetch(`${ownersUrl}/${id}`, {
+    method: 'PATCH',
+    headers: constructHeaders({'Content-Type': 'application/json'}),
+    body: JSON.stringify({ owner })
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data}
+    } else {
+      return {owner: data}
+    }
+  })
+  .catch(handleServerError)
+}
+
 export default {
   getOwner,
   postOwner,
-  searchOwners
+  searchOwners,
+  patchOwner
 }
