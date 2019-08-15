@@ -15,16 +15,11 @@ class PetForm extends React.Component {
   componentDidMount() {
     const ownerId = this.props.owner ? this.props.owner.id : undefined
 
-    if (this.props.match.path === "/pets/:id/edit") {
+    if (this.props.match.path === "/pets/:id/edit" && this.props.match.params) return this.props.getPet(this.props.match.params.id)
 
-      this.props.getPet(this.props.match.params.id)
+    this.props.clearPet();
+    (ownerId) && this.handleChange('owner_id', ownerId)
 
-    } else {
-      
-      this.props.clearPet();
-      (ownerId) && this.handleChange('owner_id', ownerId)
-    
-    }
   }
 
   handleChange = (key, value) => {
@@ -138,7 +133,9 @@ class PetForm extends React.Component {
   render() {
     const { lookups, lookups: {errors}, pet: {id, name, pet_type_id, dob, sex_id, breed_id, color_id, size_id, spayed_neutered, immunisations, 
       foods, health_details, special_needs, medications, sociabilities, issues } } = this.props
-      
+    
+    if (this.props.lookups.loading) return  <h1>Loading</h1>
+
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
@@ -235,7 +232,7 @@ class PetForm extends React.Component {
                 inputType='text' 
                 field='age' 
                 label='Age' 
-                labelSize={2}
+                labelSize={4}
                 inputSize={8}
                 value={dob === '' ? '' : moment().diff(dob, 'years')} 
                 handleChange={this.handleChange} 

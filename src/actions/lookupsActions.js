@@ -3,7 +3,8 @@ import API from '../adapters/lookupsAPI'
 export const loadingLookups = () => {
   
   return {
-    type: "LOADING_LOOKUPS"
+    type: "LOADING_LOOKUPS",
+    payload: {loading: true}
   }
 }
 
@@ -29,10 +30,6 @@ export const getLookups = () => {
     dispatch(loadingLookups());
 
     return API.getLookups()
-      .then(data => {
-        
-        return data
-      })
       .then(data => data.error ? dispatch(getLookupsError(data)) : dispatch(getLookupsSuccess(data)))
   };
 }

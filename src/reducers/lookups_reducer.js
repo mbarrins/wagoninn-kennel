@@ -20,25 +20,31 @@ export default function lookupsReducer(state = {
     issues: [],
     concerns: [],
     penTypes: [],
-    errors: []
+    errors: [],
+    loading: false
 }, action) {
   switch (action.type) {
     case 'LOADING_LOOKUPS':
       
-      return state
-      
-    case 'LOAD_LOOKUPS':
-      
       return {
         ...state,
-        ...action.payload.lookups
+        ...action.payload
+      }
+      
+    case 'LOAD_LOOKUPS':
+
+      return {
+        ...state,
+        ...action.payload.lookups,
+        loading: false
       }
     
     case 'LOOKUPS_ERRORS':
       
       return {
         ...state,
-        errors: action.payload.errors
+        errors: action.payload.errors,
+        loading: false
       }
 
     default:
