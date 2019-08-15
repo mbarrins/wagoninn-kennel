@@ -36,7 +36,7 @@ class OwnerDisplay extends React.Component {
   }
 
   render() {
-    const { lookups, match, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
+    const { lookups, match, owner: {id, first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
       partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
       agreed_date, notes, pets, bookings } } = this.props
@@ -348,6 +348,11 @@ class OwnerDisplay extends React.Component {
             {/* <ButtonToolbar className='justify-content-center mt-3'>
               <Button variant='lg link light' id='issues' onClick={this.addItem} >+ Add Concern</Button>
             </ButtonToolbar> */}
+            <ButtonToolbar className='justify-content-center mt-3'>
+              <Link to={`/owners/${id}/edit`} >
+                <Button variant='secondary' type='submit'>Edit Owner Details</Button>
+              </Link>
+            </ButtonToolbar>
 
           </Col>
         </Row>

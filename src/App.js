@@ -45,7 +45,7 @@ class App extends React.Component {
           <Route exact path='/main' component={Dashboard} />
           <Route exact path='/search' component={SearchForm} />
           <Route exact path='/owners/new' component={OwnerForm} />
-          <Route path='owners/:id/pets/new' component={PetForm} />
+          <Route path='/owners/:id/edit' component={OwnerForm} />
           <Route exact path='/owners/:id' component={OwnerDisplay} />
           <Route exact path='/pets/new' component={PetForm} />
           <Route exact path='/bookings/new' component={BookingForm} />

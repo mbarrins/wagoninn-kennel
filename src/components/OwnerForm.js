@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner, updateOwner } from '../actions/ownerActions'
+import { postOwner, updateOwner, submitUpdateOwner } from '../actions/ownerActions'
 import moment from 'moment'
 
 class OwnerForm extends React.Component {
@@ -31,24 +31,32 @@ class OwnerForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {pets, concerns, owner_id, ...ownerToCreate} = this.props.owner
+    const {pets, concerns, owner_id, ...owner} = this.props.owner
 
-    this.props.postOwner(ownerToCreate)
-      .then(data => this.props.history.push(`/owners/${data.payload.owner.id}`))
+    if (this.props.match.path === "/owners/:id/edit") {
+
+      this.props.submitUpdateOwner({ owner , id: this.props.owner.id})
+
+    } else {
+
+      this.props.postOwner(owner)
+        .then(data => this.props.history.push(`/owners/${data.payload.owner.id}`))
+
+    }
   }
 
   render() {
     const { lookups, lookups: {errors}, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
       partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
-      agreed_date, notes } } = this.props
-      
+      agreed_date, notes }, match: { path } } = this.props
+
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
             <Form onSubmit={this.handleSubmit}>
-              <h1 className='text-center'>New Owner</h1>
+              <h1 className='text-center'>{path === "/owners/:id/edit" ? 'Edit Owner' : 'New Owner'}</h1>
               {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
               <Row>
                 <Col className='text-center my-auto'>
@@ -324,7 +332,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return { 
     postOwner: props => dispatch(postOwner(props)),
-    updateOwner: props => dispatch(updateOwner(props))
+    updateOwner: props => dispatch(updateOwner(props)),
+    submitUpdateOwner: props => dispatch(submitUpdateOwner(props))
   }
 }
 
