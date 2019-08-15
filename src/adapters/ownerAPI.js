@@ -63,7 +63,7 @@ const postOwner = owner => {
 }
 
 const patchOwner = ({id, owner}) => {
-  console.log(`${ownersUrl}/${id}`, {owner})
+  
   return fetch(`${ownersUrl}/${id}`, {
     method: 'PATCH',
     headers: constructHeaders({'Content-Type': 'application/json'}),

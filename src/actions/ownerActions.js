@@ -59,3 +59,10 @@ export const updateOwner = (props) => {
     payload: props
   }
 }
+
+export const clearOwner = (props) => {
+
+  return {
+    type: "CLEAR_OWNER"
+  }
+}

@@ -7,14 +7,24 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
-import { postPet, updatePet, clearPet } from '../actions/petActions'
+import { postPet, updatePet, clearPet, getPet, submitUpdatePet } from '../actions/petActions'
 import moment from 'moment'
 
 class PetForm extends React.Component {
 
   componentDidMount() {
-    const ownerId = this.props.location.ownerId
-    if (ownerId) return this.handleChange('owner_id', ownerId)
+    const ownerId = this.props.owner ? this.props.owner.id : undefined
+
+    if (this.props.match.path === "/pets/:id/edit") {
+
+      this.props.getPet(this.props.match.params.id)
+
+    } else {
+      
+      this.props.clearPet();
+      (ownerId) && this.handleChange('owner_id', ownerId)
+    
+    }
   }
 
   handleChange = (key, value) => {
@@ -109,9 +119,20 @@ class PetForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.postPet(this.props.pet)
+    const { pet } = this.props
+
+    if (this.props.match.path === "/pets/:id/edit") {
+
+      this.props.submitUpdatePet({ pet, id: pet.id })
+        .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
+        .then(() => this.props.clearPet())
+
+    } else {
+
+    this.props.postPet(pet)
       .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
       .then(() => this.props.clearPet())
+    }
   }
 
   render() {
@@ -737,7 +758,8 @@ class PetForm extends React.Component {
 const mapStateToProps = state => {
   return {
     lookups: state.lookups,
-    pet: state.pet
+    pet: state.pet,
+    owner: state.owner
   }
 }
 
@@ -745,6 +767,8 @@ const mapDispatchToProps = dispatch => {
   return { 
     postPet: props => dispatch(postPet(props)),
     updatePet: props => dispatch(updatePet(props)),
+    submitUpdatePet: props => dispatch(submitUpdatePet(props)),
+    getPet: props => dispatch(getPet(props)),
     clearPet: () => dispatch(clearPet())
   }
 }

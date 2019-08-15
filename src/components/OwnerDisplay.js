@@ -199,7 +199,13 @@ class OwnerDisplay extends React.Component {
                     <Row key={`dog${dog.id}`}className='mt-3'>
                       <Col className='text-center my-auto'>
                         <Row>
-                          <Col xs={4}></Col>
+                          <Col xs={4}>
+                            <div className='text-center'>
+                              <Link to={`/pets/${dog.id}/edit`} >
+                                <Button variant='outline-dark' >edit</Button>
+                              </Link>
+                            </div> 
+                          </Col>
                           <Col className='text-left' ><h6>{dog.name} ({lookups.sexes.find(sex => sex.id === parseInt(dog.sex_id,10)).name}) {lookups.sizes.find(size => size.id === parseInt(dog.size_id,10)).name} {lookups.breeds.find(breed => breed.id === parseInt(dog.breed_id,10)).name}</h6></Col>
                         </Row>
                       </Col>
@@ -213,7 +219,13 @@ class OwnerDisplay extends React.Component {
                     <Row key={`cat${cat.id}`}className='mt-3'>
                       <Col className='text-center my-auto'>
                         <Row>
-                          <Col xs={4}></Col>
+                          <Col xs={4}>
+                            <div className='text-center'>
+                              <Link to={`/pets/${cat.id}/edit`} >
+                                <Button variant='outline-dark' >edit</Button>
+                              </Link>
+                            </div> 
+                          </Col>
                           <Col className='text-left' ><h6>{cat.name} ({lookups.sexes.find(sex => sex.id === parseInt(cat.sex_id,10)).name}) {lookups.sizes.find(size => size.id === parseInt(cat.size_id,10)).name} {lookups.colors.find(color => color.id === parseInt(cat.color_id,10)).name}</h6></Col>
                         </Row>
                       </Col>
@@ -227,7 +239,13 @@ class OwnerDisplay extends React.Component {
                     <Row key={`pet${pet.id}`}className='mt-3'>
                       <Col className='text-center my-auto'>
                         <Row>
-                          <Col xs={4}></Col>
+                          <Col xs={4}>
+                            <div className='text-center'>
+                              <Link to={`/pets/${pet.id}/edit`} >
+                                <Button variant='outline-dark' >edit</Button>
+                              </Link>
+                            </div> 
+                          </Col>
                           <Col className='text-left' ><h6>{pet.name} ({lookups.sexes.find(sex => sex.id === parseInt(pet.sex_id,10)).name}) {lookups.sizes.find(size => size.id === parseInt(pet.size_id,10)).name} {lookups.colors.find(color => color.id === parseInt(pet.color_id,10)).name}</h6></Col>
                         </Row>
                       </Col>

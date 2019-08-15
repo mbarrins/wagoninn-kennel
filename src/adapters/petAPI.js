@@ -48,7 +48,25 @@ const postPet = pet => {
   .catch(handleServerError)
 }
 
+const patchPet = ({ id, pet }) => {
+  
+  return fetch(`${petsUrl}/${id}`, {
+    method: 'PATCH',
+    headers: constructHeaders({'Content-Type': 'application/json'}),
+    body: JSON.stringify({ pet })
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data}
+    } else {
+      return {pet: data}
+    }
+  })
+  .catch(handleServerError)
+}
+
 export default {
   getPet,
-  postPet
+  postPet,
+  patchPet
 }

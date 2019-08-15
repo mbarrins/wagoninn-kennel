@@ -43,8 +43,18 @@ export const postPet = pet => {
   };
 }
 
-export const updatePet = (props) => {
+export const submitUpdatePet = (props) => {
 
+  return dispatch => {
+    dispatch(loadingPet());
+
+  return API.patchPet(props)
+      .then(data => data.error ? dispatch(petError(data)) : dispatch(petSuccess(data)))
+  };
+}
+
+export const updatePet = (props) => {
+  
   return {
     type: "UPDATE_PET",
     payload: props
