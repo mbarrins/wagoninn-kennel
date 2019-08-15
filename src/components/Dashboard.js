@@ -103,7 +103,14 @@ class MainContainer extends React.Component {
             <Card>
               <Card.Header>Cats</Card.Header>
                 <Card.Body>
-                  {todays_pens.CatRoom && todays_pens.CatRoom.map(booking => <p key={`catbooking${booking.id}`}>{booking.pet_listing}</p>)}
+                  <Row>
+                    <Col>
+                      {todays_pens.CatRoom && todays_pens.CatRoom.filter((cat,index) => index % 2 === 0).map(booking => <p key={`catbooking${booking.id}`}>{booking.pet_listing}</p>)}
+                    </Col>
+                    <Col>
+                      {todays_pens.CatRoom && todays_pens.CatRoom.filter((cat,index) => index % 2 === 1).map(booking => <p key={`catbooking${booking.id}`}>{booking.pet_listing}</p>)}
+                    </Col>
+                  </Row>
                 </Card.Body>
             </Card>
           </CardGroup>
