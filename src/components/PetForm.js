@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
 import { postPet, updatePet, clearPet, getPet, submitUpdatePet } from '../actions/petActions'
@@ -134,7 +135,11 @@ class PetForm extends React.Component {
     const { lookups, lookups: {errors}, pet: {id, name, pet_type_id, dob, sex_id, breed_id, color_id, size_id, spayed_neutered, immunisations, 
       foods, health_details, special_needs, medications, sociabilities, issues } } = this.props
     
-    if (this.props.lookups.loading) return  <h1>Loading</h1>
+    if (this.props.lookups.loading) return (
+      <Row className='justify-content-center'>
+        <Spinner animation="border" role="status"/>
+      </Row>
+    )
 
     return (
       <Container className='mt-5' fluid={true}>

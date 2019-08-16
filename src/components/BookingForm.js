@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import Spinner from 'react-bootstrap/Spinner';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../actions/bookingActions'
@@ -153,7 +154,11 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    if (this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return  <h1>Loading</h1>
+    if (this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return(
+      <Row className='justify-content-center'>
+        <Spinner animation="border" role="status"/>
+      </Row>
+    )
 
     const { lookups, lookups: {errors}, ownerPets, booking: {id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
 
