@@ -219,13 +219,27 @@ class BookingForm extends React.Component {
       }
     }, lookups.penTypes.reduce((acc, type) => ({ ...acc, [type.id]: { pen_count: 0, pet_count: 0 } }), {}))
 
+    const all_pens_have_type = booking_pens.every(pen => pen.pen_type_id !== '')
+
+    const per_day_total = all_pens_have_type ? booking_pens.map(pen => parseInt(lookups.currentRates.find(rate => rate.id === pen.rate_id).amount, 10)).reduce((total, amount) => total + amount, 0) : 0
+
+    const no_days = !(check_in === '' || check_out === '') ? moment(check_out).diff(moment(check_in), 'days') + (check_out_time === 'AM' ? 0 : 1) : 0
+    const total = no_days * per_day_total
+
+
     return (
-      <Container className='mt-5' fluid={true}>
+      <Container className='mt-5' fluid={true} >
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
             <Form onSubmit={this.handleSubmit}>
-              <h1 className='text-center'>{id === '' ? 'New Booking' : 'Edit Booking'}</h1>
+
+              <Row>
+                <Col><h1 className='text-center'>{id === '' ? 'New Booking' : 'Edit Booking'}</h1></Col>
+                {total !== 0 && <Col><h2>{per_day_total > 0 && `$${per_day_total} x ${no_days} days = $${total}`}</h2></Col>}
+              </Row>
+
               {errors.map((error, i) => <p key={`error${i}`} style={{ color: 'red' }}>{error}</p>)}
+
               <Row className='mt-3'>
                 <Col className='col-sm-6 text-center my-auto'>
                   <FieldInputSelect
