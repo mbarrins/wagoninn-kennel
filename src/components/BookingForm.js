@@ -9,14 +9,29 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postBooking, updateBooking, clearBooking } from '../actions/bookingActions'
+import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../actions/bookingActions'
 import { getAvailability, clearAvailability } from '../actions/availabilityActions'
+import { getOwner } from '../actions/ownerActions'
 import moment from 'moment'
 
 class BookingForm extends React.Component {
 
   componentDidMount() {
-    if (this.props.owner.id) return this.handleChange('owner_id', this.props.owner.id)
+    if (this.props.match.path === "/bookings/:id/edit" && this.props.match.params) {
+      this.props.getBooking(this.props.match.params.id)
+        .then(data => {
+          if (this.props.booking.owner_id && this.props.owner.id !== this.props.booking.owner_id) {
+            this.props.getOwner(this.props.booking.owner_id)
+          }
+          return data.payload.booking
+        }).then(booking => this.props.getAvailability({dateFrom: booking.check_in, dateTo: booking.check_out}))
+
+    } else {
+
+      this.props.clearBooking();
+      (this.props.owner.id) && this.handleChange('owner_id', this.props.owner.id)
+
+    }
   }
 
   handleChange = (key, value) => {
@@ -95,10 +110,19 @@ class BookingForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.postBooking(this.props.booking)
-      .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
-      .then(() => this.props.clearBooking())
-      .then(() => this.props.clearAvailability())
+    const { booking } = this.props
+    
+    if (this.props.match.path === "/bookings/:id/edit") {
+      this.props.submitUpdateBooking({ booking, id: booking.id })
+        .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+        .then(() => this.props.clearBooking())
+        .then(() => this.props.clearAvailability())
+    } else {
+      this.props.postBooking(booking)
+        .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+        .then(() => this.props.clearBooking())
+        .then(() => this.props.clearAvailability())
+    }
   }
 
   weekly_availabliilty = () => {
@@ -129,7 +153,9 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors}, ownerPets, booking: {check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
+    if (this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return  <h1>Loading</h1>
+
+    const { lookups, lookups: {errors}, ownerPets, booking: {id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
 
     const booked_pets = booking_pens.map(pen => pen.booking_pen_pets.reduce((acc,pet) => pet.pet_id !== '' ? [...acc, pet.pet_id] : acc, [])).flat()
     const available_pets = ownerPets.filter(pet => !booked_pets.includes(pet.id))
@@ -148,13 +174,13 @@ class BookingForm extends React.Component {
       return acc
       }
     }, lookups.penTypes.reduce((acc,type) => ({...acc, [type.id]: {pen_count: 0, pet_count: 0}}),{}))
-
+    
     return (
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
         <Col className='col-9 text-center center-block'>
         <Form onSubmit={this.handleSubmit}>
-        <h1 className='text-center'>New Booking</h1>
+        <h1 className='text-center'>{id === '' ? 'New Booking' : 'Edit Booking'}</h1>
         {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
         <Row className='mt-3'>
           <Col className='col-sm-6 text-center my-auto'>
@@ -355,10 +381,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
+    getBooking: props => dispatch(getBooking(props)),
     postBooking: props => dispatch(postBooking(props)),
     updateBooking: props => dispatch(updateBooking(props)),
+    submitUpdateBooking: props => dispatch(submitUpdateBooking(props)),
     clearBooking: () => dispatch(clearBooking()),
     getAvailability: props => dispatch(getAvailability(props)),
+    getOwner: props => dispatch(getOwner(props)),
     clearAvailability: () => dispatch(clearAvailability())
   }
 }

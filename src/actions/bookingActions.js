@@ -43,6 +43,16 @@ export const postBooking = booking => {
   };
 }
 
+export const submitUpdateBooking = (props) => {
+
+  return dispatch => {
+    dispatch(loadingBooking());
+
+  return API.patchBooking(props)
+      .then(data => data.error ? dispatch(bookingError(data)) : dispatch(bookingSuccess(data)))
+  };
+}
+
 export const updateBooking = (props) => {
 
   return {

@@ -7,10 +7,13 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner, updateOwner, submitUpdateOwner } from '../actions/ownerActions'
+import { postOwner, updateOwner, submitUpdateOwner, getOwner } from '../actions/ownerActions'
 import moment from 'moment'
 
 class OwnerForm extends React.Component {
+  componentDidMount() {
+    if (!this.props.owner.id && this.props.match.path === "/owners/:id/edit") return this.props.getOwner(this.props.match.params.id);
+  }
 
   handleChange = (key, value) => {
     
@@ -331,6 +334,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
+    getOwner: props => dispatch(getOwner(props)),
     postOwner: props => dispatch(postOwner(props)),
     updateOwner: props => dispatch(updateOwner(props)),
     submitUpdateOwner: props => dispatch(submitUpdateOwner(props))

@@ -8,6 +8,7 @@ const intialState = {
   booking_status_id: 1, 
   booking_ref: '',
   booking_pens: [],
+  loading: false,
   errors: []
 }
 
@@ -15,13 +16,17 @@ export default function bookingReducer(state = intialState, action) {
   switch (action.type) {
     case 'LOADING_BOOKING':
       
-      return state
+      return {
+        ...state,
+        loading: true
+      }
       
     case 'LOAD_BOOKING':
       
       return {
         ...state,
-        ...action.payload.booking
+        ...action.payload.booking,
+        loading: false
       }
     
     case 'UPDATE_BOOKING':
@@ -35,7 +40,8 @@ export default function bookingReducer(state = intialState, action) {
       
       return {
         ...state,
-        errors: action.payload.errors
+        errors: action.payload.errors,
+        loading: false
       }
 
     case 'CLEAR_BOOKING':

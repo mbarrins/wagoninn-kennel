@@ -23,18 +23,23 @@ export default function ownerReducer(state = {
   pets: [],
   bookings: [],
   concerns: [],
+  loading: false,
   errors: []
 }, action) {
 switch (action.type) {
   case 'LOADING_OWNER':
     
-    return state
+    return {
+      ...state,
+      loading: true
+    }
     
   case 'LOAD_OWNER':
     
     return {
       ...state,
-      ...action.payload.owner
+      ...action.payload.owner,
+      loading: false
     }
   
   case 'UPDATE_OWNER':
@@ -48,7 +53,8 @@ switch (action.type) {
     
     return {
       ...state,
-      errors: action.payload.errors
+      errors: action.payload.errors,
+      loading: false
     }
 
   default:

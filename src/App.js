@@ -51,6 +51,7 @@ class App extends React.Component {
           <Route exact path='/pets/:id/edit' component={PetForm} />
           {/* <Route exact path='/pets/:id' component={PetDisplay} /> */}
           <Route exact path='/bookings/new' component={BookingForm} />
+          <Route exact path='/bookings/:id/edit' component={BookingForm} />
           <Route path='/' component={Dashboard} />
         </Switch>
       </div>

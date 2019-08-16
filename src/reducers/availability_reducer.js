@@ -1,6 +1,7 @@
 const initialState = {
   dates: [],
   pens_available: [],
+  loading: false,
   errors: []
 }
 
@@ -8,13 +9,17 @@ export default function availabilityReducer(state = initialState, action) {
   switch (action.type) {
     case 'LOADING_AVAILABILITY':
       
-      return state
+      return {
+        ...state,
+        loading: true
+      }
       
     case 'LOAD_AVAILABILITY':
       
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        loading: false
       }
 
     case 'AVAILABILITY_ERRORS':
@@ -24,7 +29,7 @@ export default function availabilityReducer(state = initialState, action) {
         errors: action.payload.errors
       }
 
-    case 'CLEAR_PET':
+    case 'CLEAR_AVAILABILITY':
 
         return initialState;
 

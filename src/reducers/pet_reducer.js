@@ -16,6 +16,7 @@ const initialState = {
   medications: [],
   sociabilities: [],
   issues: [],
+  loading: false,
   errors: []
 }
 
@@ -23,13 +24,25 @@ export default function petReducer(state = initialState, action) {
   switch (action.type) {
     case 'LOADING_PET':
       
-      return state
+      return {
+        ...state,
+        loading: true
+      }
       
     case 'LOAD_PET':
       
       return {
         ...state,
-        ...action.payload.pet
+        ...action.payload.pet, 
+        loading: false
+      }
+
+    case 'PET_ERRORS':
+    
+      return {
+        ...state,
+        errors: action.payload.errors, 
+        loading: false
       }
     
     case 'UPDATE_PET':
@@ -42,13 +55,6 @@ export default function petReducer(state = initialState, action) {
     case 'CLEAR_PET':
 
         return initialState;
-
-    case 'PET_ERRORS':
-      
-      return {
-        ...state,
-        errors: action.payload.errors
-      }
 
     default:
       

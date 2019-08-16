@@ -76,9 +76,26 @@ const postBooking = booking => {
   .catch(handleServerError)
 }
 
+const patchBooking = ({booking, id}) => {
+  return fetch(`${bookingsUrl}/${id}`, {
+    method: 'PATCH',
+    headers: constructHeaders({'Content-Type': 'application/json'}),
+    body: JSON.stringify({ booking })
+  }).then(jsonify)
+  .then(data => {
+    if (data.errors) {
+      return {errors: data}
+    } else {
+      return {booking: data}
+    }
+  })
+  .catch(handleServerError)
+}
+
 export default {
   getBooking,
   getAvailability,
   getDashboard,
-  postBooking
+  postBooking,
+  patchBooking
 }

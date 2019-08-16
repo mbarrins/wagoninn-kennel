@@ -202,7 +202,7 @@ class OwnerDisplay extends React.Component {
                           <Col xs={4}>
                             <div className='text-center'>
                               <Link to={`/pets/${dog.id}/edit`} >
-                                <Button variant='outline-dark' >edit</Button>
+                                <Button variant='outline-dark' >view/edit</Button>
                               </Link>
                             </div> 
                           </Col>
@@ -222,7 +222,7 @@ class OwnerDisplay extends React.Component {
                           <Col xs={4}>
                             <div className='text-center'>
                               <Link to={`/pets/${cat.id}/edit`} >
-                                <Button variant='outline-dark' >edit</Button>
+                                <Button variant='outline-dark' >view/edit</Button>
                               </Link>
                             </div> 
                           </Col>
@@ -242,7 +242,7 @@ class OwnerDisplay extends React.Component {
                           <Col xs={4}>
                             <div className='text-center'>
                               <Link to={`/pets/${pet.id}/edit`} >
-                                <Button variant='outline-dark' >edit</Button>
+                                <Button variant='outline-dark' >view/edit</Button>
                               </Link>
                             </div> 
                           </Col>
@@ -269,6 +269,13 @@ class OwnerDisplay extends React.Component {
                     <Row key={`booking${booking.id}`} className='mt-3'>
                       <Col>
                         <Row >
+                          <Col xs={4}>
+                            <div className='text-center'>
+                              <Link to={`/bookings/${booking.id}/edit`} >
+                                <Button variant='outline-dark' >view/edit</Button>
+                              </Link>
+                            </div> 
+                          </Col>
                           <Col className='text-center my-auto'>
                             <Row>
                               <Col xs={5} className='text-right'><h6>Check In</h6></Col>
