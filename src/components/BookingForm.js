@@ -163,6 +163,14 @@ class BookingForm extends React.Component {
     let split = days.indexOf(6) + 1
     let weekly = []
 
+    if (availability.length > 0 && split === 0) return [
+      [
+        ...new Array(availability[0].day_of_week).fill(false),
+        ...availability,
+        ...new Array(7 - availability[0].day_of_week - availability.length).fill(false)
+      ]
+    ]
+
     while (split !== 0 && availability.length >= split) {
       let week = availability.slice(prevSplit, split)
 
@@ -176,7 +184,9 @@ class BookingForm extends React.Component {
 
       if (split === 0 && availability.slice(prevSplit).length > 0) {
         weekly.push(availability.slice(prevSplit))
+
       }
+
     }
 
     return weekly
