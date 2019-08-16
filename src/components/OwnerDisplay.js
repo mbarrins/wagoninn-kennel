@@ -9,6 +9,8 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import { getOwner, submitUpdateOwner } from '../actions/ownerActions'
+import OwnerBookings from './OwnerBookings'
+import TwoColumnDisplay from './TwoColumnDisplay'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
@@ -83,20 +85,12 @@ class OwnerDisplay extends React.Component {
               </Col>
             </Row>
 
-            <Row className='mt-3'>
-              <Col className='text-center my-auto'>
-                <Row>
-                  <Col xs={4} className='text-right'><h6>Primary Phone</h6></Col>
-                  <Col xs={7} className='text-left' ><h6>{primary_phone} {primary_phone_type ? `(${primary_phone_type})` : ''}</h6></Col>
-                </Row>
-              </Col>
-              <Col className='text-center my-auto'>
-                <Row>
-                  <Col xs={5} className='text-right'><h6>Secondary Phone</h6></Col>
-                  <Col xs={7} className='text-left' ><h6>{secondary_phone} {primary_phone_type ? `(${secondary_phone_type})` : ''}</h6></Col>
-                </Row>
-              </Col>
-            </Row>
+            <TwoColumnDisplay 
+              col1Label='Primary Phone' 
+              col1Detail={`${primary_phone} ${primary_phone_type ? `(${primary_phone_type})` : ''}`}
+              col2Label='Secondary Phone'
+              col2Detail={`${secondary_phone} ${secondary_phone_type ? `(${secondary_phone_type})` : ''}`}
+            />
 
             <Row className='mt-4'>
               <Col className='text-center my-auto'>  
@@ -123,35 +117,19 @@ class OwnerDisplay extends React.Component {
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
-                  <Row className='mt-3'>
-                    <Col className='text-center my-auto'>
-                      <Row>
-                        <Col xs={4} className='text-right'><h6>Partner</h6></Col>
-                        <Col xs={7} className='text-left' ><h6>{partner_name}</h6></Col>
-                      </Row>
-                    </Col>
-                    <Col className='text-center my-auto'>
-                      <Row>
-                        <Col xs={5} className='text-right'><h6>Partner Phone</h6></Col>
-                        <Col xs={7} className='text-left' ><h6>{partner_phone}</h6></Col>
-                      </Row>
-                    </Col>
-                  </Row>
+                    <TwoColumnDisplay 
+                      col1Label='Partner' 
+                      col1Detail={partner_name}
+                      col2Label='Partner Phone'
+                      col2Detail={partner_phone}
+                    />
 
-                  <Row className='mt-3'>
-                    <Col className='text-center my-auto'>
-                      <Row>
-                        <Col xs={4} className='text-right'><h6>Emergency Contact</h6></Col>
-                        <Col xs={7} className='text-left' ><h6>{emergency_contact_name}</h6></Col>
-                      </Row>
-                    </Col>
-                    <Col className='text-center my-auto'>
-                      <Row>
-                        <Col xs={5} className='text-right'><h6>Emergency Contact Phone</h6></Col>
-                        <Col xs={7} className='text-left' ><h6>{emergency_contact_phone}</h6></Col>
-                      </Row>
-                    </Col>
-                  </Row>
+                    <TwoColumnDisplay 
+                      col1Label='Emergency Contact' 
+                      col1Detail={emergency_contact_name}
+                      col2Label='Emergency Contact Phone'
+                      col2Detail={emergency_contact_phone}
+                    />
 
                   <Row className='mt-3'>
                     <Col className='text-center my-auto'>
@@ -264,55 +242,7 @@ class OwnerDisplay extends React.Component {
               {current_bookings.length > 0 ? 
               <Card>
                 <Card.Header>Current Booking{current_bookings.length === 1 ? '' : 's'}</Card.Header>
-                <Card.Body>  
-                  {current_bookings.map(booking => (
-                    <Row key={`booking${booking.id}`} className='mt-3'>
-                      <Col>
-                        <Row >
-                          <Col xs={4}>
-                            <div className='text-center'>
-                              <Link to={`/bookings/${booking.id}/edit`} >
-                                <Button variant='outline-dark' >view/edit</Button>
-                              </Link>
-                            </div> 
-                          </Col>
-                          <Col className='text-center my-auto'>
-                            <Row>
-                              <Col xs={5} className='text-right'><h6>Check In</h6></Col>
-                              <Col xs={7} className='text-left' ><h6>{moment(booking.check_in).format('DD/MM/YYYY')}</h6></Col>
-                            </Row>
-                          </Col>
-                          <Col className='text-center my-auto'>
-                            <Row>
-                              <Col xs={6} className='text-right'><h6>Check Out</h6></Col>
-                              <Col xs={6} className='text-left' ><h6>{moment(booking.check_out).format('DD/MM/YYYY')}</h6></Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col>
-                        <Row>
-                            {booking.booking_pens.map(pen => (
-                             <Col className='text-center' key={`booking_pen${pen.id}`} >
-                              <Row>
-                                <Col xs={5} className='text-left'>
-                                  <h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6>
-                                </Col>
-                                <Col xs={7} className='text-left'>
-                                  {pen.booking_pen_pets.map(pen_pet => (
-                                    <Row key={`booking_pen_pen_pet${pen_pet.pet_id}`}>
-                                      <Col className='text-rpen_ight'><h6>{pets.find(pet => pet.id === pen_pet.pet_id).name}</h6></Col>
-                                    </Row>
-                                  ))}
-                                </Col>
-                              </Row>
-                            </Col>
-                            ))}
-                        </Row>
-                      </Col>
-                    </Row>
-                  ))}
-                </Card.Body>
+                <OwnerBookings bookings={current_bookings} pets={pets} lookups={lookups} edit={true}/>
               </Card>
               : ''}
 
@@ -322,48 +252,7 @@ class OwnerDisplay extends React.Component {
                   Click for past booking{past_bookings.length === 1 ? '' : 's'}
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="1">
-                  <Card.Body>
-                  {bookings.filter(booking => moment(booking.check_out) < moment()).map(booking => (
-                    <Row key={`booking${booking.id}`} className='mt-3'>
-                      <Col>
-                        <Row >
-                          <Col className='text-center my-auto'>
-                            <Row>
-                              <Col xs={5} className='text-right'><h6>Check In</h6></Col>
-                              <Col xs={7} className='text-left' ><h6>{moment(booking.check_in).format('DD/MM/YYYY')}</h6></Col>
-                            </Row>
-                          </Col>
-                          <Col className='text-center my-auto'>
-                            <Row>
-                              <Col xs={6} className='text-right'><h6>Check Out</h6></Col>
-                              <Col xs={6} className='text-left' ><h6>{moment(booking.check_out).format('DD/MM/YYYY')}</h6></Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col>
-                        <Row>
-                          {booking.booking_pens.map(pen => (
-                            <Col className='text-center' key={`booking_pen${pen.id}`} >
-                              <Row>
-                                <Col xs={5} className='text-left'>
-                                  <h6>{lookups.penTypes.length > 0 && lookups.penTypes.find(type => type.id === parseInt(pen.pen_type_id,10)).name}</h6>
-                                </Col>
-                                <Col xs={7} className='text-left'>
-                                  {pen.booking_pen_pets.map(pen_pet => (
-                                    <Row key={`booking_pen_pen_pet${pen_pet.pet_id}`}>
-                                      <Col className='text-rpen_ight'><h6>{pets.find(pet => pet.id === pen_pet.pet_id).name}</h6></Col>
-                                    </Row>
-                                  ))}
-                                </Col>
-                              </Row>
-                            </Col>
-                          ))}
-                        </Row>
-                      </Col>
-                    </Row>
-                  ))}
-                </Card.Body>
+                  <OwnerBookings bookings={past_bookings} pets={pets} lookups={lookups} edit={false}/>
               </Accordion.Collapse>
             </Card>
             : '' }
