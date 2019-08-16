@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Spinner from 'react-bootstrap/Spinner';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../actions/bookingActions'
@@ -124,6 +125,13 @@ class BookingForm extends React.Component {
         .then(() => this.props.clearBooking())
         .then(() => this.props.clearAvailability())
     }
+  }
+
+  handleCancel = e => {
+    this.props.clearBooking()
+    this.props.clearAvailability()
+
+    this.props.history.push(`/owners/${this.props.owner.id}`);
   }
 
   weekly_availabliilty = () => {
@@ -310,9 +318,11 @@ class BookingForm extends React.Component {
 
           <hr />
 
-          <div className='text-center'>
-            <Button variant='secondary' type='submit'>Submit</Button>
-          </div>
+          <ButtonToolbar className='justify-content-center mt-3'>
+            <Button variant='secondary' className='btn-lg mr-3'onClick={this.handleCancel} >Cancel</Button>
+            <Button variant='outline-dark' className='btn-lg ml-3' type='submit'>Submit</Button>
+          </ButtonToolbar>
+          
         </Form>
         </Col>
         </Row>
