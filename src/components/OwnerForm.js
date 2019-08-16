@@ -16,29 +16,29 @@ class OwnerForm extends React.Component {
   }
 
   handleChange = (key, value) => {
-    
-    if (key === 'agreed_terms' &&  value === true ) {
+
+    if (key === 'agreed_terms' && value === true) {
 
       this.props.updateOwner({ agreed_terms: value, agreed_date: moment().format('YYYY-MM-DD') })
-    
-    } else if (key === 'agreed_terms' &&  value === false) {
+
+    } else if (key === 'agreed_terms' && value === false) {
 
       this.props.updateOwner({ agreed_terms: value, agreed_date: '' })
-    
+
     } else {
-      
-      this.props.updateOwner({[key]: value})
-    
+
+      this.props.updateOwner({ [key]: value })
+
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {pets, concerns, owner_id, ...owner} = this.props.owner
+    const { pets, concerns, owner_id, ...owner } = this.props.owner
 
     if (this.props.match.path === "/owners/:id/edit") {
 
-      this.props.submitUpdateOwner({ owner , id: this.props.owner.id})
+      this.props.submitUpdateOwner({ owner, id: this.props.owner.id })
 
     } else {
 
@@ -49,9 +49,9 @@ class OwnerForm extends React.Component {
   }
 
   render() {
-    const { lookups, lookups: {errors}, owner: {first_name,last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
+    const { lookups, lookups: { errors }, owner: { first_name, last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
-      partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms, 
+      partner_name, partner_phone, emergency_contact_name, emergency_contact_phone, agreed_terms,
       agreed_date, notes }, match: { path } } = this.props
 
     return (
@@ -60,55 +60,55 @@ class OwnerForm extends React.Component {
           <Col className='col-9 text-center center-block'>
             <Form onSubmit={this.handleSubmit}>
               <h1 className='text-center'>{path === "/owners/:id/edit" ? 'Edit Owner' : 'New Owner'}</h1>
-              {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
+              {errors.map((error, i) => <p key={`error${i}`} style={{ color: 'red' }}>{error}</p>)}
               <Row>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='first_name' 
-                    label='First Name' 
+                  <FieldInput
+                    inputType='text'
+                    field='first_name'
+                    label='First Name'
                     labelSize={3}
                     inputSize={9}
-                    value={first_name} 
-                    handleChange={this.handleChange} 
+                    value={first_name}
+                    handleChange={this.handleChange}
                   />
                 </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='last_name' 
-                    label='Last Name' 
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='last_name'
+                    label='Last Name'
                     labelSize={3}
                     inputSize={9}
-                    value={last_name} 
-                    handleChange={this.handleChange} 
+                    value={last_name}
+                    handleChange={this.handleChange}
                   />
                 </Col>
               </Row>
 
               <Row>
-                <Col className='text-center my-auto'>    
+                <Col className='text-center my-auto'>
                   <FieldInputSelect
-                    inputType='text' 
-                    field='primary_phone' 
-                    label='Primary Phone' 
+                    inputType='text'
+                    field='primary_phone'
+                    label='Primary Phone'
                     labelSize={3}
                     inputSize={9}
-                    value={primary_phone} 
+                    value={primary_phone}
                     handleChange={this.handleChange}
                     selectField='primary_phone_type_id'
                     selectValue={primary_phone_type_id}
                     options={lookups.phoneTypes}
                   />
                 </Col>
-                <Col className='text-center my-auto'>    
-                <FieldInputSelect
-                    inputType='text' 
-                    field='secondary_phone' 
-                    label='Secondary Phone' 
+                <Col className='text-center my-auto'>
+                  <FieldInputSelect
+                    inputType='text'
+                    field='secondary_phone'
+                    label='Secondary Phone'
                     labelSize={3}
                     inputSize={9}
-                    value={secondary_phone} 
+                    value={secondary_phone}
                     handleChange={this.handleChange}
                     selectField='secondary_phone_type_id'
                     selectValue={secondary_phone_type_id}
@@ -120,156 +120,156 @@ class OwnerForm extends React.Component {
 
               <Row>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='emergency_contact_name' 
-                    label='Emergency Contact Name'  
+                  <FieldInput
+                    inputType='text'
+                    field='emergency_contact_name'
+                    label='Emergency Contact Name'
                     labelSize={3}
                     inputSize={9}
-                    value={emergency_contact_name} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='emergency_contact_phone' 
-                    label='Emergency Contact Phone'  
-                    labelSize={3}
-                    inputSize={9}
-                    value={emergency_contact_phone} 
+                    value={emergency_contact_name}
                     handleChange={this.handleChange}
                   />
                 </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='email' 
-                    field='email' 
-                    label='Email'  
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='emergency_contact_phone'
+                    label='Emergency Contact Phone'
                     labelSize={3}
                     inputSize={9}
-                    value={email} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_1' 
-                    label='Address Line 1' 
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_1} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_2' 
-                    label='Address Line 2' 
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_2} 
+                    value={emergency_contact_phone}
                     handleChange={this.handleChange}
-                    required={false}
                   />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='address_line_3' 
-                    label='Address Line 3'  
-                    labelSize={3}
-                    inputSize={9}
-                    value={address_line_3} 
-                    handleChange={this.handleChange}
-                    required={false}
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='city' 
-                    label='City' 
-                    labelSize={3}
-                    inputSize={9}
-                    value={city} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col>
-                <Row>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='state' 
-                    label='State'  
-                    labelSize={3}
-                    inputSize={9}
-                    value={state} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='zipcode' 
-                    label='Zipcode'  
-                    labelSize={3}
-                    inputSize={9}
-                    value={zipcode} 
-                    handleChange={this.handleChange} 
-                  />
-                </Col>
-                </Row>
                 </Col>
               </Row>
 
               <Row>
                 <Col className='text-center my-auto'>
-                  <FieldInput 
-                    inputType='text' 
-                    field='partner_name' 
-                    label='Partner Name'  
+                  <FieldInput
+                    inputType='email'
+                    field='email'
+                    label='Email'
                     labelSize={3}
                     inputSize={9}
-                    value={partner_name} 
+                    value={email}
+                    handleChange={this.handleChange}
+                  />
+                </Col>
+                <Col className='text-center my-auto'>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='address_line_1'
+                    label='Address Line 1'
+                    labelSize={3}
+                    inputSize={9}
+                    value={address_line_1}
+                    handleChange={this.handleChange}
+                  />
+                </Col>
+                <Col className='text-center my-auto'>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='address_line_2'
+                    label='Address Line 2'
+                    labelSize={3}
+                    inputSize={9}
+                    value={address_line_2}
                     handleChange={this.handleChange}
                     required={false}
                   />
                 </Col>
-                <Col className='text-center my-auto'>    
-                  <FieldInput 
-                    inputType='text' 
-                    field='partner_phone' 
-                    label='Partner Phone'  
+                <Col className='text-center my-auto'>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='address_line_3'
+                    label='Address Line 3'
                     labelSize={3}
                     inputSize={9}
-                    value={partner_phone} 
+                    value={address_line_3}
+                    handleChange={this.handleChange}
+                    required={false}
+                  />
+                </Col>
+                <Col className='text-center my-auto'>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='city'
+                    label='City'
+                    labelSize={3}
+                    inputSize={9}
+                    value={city}
+                    handleChange={this.handleChange}
+                  />
+                </Col>
+                <Col>
+                  <Row>
+                    <Col className='text-center my-auto'>
+                      <FieldInput
+                        inputType='text'
+                        field='state'
+                        label='State'
+                        labelSize={3}
+                        inputSize={9}
+                        value={state}
+                        handleChange={this.handleChange}
+                      />
+                    </Col>
+                    <Col className='text-center my-auto'>
+                      <FieldInput
+                        inputType='text'
+                        field='zipcode'
+                        label='Zipcode'
+                        labelSize={3}
+                        inputSize={9}
+                        value={zipcode}
+                        handleChange={this.handleChange}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='partner_name'
+                    label='Partner Name'
+                    labelSize={3}
+                    inputSize={9}
+                    value={partner_name}
+                    handleChange={this.handleChange}
+                    required={false}
+                  />
+                </Col>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='partner_phone'
+                    label='Partner Phone'
+                    labelSize={3}
+                    inputSize={9}
+                    value={partner_phone}
                     handleChange={this.handleChange}
                     required={false}
                   />
@@ -278,7 +278,7 @@ class OwnerForm extends React.Component {
 
               <hr />
               <Row className='mt-4'>
-                <Col className='text-center my-auto' xs={8}>  
+                <Col className='text-center my-auto' xs={8}>
                   <Form.Group className='form-control-lg text-center'>
                     <Form.Check
                       name="agreed_terms"
@@ -290,21 +290,21 @@ class OwnerForm extends React.Component {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <FieldInput 
-                    inputType='date' 
-                    field='agreed_date' 
-                    label='Date Terms Agreed'  
+                  <FieldInput
+                    inputType='date'
+                    field='agreed_date'
+                    label='Date Terms Agreed'
                     labelSize={5}
                     inputSize={7}
-                    value={agreed_date} 
-                    handleChange={this.handleChange} 
+                    value={agreed_date}
+                    handleChange={this.handleChange}
                     disabled={true}
                   />
                 </Col>
               </Row>
 
               <Row>
-                <Col className='text-center my-auto'>    
+                <Col className='text-center my-auto'>
                   <Form.Group controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Additional Notes</Form.Label>
                     <Form.Control as="textarea" rows="3" name='notes' value={notes} onChange={e => this.handleChange('notes', e.target.value)} />
@@ -333,7 +333,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     getOwner: props => dispatch(getOwner(props)),
     postOwner: props => dispatch(postOwner(props)),
     updateOwner: props => dispatch(updateOwner(props)),

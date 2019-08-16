@@ -8,13 +8,13 @@ const FieldInput = ({ inputType, field, label, value, handleChange, labelSize, i
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
       <Col xs={inputSize}>
-        <Form.Control 
+        <Form.Control
           type={inputType}
-          id={field} 
+          id={field}
           name={field}
-          required={required} 
-          value={value} 
-          onChange={(e) => handleChange(field, (inputType === 'number' ? parseInt(e.target.value,10) : e.target.value), index, section)} 
+          required={required}
+          value={value}
+          onChange={(e) => handleChange(field, (inputType === 'number' ? parseInt(e.target.value, 10) : e.target.value), index, section)}
           disabled={disabled}
         />
       </Col>

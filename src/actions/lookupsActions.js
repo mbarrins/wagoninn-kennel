@@ -1,15 +1,15 @@
 import API from '../adapters/lookupsAPI'
 
 export const loadingLookups = () => {
-  
+
   return {
     type: "LOADING_LOOKUPS",
-    payload: {loading: true}
+    payload: { loading: true }
   }
 }
 
 export const getLookupsSuccess = (data) => {
-  
+
   return {
     type: "LOAD_LOOKUPS",
     payload: data
@@ -17,7 +17,7 @@ export const getLookupsSuccess = (data) => {
 }
 
 export const getLookupsError = (data) => {
-  
+
   return {
     type: "LOOKUPS_ERRORS",
     payload: data
@@ -25,7 +25,7 @@ export const getLookupsError = (data) => {
 }
 
 export const getLookups = () => {
-  
+
   return dispatch => {
     dispatch(loadingLookups());
 

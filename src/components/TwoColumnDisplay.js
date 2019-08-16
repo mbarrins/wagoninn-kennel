@@ -2,7 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const TwoColumnDisplay = ({col1Label, col1Detail, col2Label, col2Detail}) => {
+const TwoColumnDisplay = ({ col1Label, col1Detail, col2Label, col2Detail }) => {
   return (
     <Row className='mt-3'>
       <Col className='text-center my-auto'>

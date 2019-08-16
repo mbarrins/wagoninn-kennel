@@ -21,7 +21,7 @@ class SearchForm extends React.Component {
   }
 
   handleChange = (key, value) => {
-    this.setState({searchTerm: value})  
+    this.setState({ searchTerm: value })
   }
 
   render() {
@@ -32,34 +32,34 @@ class SearchForm extends React.Component {
       <Container className='mt-5' fluid={true}>
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
-          <Form onSubmit={this.handleSubmit}>
-        <h1 className='text-center'>Search</h1>
-        {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
-        <Row className='mt-3'>
-          <Col className='text-center my-auto'>
-          <FieldInput 
-            inputType='text' 
-            field='search' 
-            label='Enter Owner or Pet Name' 
-            tabIndex={1} 
-            labelSize={4}
-            inputSize={5}
-            value={searchTerm} 
-            handleChange={this.handleChange} 
-          />
-          </Col>
-          <div className='text-left'>
-            <Button variant='secondary' type='submit'>Submit</Button>
-          </div>
-          </Row>
-        </Form>
-        <hr />
+            <Form onSubmit={this.handleSubmit}>
+              <h1 className='text-center'>Search</h1>
+              {errors.map((error, i) => <p key={`error${i}`} style={{ color: 'red' }}>{error}</p>)}
+              <Row className='mt-3'>
+                <Col className='text-center my-auto'>
+                  <FieldInput
+                    inputType='text'
+                    field='search'
+                    label='Enter Owner or Pet Name'
+                    tabIndex={1}
+                    labelSize={4}
+                    inputSize={5}
+                    value={searchTerm}
+                    handleChange={this.handleChange}
+                  />
+                </Col>
+                <div className='text-left'>
+                  <Button variant='secondary' type='submit'>Submit</Button>
+                </div>
+              </Row>
+            </Form>
+            <hr />
             {owners.length > 0 && <h1 className='text-center'>Search Results</h1>}
 
             {owners.map(owner => (
               <SearchResult key={`owner${owner.id}`} owner={owner} />
             ))}
-        
+
           </Col>
         </Row>
       </Container>
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     searchOwners: props => dispatch(searchOwners(props))
   }
 }

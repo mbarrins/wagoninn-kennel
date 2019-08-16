@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { logoutUser  } from '../actions/userActions'
+import { logoutUser } from '../actions/userActions'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 
-const TopNavbar = ({ isAuthenticated, logoutUser}) => {
+const TopNavbar = ({ isAuthenticated, logoutUser }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/main" >
@@ -19,7 +19,7 @@ const TopNavbar = ({ isAuthenticated, logoutUser}) => {
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      {isAuthenticated ? 
+      {isAuthenticated ?
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link className='text-dark' href="/main">Home</Nav.Link>
@@ -36,8 +36,8 @@ const TopNavbar = ({ isAuthenticated, logoutUser}) => {
           <Nav className="ml-auto">
             <Button variant='light link' onClick={logoutUser}>Logout</Button>
           </Nav>
-      </Navbar.Collapse>
-      : '' }
+        </Navbar.Collapse>
+        : ''}
     </Navbar>
   )
 }
@@ -49,7 +49,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     logoutUser: props => dispatch(logoutUser(props))
   }
 }

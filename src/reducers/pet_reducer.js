@@ -6,7 +6,7 @@ const initialState = {
   dob: '',
   sex_id: '',
   breed_id: '',
-  color_id: '', 
+  color_id: '',
   size_id: '',
   spayed_neutered: false,
   immunisations: [],
@@ -23,28 +23,28 @@ const initialState = {
 export default function petReducer(state = initialState, action) {
   switch (action.type) {
     case 'LOADING_PET':
-      
+
       return {
         ...state,
         loading: true
       }
-      
+
     case 'LOAD_PET':
-      
+
       return {
         ...state,
-        ...action.payload.pet, 
+        ...action.payload.pet,
         loading: false
       }
 
     case 'PET_ERRORS':
-    
+
       return {
         ...state,
-        errors: action.payload.errors, 
+        errors: action.payload.errors,
         loading: false
       }
-    
+
     case 'UPDATE_PET':
 
       return {
@@ -54,10 +54,10 @@ export default function petReducer(state = initialState, action) {
 
     case 'CLEAR_PET':
 
-        return initialState;
+      return initialState;
 
     default:
-      
+
       return state;
   }
 }

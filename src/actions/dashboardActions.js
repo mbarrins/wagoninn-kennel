@@ -1,14 +1,14 @@
 import API from '../adapters/bookingAPI'
 
 export const loadingDashboard = () => {
-  
+
   return {
     type: "LOADING_DASHBOARD"
   }
 }
 
 export const dashboardSuccess = (data) => {
-  
+
   return {
     type: "LOAD_DASHBOARD",
     payload: data
@@ -16,7 +16,7 @@ export const dashboardSuccess = (data) => {
 }
 
 export const dashboardError = (data) => {
-  
+
   return {
     type: "DASHBOARD_ERRORS",
     payload: data
@@ -24,7 +24,7 @@ export const dashboardError = (data) => {
 }
 
 export const getDashboard = (props) => {
-  
+
   return dispatch => {
     dispatch(loadingDashboard());
 

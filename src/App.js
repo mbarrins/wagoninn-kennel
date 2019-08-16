@@ -2,7 +2,7 @@ import React from 'react';
 import LoginForm from './components/LoginForm'
 import { connect } from 'react-redux'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
-import { validateUser, logoutUser  } from './actions/userActions'
+import { validateUser, logoutUser } from './actions/userActions'
 import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
 import Footer from './components/Footer';
@@ -20,7 +20,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.validateUser()
-      .then(data => this.setState({loading: false}))
+      .then(data => this.setState({ loading: false }))
       .then(this.props.getLookups())
   }
 
@@ -29,7 +29,7 @@ class App extends React.Component {
     const { loading } = this.state
 
     if (loading) {
-      return <div>Loading...</div> 
+      return <div>Loading...</div>
     } else if (!loading && !isAuthenticated) {
       return <Redirect to="/login" />
     }
@@ -68,7 +68,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     validateUser: props => dispatch(validateUser(props)),
     logoutUser: props => dispatch(logoutUser(props)),
     getLookups: props => dispatch(getLookups(props))

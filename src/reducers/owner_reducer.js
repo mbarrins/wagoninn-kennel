@@ -26,39 +26,39 @@ export default function ownerReducer(state = {
   loading: false,
   errors: []
 }, action) {
-switch (action.type) {
-  case 'LOADING_OWNER':
-    
-    return {
-      ...state,
-      loading: true
-    }
-    
-  case 'LOAD_OWNER':
-    
-    return {
-      ...state,
-      ...action.payload.owner,
-      loading: false
-    }
-  
-  case 'UPDATE_OWNER':
+  switch (action.type) {
+    case 'LOADING_OWNER':
 
-    return {
-      ...state,
-      ...action.payload
-    }
+      return {
+        ...state,
+        loading: true
+      }
 
-  case 'OWNER_ERRORS':
-    
-    return {
-      ...state,
-      errors: action.payload.errors,
-      loading: false
-    }
+    case 'LOAD_OWNER':
 
-  default:
-    
-    return state;
+      return {
+        ...state,
+        ...action.payload.owner,
+        loading: false
+      }
+
+    case 'UPDATE_OWNER':
+
+      return {
+        ...state,
+        ...action.payload
+      }
+
+    case 'OWNER_ERRORS':
+
+      return {
+        ...state,
+        errors: action.payload.errors,
+        loading: false
+      }
+
+    default:
+
+      return state;
   }
 }

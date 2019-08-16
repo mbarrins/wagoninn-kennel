@@ -1,14 +1,14 @@
 import API from '../adapters/bookingAPI'
 
 export const loadingBooking = () => {
-  
+
   return {
     type: "LOADING_BOOKING"
   }
 }
 
 export const bookingSuccess = (data) => {
-  
+
   return {
     type: "LOAD_BOOKING",
     payload: data
@@ -16,7 +16,7 @@ export const bookingSuccess = (data) => {
 }
 
 export const bookingError = (data) => {
-  
+
   return {
     type: "BOOKING_ERRORS",
     payload: data
@@ -24,7 +24,7 @@ export const bookingError = (data) => {
 }
 
 export const getBooking = id => {
-  
+
   return dispatch => {
     dispatch(loadingBooking());
 
@@ -34,7 +34,7 @@ export const getBooking = id => {
 }
 
 export const postBooking = booking => {
-  
+
   return dispatch => {
     dispatch(loadingBooking());
 
@@ -48,7 +48,7 @@ export const submitUpdateBooking = (props) => {
   return dispatch => {
     dispatch(loadingBooking());
 
-  return API.patchBooking(props)
+    return API.patchBooking(props)
       .then(data => data.error ? dispatch(bookingError(data)) : dispatch(bookingSuccess(data)))
   };
 }

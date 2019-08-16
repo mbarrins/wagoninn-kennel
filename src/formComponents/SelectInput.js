@@ -8,17 +8,17 @@ const SelectInput = ({ field, label, labelSize, selectSize, value, options, hand
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
       <Col xs={selectSize}>
-        <Form.Control 
-          as='select' 
-          id={field} 
-          name={field} 
-          required={required} 
+        <Form.Control
+          as='select'
+          id={field}
+          name={field}
+          required={required}
           value={value}
-          onChange={(e) => handleChange(field, parseInt(e.target.value,10), index, section, parentIndex)} 
+          onChange={(e) => handleChange(field, parseInt(e.target.value, 10), index, section, parentIndex)}
           disabled={disabled}
         >
-        <option value="" disabled>Select</option>
-        {options.map(option => <option key={`${field}-${option.id}`} value={option.id}>{option.name}</option>)}
+          <option value="" disabled>Select</option>
+          {options.map(option => <option key={`${field}-${option.id}`} value={option.id}>{option.name}</option>)}
         </Form.Control>
       </Col>
     </Form.Group>

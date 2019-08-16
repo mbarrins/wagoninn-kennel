@@ -16,7 +16,7 @@ class SignIn extends React.Component {
   }
 
   handleChange = (key, value) => {
-    this.setState({user: {...this.state.user, [key]: value}})
+    this.setState({ user: { ...this.state.user, [key]: value } })
   }
 
   handleSubmit = (e) => {
@@ -52,7 +52,7 @@ class SignIn extends React.Component {
           <Col className='col-sm-6 offset-sm-3 text-center my-auto'>
             <Form onSubmit={this.handleSubmit}>
               <h1>Sign In</h1>
-              {errors.map((error, i)=> <p key={`error${i}`} style={{color: 'red'}}>{error}</p>)}
+              {errors.map((error, i) => <p key={`error${i}`} style={{ color: 'red' }}>{error}</p>)}
               <Form.Group as={Row}>
                 <Form.Label column sm='2' htmlFor='username'>Username</Form.Label>
                 <Col sm='10'>
@@ -66,7 +66,7 @@ class SignIn extends React.Component {
                 </Col>
               </Form.Group>
               <Button variant='secondary' type='submit'>Submit</Button>
-              <hr/>
+              <hr />
               <p>If you do not already have an account, please speak with you manager.</p>
             </Form>
           </Col>
@@ -83,7 +83,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return { 
+  return {
     loginUser: user => dispatch(loginUser(user)),
     validateUserError: props => dispatch(validateUserError(props))
   }
