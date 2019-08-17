@@ -15,11 +15,12 @@ import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooki
 import { getAvailability, clearAvailability } from '../actions/availabilityActions'
 import { getOwner } from '../actions/ownerActions'
 import moment from 'moment'
+import { bookingEdit } from '../constants'
 
 class BookingForm extends React.Component {
 
   componentDidMount() {
-    if (this.props.match.path === "/bookings/:id/edit" && this.props.match.params) {
+    if (this.props.match.path === bookingEdit && this.props.match.params) {
       this.props.getBooking(this.props.match.params.id)
         .then(data => {
           if (this.props.booking.owner_id && this.props.owner.id !== this.props.booking.owner_id) {
@@ -135,7 +136,7 @@ class BookingForm extends React.Component {
 
     const { booking } = this.props
 
-    if (this.props.match.path === "/bookings/:id/edit") {
+    if (this.props.match.path === bookingEdit) {
       this.props.submitUpdateBooking({ booking, id: booking.id })
         .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
         .then(() => this.props.clearBooking())

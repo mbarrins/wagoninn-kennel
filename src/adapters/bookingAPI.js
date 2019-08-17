@@ -1,6 +1,4 @@
-const apiEndpoint = 'http://localhost:3000/api/v1'
-// const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
-const bookingsUrl = `${apiEndpoint}/bookings`
+import { bookingsUrl } from '../constants'
 
 const jsonify = res => {
   return res.json()

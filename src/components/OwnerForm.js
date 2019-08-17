@@ -9,10 +9,11 @@ import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postOwner, updateOwner, submitUpdateOwner, getOwner } from '../actions/ownerActions'
 import moment from 'moment'
+import { ownerEdit } from '../constants'
 
 class OwnerForm extends React.Component {
   componentDidMount() {
-    if (!this.props.owner.id && this.props.match.path === "/owners/:id/edit") return this.props.getOwner(this.props.match.params.id);
+    if (!this.props.owner.id && this.props.match.path === ownerEdit) return this.props.getOwner(this.props.match.params.id);
   }
 
   handleChange = (key, value) => {
@@ -36,7 +37,7 @@ class OwnerForm extends React.Component {
     e.preventDefault();
     const { pets, concerns, owner_id, ...owner } = this.props.owner
 
-    if (this.props.match.path === "/owners/:id/edit") {
+    if (this.props.match.path === ownerEdit) {
 
       this.props.submitUpdateOwner({ owner, id: this.props.owner.id })
 
@@ -59,7 +60,7 @@ class OwnerForm extends React.Component {
         <Row className='justify-content-center'>
           <Col className='col-9 text-center center-block'>
             <Form onSubmit={this.handleSubmit}>
-              <h1 className='text-center'>{path === "/owners/:id/edit" ? 'Edit Owner' : 'New Owner'}</h1>
+              <h1 className='text-center'>{path === ownerEdit ? 'Edit Owner' : 'New Owner'}</h1>
               {errors.map((error, i) => <p key={`error${i}`} style={{ color: 'red' }}>{error}</p>)}
               <Row>
                 <Col className='text-center my-auto'>

@@ -10,22 +10,14 @@ import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
 import { postPet, updatePet, clearPet, getPet, submitUpdatePet } from '../actions/petActions'
 import moment from 'moment'
-
-const emptyItems = {
-  'foods': { food_id: '', quantity: '', measure_id: '', schedule_id: '' },
-  'health_detail$': { health_detail_id: '', inactive: false },
-  'special_needs': { special_need_id: '', inactive: false },
-  'medications': { medication_id: '', dose_quantity: '', dose_id: '', schedule_id: '' },
-  'sociabilities': { sociability_id: '', inactive: false },
-  'issues': { issue_id: '', inactive: false }
-}
+import { emptyPetItems, petEdit } from '../constants'
 
 class PetForm extends React.Component {
 
   componentDidMount() {
     const ownerId = this.props.owner ? this.props.owner.id : undefined
 
-    if (this.props.match.path === "/pets/:id/edit" && this.props.match.params) return this.props.getPet(this.props.match.params.id)
+    if (this.props.match.path === petEdit && this.props.match.params) return this.props.getPet(this.props.match.params.id)
 
     this.props.clearPet();
     (ownerId) && this.handleChange('owner_id', ownerId)
@@ -80,7 +72,7 @@ class PetForm extends React.Component {
   }
 
   addItem = e => {
-    return this.props.updatePet({ [e.target.id]: [...this.props.pet[e.target.id], emptyItems[e.target.id]] })
+    return this.props.updatePet({ [e.target.id]: [...this.props.pet[e.target.id], emptyPetItems[e.target.id]] })
   }
 
   removeItem = (section, index) => {
@@ -95,7 +87,7 @@ class PetForm extends React.Component {
 
     const { pet } = this.props
 
-    if (this.props.match.path === "/pets/:id/edit") {
+    if (this.props.match.path === petEdit) {
 
       this.props.submitUpdatePet({ pet, id: pet.id })
         .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))

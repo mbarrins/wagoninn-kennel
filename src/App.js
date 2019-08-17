@@ -5,7 +5,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { validateUser, logoutUser } from './actions/userActions'
 import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import Dashboard from './components/Dashboard'
 import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
@@ -38,7 +38,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App mb-5">
         <TopNavbar />
         {this.checkAuth()}
         <Switch>
@@ -55,7 +55,6 @@ class App extends React.Component {
           <Route exact path='/bookings/:id/edit' component={BookingForm} />
           <Route path='/' component={Dashboard} />
         </Switch>
-        <Footer />
       </div>
     )
   }
