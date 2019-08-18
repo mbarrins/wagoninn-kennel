@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { logoutUser } from '../actions/userActions'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 
 const TopNavbar = ({ isAuthenticated, logoutUser }) => {
@@ -25,13 +25,13 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
             <Nav.Link className='text-dark' href="/main">Home</Nav.Link>
             <Nav.Link className='text-dark' href="/owners/new">New Boarder</Nav.Link>
             <Nav.Link className='text-dark' href="/search">Search</Nav.Link>
-            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+            <NavDropdown title="Reports" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/reports/income">Monthly Income</NavDropdown.Item>
+              {/* <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown> */}
+              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
+            </NavDropdown>
           </Nav>
           <Nav className="ml-auto">
             <Button variant='light link' onClick={logoutUser}>Logout</Button>

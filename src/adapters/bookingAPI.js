@@ -58,6 +58,21 @@ const getDashboard = ({ date }) => {
     .catch(handleServerError)
 }
 
+const getAnnualIncome = ({ year }) => {
+  return fetch(`${bookingsUrl}?year=${year}`, {
+    headers: constructHeaders()
+  }).then(jsonify)
+    .then(data => {
+      if (data.errors) {
+        return { errors: data.errors }
+      } else {
+        console.log(data)
+        return { months: data }
+      }
+    })
+    .catch(handleServerError)
+}
+
 const postBooking = booking => {
   return fetch(bookingsUrl, {
     method: 'POST',
@@ -94,6 +109,7 @@ export default {
   getBooking,
   getAvailability,
   getDashboard,
+  getAnnualIncome,
   postBooking,
   patchBooking
 }
