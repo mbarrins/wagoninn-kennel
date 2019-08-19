@@ -27,16 +27,20 @@ class SignIn extends React.Component {
 
     if (errors.length === 0) {
 
-      this.props.loginUser(this.state.user);
+      this.props.loginUser(this.state.user)
+        .then(data => {
+          if (data.type === 'LOG_IN_USER') {
 
-      this.setState({
-        user: {
-          username: '',
-          password: ''
-        }
-      })
+            this.setState({
+              user: {
+                username: '',
+                password: ''
+              }
+            })
 
-      this.props.history.push("/main");
+            this.props.history.push("/main");
+          }
+        })
 
     } else {
       this.props.validateUserError({ errors })
