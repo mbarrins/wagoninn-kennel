@@ -23,8 +23,8 @@ class BookingForm extends React.Component {
     if (this.props.match.path === bookingEdit && this.props.match.params) {
       this.props.getBooking(this.props.match.params.id)
         .then(data => {
-          if (this.props.booking.owner_id && this.props.owner.id !== this.props.booking.owner_id) {
-            this.props.getOwner(this.props.booking.owner_id)
+          if (data.payload.booking.owner_id && this.props.owner.id !== data.payload.booking.owner_id) {
+            this.props.getOwner(data.payload.booking.owner_id)
           }
           return data.payload.booking
         }).then(booking => this.props.getAvailability({ dateFrom: booking.check_in, dateTo: booking.check_out }))
@@ -194,7 +194,7 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    if (this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return (
+    if (this.props.booking.owner_id === '' || this.props.owner.id === '' || this.props.owner.id !== this.props.booking.owner_id || this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return (
       <Row className='justify-content-center'>
         <Spinner animation="border" role="status" />
       </Row>
