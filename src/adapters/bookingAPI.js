@@ -66,7 +66,6 @@ const getAnnualIncome = ({ year }) => {
       if (data.errors) {
         return { errors: data.errors }
       } else {
-        console.log(data)
         return { months: data }
       }
     })

@@ -12,11 +12,25 @@ class BarChart extends React.Component {
   data = () => ({
     labels: this.props.months.map(month => month.month),
     datasets: [{
-      label: "Monthly Income",
+      label: "2019",
+      backgroundColor: 'green',
       // backgroundColor: 'rgb(255, 99, 132)',
       // borderColor: 'rgb(255, 99, 132)',
-      data: this.props.months.map(month => month.amount),
+      data: this.props.months.map(month => month.amount)
     }]
+    // }, {
+    //   label: "2018",
+    //   backgroundColor: 'blue',
+    //   // backgroundColor: 'rgb(255, 99, 132)',
+    //   // borderColor: 'rgb(255, 99, 132)',
+    //   data: this.props.months.map(month => month.amount),
+    // }, {
+    //   label: "2019",
+    //   backgroundColor: 'purple',
+    //   // backgroundColor: 'rgb(255, 99, 132)',
+    //   // borderColor: 'rgb(255, 99, 132)',
+    //   data: this.props.months.map(month => month.amount),
+    // }]
   })
 
   render() {

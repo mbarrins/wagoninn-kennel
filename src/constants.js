@@ -4,6 +4,7 @@ export const apiEndpoint = 'http://localhost:3000/api/v1'
 export const loginUrl = `${apiEndpoint}/login`
 export const validateUrl = `${apiEndpoint}/validate`
 export const bookingsUrl = `${apiEndpoint}/bookings`
+export const bookingPensUrl = `${apiEndpoint}/booking_pens`
 export const lookupsUrl = `${apiEndpoint}/lookups`
 export const petsUrl = `${apiEndpoint}/pets`
 export const ownersUrl = `${apiEndpoint}/owners`

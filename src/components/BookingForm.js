@@ -138,12 +138,12 @@ class BookingForm extends React.Component {
 
     if (this.props.match.path === bookingEdit) {
       this.props.submitUpdateBooking({ booking, id: booking.id })
-        .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+        .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
         .then(() => this.props.clearBooking())
         .then(() => this.props.clearAvailability())
     } else {
       this.props.postBooking(booking)
-        .then(data => this.props.history.push(`/owners/${data.payload.booking.owner_id}`))
+        .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
         .then(() => this.props.clearBooking())
         .then(() => this.props.clearAvailability())
     }
