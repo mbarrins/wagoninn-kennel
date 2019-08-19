@@ -18,8 +18,17 @@ class MainContainer extends React.Component {
   componentDidMount() {
     const { date } = this.props.dashboard
 
-    this.props.getLookups();
-    this.props.getDashboard({ date });
+    if (this.props.isAuthenticated) {
+      this.props.getDashboard({ date });
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    const { date } = this.props.dashboard
+
+    if (this.props.isAuthenticated && this.props.isAuthenticated !== prevProps.isAuthenticated) {
+      this.props.getDashboard({ date });
+    }
   }
 
   changeDate = e => {
@@ -53,7 +62,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off, available_pens } = this.props.dashboard
+    const { loading, date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off, available_pens } = this.props.dashboard
     const pen_order = [[8, 9], [7, 10], [6, 11], [5, 12], [4, 13], [3, 14], [2, 15], [1, null]]
     const dog_emoji = <span role='img' aria-label='dog'>🐕</span>
 
@@ -218,6 +227,7 @@ const mapStateToProps = state => {
     isAuthenticated: state.users.isAuthenticated,
     bookingStatuses: state.lookups.bookingStatuses,
     dogPens: state.lookups.dogPens,
+    lookupsLoading: state.lookups.loading,
     dashboard: state.dashboard
   }
 }
