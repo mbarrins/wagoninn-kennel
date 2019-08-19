@@ -5,7 +5,6 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { validateUser, logoutUser } from './actions/userActions'
 import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
-// import Footer from './components/Footer';
 import Dashboard from './components/Dashboard'
 import PetForm from './components/PetForm';
 import OwnerForm from './components/OwnerForm';
@@ -49,18 +48,21 @@ class App extends React.Component {
         {this.checkAuth()}
         < Switch >
           <Route exact path='/login' component={LoginForm} />
-          <Route exact path='/main' component={Dashboard} />
-          <Route exact path='/search' component={SearchForm} />
-          <Route exact path='/owners/new' component={OwnerForm} />
-          <Route exact path='/owners/:id/edit' component={OwnerForm} />
-          <Route exact path='/owners/:id' component={OwnerDisplay} />
-          <Route exact path='/pets/new' component={PetForm} />
-          <Route exact path='/pets/:id/edit' component={PetForm} />
-          {/* <Route exact path='/pets/:id' component={PetDisplay} /> */}
-          < Route exact path='/bookings/new' component={BookingForm} />
-          <Route exact path='/bookings/:id/edit' component={BookingForm} />
-          <Route exact path='/reports/income' component={BarChart} />
-          <Route path='/' component={Dashboard} />
+          {this.props.isAuthenticated ?
+            <Switch>
+              <Route exact path='/main' component={Dashboard} />
+              <Route exact path='/search' component={SearchForm} />
+              <Route exact path='/owners/new' component={OwnerForm} />
+              <Route exact path='/owners/:id/edit' component={OwnerForm} />
+              <Route exact path='/owners/:id' component={OwnerDisplay} />
+              <Route exact path='/pets/new' component={PetForm} />
+              <Route exact path='/pets/:id/edit' component={PetForm} />
+              <Route exact path='/bookings/new' component={BookingForm} />
+              <Route exact path='/bookings/:id/edit' component={BookingForm} />
+              <Route exact path='/reports/income' component={BarChart} />
+              <Route path='/' component={Dashboard} />
+            </Switch>
+            : ''}
         </Switch >
       </div >
     )
