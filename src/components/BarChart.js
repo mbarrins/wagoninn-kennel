@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { getIncome, clearIncome } from '../actions/incomeActions'
 
 class BarChart extends React.Component {

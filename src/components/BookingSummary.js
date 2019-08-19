@@ -41,7 +41,7 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
       </Popover.Title>
       <Popover.Content>
         <Form onSubmit={e => handleSubmit(e)}>
-          {pens.map(pen => (
+          {all_pens && pens.map(pen => (
             <React.Fragment key={`booking_pen${pen.id}`}>
               <Row>
                 <Col className='ml-3'>

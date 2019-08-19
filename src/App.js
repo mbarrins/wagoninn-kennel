@@ -21,8 +21,13 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.validateUser()
-      .then(data => this.setState({ loading: false }))
-      .then(this.props.getLookups())
+      .then(data => {
+        this.setState({ loading: false })
+
+        if (data.payload) {
+          this.props.getLookups()
+        }
+      })
   }
 
   checkAuth = () => {
@@ -39,10 +44,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App mb-5">
+      <div className="App mb-5" >
         <TopNavbar />
         {this.checkAuth()}
-        <Switch>
+        < Switch >
           <Route exact path='/login' component={LoginForm} />
           <Route exact path='/main' component={Dashboard} />
           <Route exact path='/search' component={SearchForm} />
@@ -52,12 +57,12 @@ class App extends React.Component {
           <Route exact path='/pets/new' component={PetForm} />
           <Route exact path='/pets/:id/edit' component={PetForm} />
           {/* <Route exact path='/pets/:id' component={PetDisplay} /> */}
-          <Route exact path='/bookings/new' component={BookingForm} />
+          < Route exact path='/bookings/new' component={BookingForm} />
           <Route exact path='/bookings/:id/edit' component={BookingForm} />
           <Route exact path='/reports/income' component={BarChart} />
           <Route path='/' component={Dashboard} />
-        </Switch>
-      </div>
+        </Switch >
+      </div >
     )
   }
 }
