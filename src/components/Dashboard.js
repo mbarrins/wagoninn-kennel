@@ -17,18 +17,7 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     const { date } = this.props.dashboard
-
-    if (this.props.isAuthenticated) {
-      this.props.getDashboard({ date });
-    }
-  }
-
-  componentDidUpdate = (prevProps) => {
-    const { date } = this.props.dashboard
-
-    if (this.props.isAuthenticated && this.props.isAuthenticated !== prevProps.isAuthenticated) {
-      this.props.getDashboard({ date });
-    }
+    this.props.getDashboard({ date });
   }
 
   changeDate = e => {
@@ -224,7 +213,6 @@ class MainContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.users.isAuthenticated,
     bookingStatuses: state.lookups.bookingStatuses,
     dogPens: state.lookups.dogPens,
     lookupsLoading: state.lookups.loading,
