@@ -16,3 +16,20 @@ code {
   max-width: 100%;
   min-width: 30vw;
 }
+
+.text-primary {
+  color: #0074d9;
+}
+
+.text-danger {
+  color: #ff4136;
+}
+
+/* .card-header {
+  background-color: rgba(245,242,214,0.8)
+  
+} */
+
+.navbar {
+  background-color:  rgba(235,228,180,0.8);
+}

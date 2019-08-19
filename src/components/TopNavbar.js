@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 
 const TopNavbar = ({ isAuthenticated, logoutUser }) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg">
       <Navbar.Brand href="/main" >
         <img
           alt=""
@@ -25,8 +25,8 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
             <Nav.Link className='text-dark' href="/main">Home</Nav.Link>
             <Nav.Link className='text-dark' href="/owners/new">New Boarder</Nav.Link>
             <Nav.Link className='text-dark' href="/search">Search</Nav.Link>
-            <NavDropdown title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/reports/income">Monthly Income</NavDropdown.Item>
+            <NavDropdown className='text-dark' title="Reports" id="basic-nav-dropdown">
+              <NavDropdown.Item className='text-dark' href="/reports/income">Monthly Income</NavDropdown.Item>
               {/* <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
@@ -34,7 +34,7 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
             </NavDropdown>
           </Nav>
           <Nav className="ml-auto">
-            <Button variant='light link' onClick={logoutUser}>Logout</Button>
+            <Button variant='outline' onClick={logoutUser}>Logout</Button>
           </Nav>
         </Navbar.Collapse>
         : ''}
