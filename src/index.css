@@ -62,3 +62,7 @@ code {
   height: '80vh';
   width: '80vw'
 }
+
+.nav-link {
+  color:  #343a40!important;
+}
