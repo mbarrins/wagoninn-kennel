@@ -1,5 +1,5 @@
-export const apiEndpoint = 'http://localhost:3000/api/v1'
-// export const apiEndpoint = 'https://wagoninn.herokuapp.com/api/v1'
+// export const apiEndpoint = 'http://localhost:3000/api/v1'
+export const apiEndpoint = 'https://wagoninn-kennel.herokuapp.com/api/v1'
 
 export const loginUrl = `${apiEndpoint}/login`
 export const validateUrl = `${apiEndpoint}/validate`
