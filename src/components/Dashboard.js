@@ -11,7 +11,7 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 import moment from 'moment'
-import BookingSummary from './BookingSummary'
+import BookingSummary from './booking/BookingSummary'
 
 class MainContainer extends React.Component {
 

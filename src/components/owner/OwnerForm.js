@@ -8,9 +8,9 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner, updateOwner, submitUpdateOwner, getOwner } from '../actions/ownerActions'
+import { postOwner, updateOwner, submitUpdateOwner, getOwner } from '../../actions/ownerActions'
 import moment from 'moment'
-import { ownerEdit } from '../constants'
+import { ownerEdit } from '../../constants'
 
 class OwnerForm extends React.Component {
   componentDidMount() {

@@ -11,11 +11,11 @@ import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import SelectInput from '../formComponents/SelectInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../actions/bookingActions'
-import { getAvailability, clearAvailability } from '../actions/availabilityActions'
-import { getOwner } from '../actions/ownerActions'
+import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../../actions/bookingActions'
+import { getAvailability, clearAvailability } from '../../actions/availabilityActions'
+import { getOwner } from '../../actions/ownerActions'
 import moment from 'moment'
-import { bookingEdit } from '../constants'
+import { bookingEdit } from '../../constants'
 
 class BookingForm extends React.Component {
 

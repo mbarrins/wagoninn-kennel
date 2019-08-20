@@ -8,9 +8,9 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import { getOwner, submitUpdateOwner } from '../actions/ownerActions'
+import { getOwner, submitUpdateOwner } from '../../actions/ownerActions'
 import OwnerBookings from './OwnerBookings'
-import TwoColumnDisplay from './TwoColumnDisplay'
+import TwoColumnDisplay from '../displayComponents/TwoColumnDisplay'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 

@@ -9,9 +9,9 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
-import { postPet, updatePet, clearPet, getPet, submitUpdatePet } from '../actions/petActions'
+import { postPet, updatePet, clearPet, getPet, submitUpdatePet } from '../../actions/petActions'
 import moment from 'moment'
-import { emptyPetItems, petEdit } from '../constants'
+import { emptyPetItems, petEdit } from '../../constants'
 
 class PetForm extends React.Component {
 

@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 import moment from 'moment'
-import { getAvailability, clearAvailability, updateAvailability } from '../actions/availabilityActions'
+import { getAvailability, clearAvailability, updateAvailability } from '../../actions/availabilityActions'
 
 class Occupancy extends React.Component {
 

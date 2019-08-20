@@ -6,13 +6,13 @@ import { validateUser, logoutUser } from './actions/userActions'
 import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
 import Dashboard from './components/Dashboard'
-import PetForm from './components/PetForm';
-import OwnerForm from './components/OwnerForm';
-import OwnerDisplay from './components/OwnerDisplay';
-import BookingForm from './components/BookingForm';
-import SearchForm from './components/SearchForm';
-import BarChart from './components/BarChart';
-import Occupancy from './components/Occupancy';
+import PetForm from './components/pet/PetForm';
+import OwnerForm from './components/owner/OwnerForm';
+import OwnerDisplay from './components/owner/OwnerDisplay';
+import BookingForm from './components/booking/BookingForm';
+import SearchForm from './components/search/SearchForm';
+import BarChart from './components/reports/BarChart';
+import Occupancy from './components/reports/Occupancy';
 
 class App extends React.Component {
   state = {

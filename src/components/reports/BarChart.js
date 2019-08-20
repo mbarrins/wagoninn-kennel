@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2';
-import { getIncome, clearIncome } from '../actions/incomeActions'
-import Container from 'react-bootstrap/Container';
+import { getIncome, clearIncome } from '../../actions/incomeActions'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
