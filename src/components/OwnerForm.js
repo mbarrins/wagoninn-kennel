@@ -40,6 +40,7 @@ class OwnerForm extends React.Component {
     if (this.props.match.path === ownerEdit) {
 
       this.props.submitUpdateOwner({ owner, id: this.props.owner.id })
+        .then(data => this.props.history.push(`/owners/${data.payload.owner.id}`))
 
     } else {
 
