@@ -1,4 +1,8 @@
+import moment from 'moment'
+
 const initialState = {
+  month: moment().format('MM'),
+  year: moment().format('YYYY'),
   dates: [],
   pens_available: [],
   loading: false,
@@ -20,6 +24,12 @@ export default function availabilityReducer(state = initialState, action) {
         ...state,
         ...action.payload,
         loading: false
+      }
+
+    case 'UPDATE_AVAILABILITY':
+      return {
+        ...state,
+        ...action.payload
       }
 
     case 'AVAILABILITY_ERRORS':

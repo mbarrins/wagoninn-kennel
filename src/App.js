@@ -12,6 +12,7 @@ import OwnerDisplay from './components/OwnerDisplay';
 import BookingForm from './components/BookingForm';
 import SearchForm from './components/SearchForm';
 import BarChart from './components/BarChart';
+import Occupancy from './components/Occupancy';
 
 class App extends React.Component {
   state = {
@@ -59,6 +60,7 @@ class App extends React.Component {
               <Route exact path='/pets/:id/edit' component={PetForm} />
               <Route exact path='/bookings/new' component={BookingForm} />
               <Route exact path='/bookings/:id/edit' component={BookingForm} />
+              <Route exact path='/reports/occupancy' component={Occupancy} />
               <Route exact path='/reports/monthly' component={() => <BarChart type={'year'} />} />
               <Route exact path='/reports/compare_years' component={() => <BarChart type={'compare_years'} />} />
               <Route path='/' component={Dashboard} />

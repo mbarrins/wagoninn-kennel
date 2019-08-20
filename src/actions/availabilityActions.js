@@ -39,3 +39,11 @@ export const clearAvailability = (props) => {
     type: "CLEAR_AVAILABILITY"
   }
 }
+
+export const updateAvailability = (props) => {
+
+  return {
+    type: "UPDATE_AVAILABILITY",
+    payload: props
+  }
+}
