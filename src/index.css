@@ -45,8 +45,6 @@ code {
   display: flex;
   background: #dfedfa;
   padding: .75vh 0 0 2.5vh;
-  /* justify-content: center; */
-  /* align-items: center;  */
   border-radius: 0 0 0 3rem;
 }
 
