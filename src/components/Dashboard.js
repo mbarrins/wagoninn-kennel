@@ -51,9 +51,8 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { loading, date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off, available_pens } = this.props.dashboard
+    const { date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off, available_pens } = this.props.dashboard
     const pen_order = [[8, 9], [7, 10], [6, 11], [5, 12], [4, 13], [3, 14], [2, 15], [1, null]]
-    const dog_emoji = <span role='img' aria-label='dog'>🐕</span>
 
     return (
       <Container className='mt-3' fluid={true}>

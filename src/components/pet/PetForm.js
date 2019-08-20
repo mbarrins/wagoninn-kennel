@@ -106,8 +106,7 @@ class PetForm extends React.Component {
 
   handleCancel = e => {
     this.props.clearPet()
-
-    this.props.history.push(`/owners/${this.props.owner.id}`);
+    this.props.history.goBack();
   }
 
   render() {

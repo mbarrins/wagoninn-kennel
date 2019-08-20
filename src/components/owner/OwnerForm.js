@@ -51,11 +51,6 @@ class OwnerForm extends React.Component {
     }
   }
 
-  handleCancel = e => {
-
-    this.props.history.push(`/owners/${this.props.owner.id}`);
-  }
-
   render() {
     const { lookups, lookups: { errors }, owner: { first_name, last_name, email, primary_phone, primary_phone_type_id, secondary_phone,
       secondary_phone_type_id, address_line_1, address_line_2, address_line_3, city, state, zipcode,
@@ -323,7 +318,7 @@ class OwnerForm extends React.Component {
               <hr />
 
               <ButtonToolbar className='justify-content-center mt-3'>
-                <Button variant='secondary' className='btn-lg mr-3' onClick={this.handleCancel} >Cancel</Button>
+                <Button variant='secondary' className='btn-lg mr-3' onClick={this.props.history.goBack} >Cancel</Button>
                 <Button variant='outline-dark' className='btn-lg ml-3' type='submit'>Submit</Button>
               </ButtonToolbar>
 

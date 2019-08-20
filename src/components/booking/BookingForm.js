@@ -153,7 +153,7 @@ class BookingForm extends React.Component {
     this.props.clearBooking()
     this.props.clearAvailability()
 
-    this.props.history.push(`/owners/${this.props.owner.id}`);
+    this.props.history.goBack();
   }
 
   weekly_availabliilty = () => {
