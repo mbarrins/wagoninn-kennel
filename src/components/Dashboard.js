@@ -45,8 +45,8 @@ class MainContainer extends React.Component {
   }
 
   displayColor = booking => {
-    if (booking.status === 'Reservation' && moment(booking.check_un).isSame(moment(), 'day')) return 'text-primary'
-    if (booking.status === 'Active' && moment(booking.check_out).isSame(moment(), 'day')) return 'text-danger'
+    if (booking.status === 'Reservation' && moment(booking.check_in).isSame(moment(this.props.dashboard.date), 'day')) return 'text-primary'
+    if (booking.status === 'Active' && moment(booking.check_out).isSame(moment(this.props.dashboard.date), 'day')) return 'text-danger'
     return 'text-dark'
   }
 
