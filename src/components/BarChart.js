@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2';
 import { getIncome, clearIncome } from '../actions/incomeActions'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class BarChart extends React.Component {
 
@@ -28,7 +31,16 @@ class BarChart extends React.Component {
 
   render() {
     return (
-      < Bar data={this.data()} />
+      <Row className='min-vh-100'>
+        <Col className='text-center offset-sm-1 my-5'>
+          <div className="chart-container" style={{ position: 'relative', height: '80vh', width: '80vw' }}>
+            < Bar
+              data={this.data()}
+              options={{ maintainAspectRatio: false }}
+            />
+          </div>
+        </Col>
+      </Row>
     )
   }
 }
