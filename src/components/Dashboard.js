@@ -187,17 +187,25 @@ class MainContainer extends React.Component {
             {pen_order.map(pens => (
               <CardGroup key={`pens${pens[0]}${pens[1]}`} style={{ height: '11vh' }}>
                 <Card>
-                  <Card.Header>{pens[0]}</Card.Header>
+                  <div>
+                    <div className='float-right dog_run_pen_no'>
+                      {pens[0]}
+                    </div>
+                  </div>
                   {todays_pens.DogRun && todays_pens.DogRun[pens[0]] ?
-                    <Card.Body className={this.displayColor(todays_pens.DogRun[pens[0]])} >{todays_pens.DogRun[pens[0]].pet_listing}</Card.Body>
+                    <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[0]])}`} >{todays_pens.DogRun[pens[0]].pet_listing}</span>
                     : ''}
                 </Card>
                 <Card>
                   {pens[1] ?
                     <>
-                      <Card.Header>{pens[1]}</Card.Header>
+                      <div>
+                        <div className='float-right dog_run_pen_no'>
+                          {pens[1]}
+                        </div>
+                      </div>
                       {todays_pens.DogRun && todays_pens.DogRun[pens[1]] ?
-                        <Card.Body className={this.displayColor(todays_pens.DogRun[pens[1]])} >{todays_pens.DogRun[pens[1]].pet_listing}</Card.Body>
+                        <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[1]])}`} >{todays_pens.DogRun[pens[1]].pet_listing}</span>
                         : ''}
                     </>
                     : ''}

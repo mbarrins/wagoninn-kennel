@@ -25,11 +25,35 @@ code {
   color: #ff4136;
 }
 
-/* .card-header {
-  background-color: rgba(245,242,214,0.8)
-  
-} */
+.card-header {
+  /* background-color: rgba(245,242,214,0.8) */
+  background-color: #87acd3;
+}
 
 .navbar {
-  background-color:  rgba(235,228,180,0.8);
+  /* background-color:  rgba(235,228,180,0.8); */
+  background-color: #b4d0eb;
+}
+
+.dog_run {
+  padding: 0 1.25rem;
+}
+
+.dog_run_pen_no {
+  height: 5vh;
+  width: 5vh;
+  display: flex;
+  background: #dfedfa;
+  padding: .75vh 0 0 2.5vh;
+  /* justify-content: center; */
+  /* align-items: center;  */
+  border-radius: 0 0 0 3rem;
+}
+
+.card {
+  background-color: #f8f9fa;
+}
+
+.btn-secondary {
+  background-color: #b4d0eb;
 }
