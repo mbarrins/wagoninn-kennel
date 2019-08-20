@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { getIncome, clearIncome } from '../../actions/incomeActions'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 
 class BarChart extends React.Component {
 
@@ -29,6 +30,16 @@ class BarChart extends React.Component {
   }
 
   render() {
+    if (this.props.loading) return (
+      <Row className='min-vh-100'>
+        <Col className='text-center offset-sm-1 my-5'>
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </Col>
+      </Row>
+    )
+
     return (
       <Row className='min-vh-100'>
         <Col className='text-center offset-sm-1 my-5'>
@@ -47,7 +58,8 @@ class BarChart extends React.Component {
 const mapStateToProps = state => {
   return {
     year: state.income.year,
-    years: state.income.years
+    years: state.income.years,
+    loading: state.income.loading
   }
 }
 

@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import moment from 'moment'
 import { getAvailability, clearAvailability, updateAvailability } from '../../actions/availabilityActions'
 
@@ -84,58 +85,68 @@ class Occupancy extends React.Component {
                   {`Occupancy for ${moment(`${year}-${month}-01`).format('MMMM YYYY')}`}
                   <Button variant='outline-dark' className='ml-5' name='next' onClick={this.changeMonth} >&#8250;</Button></h4>
               </Card.Header>
-              <Row className='justify-content-center mt-5'>
-                <Col className='text-center center-block'>
+              {this.props.loading ?
+                <Row className='min-vh-100'>
+                  <Col className='text-center offset-sm-1 my-5'>
+                    <Spinner animation="border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </Spinner>
+                  </Col>
+                </Row>
+                :
+                <Row className='justify-content-center mt-5'>
+                  <Col className='text-center center-block'>
 
-                  {availability.length > 0 &&
-                    <CardGroup>
-                      <Card>
-                        <Card.Header>Sunday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Monday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Tuesday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Wednesday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Thursday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Friday</Card.Header>
-                      </Card>
-                      <Card>
-                        <Card.Header>Saturday</Card.Header>
-                      </Card>
-                    </CardGroup>
-                  }
-
-                  {availability.map(week => (
-                    <CardGroup key={`week${week[0].date}${availability.indexOf(week)}`}>
-                      {[0, 1, 2, 3, 4, 5, 6].map(dw => (
-                        <Card
-                          key={`week${week[0].date}${availability.indexOf(week)}${dw}`}
-                          bg={week[dw] && (week[dw].pens.every(pen => pen.available >= 0) ? 'light' : 'danger')}
-                        >
-                          <Card.Body>
-                            <Card.Title>{week[dw] && moment(week[dw].date).format('DD-MMM')}</Card.Title>
-                            <Col>
-                              {week[dw] && week[dw].pens.map(pen => (
-                                <Row key={`pen${week.date}${pen.pen_type}`}>
-                                  {pen.pen_type}{pen.pen_type === 'Dog Run' ? 's' : ''}: {pen.pen_type === 'Cat Room' ? pen.no_pets : pen.booked} / {pen.available}
-                                </Row>
-                              ))}
-                            </Col>
-                          </Card.Body>
+                    {availability.length > 0 &&
+                      <CardGroup>
+                        <Card>
+                          <Card.Header>Sunday</Card.Header>
                         </Card>
-                      ))}
-                    </CardGroup>
-                  ))}
-                </Col>
-              </Row>
+                        <Card>
+                          <Card.Header>Monday</Card.Header>
+                        </Card>
+                        <Card>
+                          <Card.Header>Tuesday</Card.Header>
+                        </Card>
+                        <Card>
+                          <Card.Header>Wednesday</Card.Header>
+                        </Card>
+                        <Card>
+                          <Card.Header>Thursday</Card.Header>
+                        </Card>
+                        <Card>
+                          <Card.Header>Friday</Card.Header>
+                        </Card>
+                        <Card>
+                          <Card.Header>Saturday</Card.Header>
+                        </Card>
+                      </CardGroup>
+                    }
+
+                    {availability.map(week => (
+                      <CardGroup key={`week${week[0].date}${availability.indexOf(week)}`}>
+                        {[0, 1, 2, 3, 4, 5, 6].map(dw => (
+                          <Card
+                            key={`week${week[0].date}${availability.indexOf(week)}${dw}`}
+                            bg={week[dw] && (week[dw].pens.every(pen => pen.available >= 0) ? 'light' : 'danger')}
+                          >
+                            <Card.Body>
+                              <Card.Title>{week[dw] && moment(week[dw].date).format('DD-MMM')}</Card.Title>
+                              <Col>
+                                {week[dw] && week[dw].pens.map(pen => (
+                                  <Row key={`pen${week.date}${pen.pen_type}`}>
+                                    {pen.pen_type}{pen.pen_type === 'Dog Run' ? 's' : ''}: {pen.pen_type === 'Cat Room' ? pen.no_pets : pen.booked} / {pen.available}
+                                  </Row>
+                                ))}
+                              </Col>
+                            </Card.Body>
+                          </Card>
+                        ))}
+                      </CardGroup>
+                    ))}
+                  </Col>
+                </Row>
+              }
             </Card>
           </Col>
         </Row>
@@ -149,6 +160,7 @@ const mapStateToProps = state => {
     availability: state.availability.dates,
     month: state.availability.month,
     year: state.availability.year,
+    loading: state.availability.loading
   }
 }
 
