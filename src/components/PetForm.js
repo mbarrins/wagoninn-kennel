@@ -62,7 +62,9 @@ class PetForm extends React.Component {
 
     } else if (parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id || parseInt(pet_type_id, 10) === lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Cat').id) {
 
-      this.props.updatePet({ pet_type_id: pet_type_id, immunisations: lookups.immunisations[pet_type_id.name === 'Dog' ? 'dog' : 'cat'].map(shot => ({ immunisation_id: shot.id, validity_id: '', effective_date: '', expiry_date: '' })) })
+      const dog_type_id = lookups.petTypes.find(pet_type_id => pet_type_id.name === 'Dog').id
+
+      this.props.updatePet({ pet_type_id: pet_type_id, immunisations: lookups.immunisations[pet_type_id === dog_type_id ? 'dog' : 'cat'].map(shot => ({ immunisation_id: shot.id, validity_id: '', effective_date: '', expiry_date: '' })) })
 
     } else {
 
