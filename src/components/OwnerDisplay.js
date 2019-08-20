@@ -232,9 +232,11 @@ class OwnerDisplay extends React.Component {
                     </Row>
                   ))}
 
-                  <div className='text-center'>
-                    <Button as={Link} to={{ pathname: '/pets/new', ownerId: parseInt(match.params.id, 10) }} className='text-dark'>Add Pet</Button>
-                  </div>
+                  <ButtonToolbar className='justify-content-center mt-3'>
+                    <Link to={{ pathname: '/pets/new', ownerId: parseInt(match.params.id, 10) }} >
+                      <Button variant='secondary' type='submit'>Add Pet</Button>
+                    </Link>
+                  </ButtonToolbar>
 
                 </Card.Body>
               </Card>
