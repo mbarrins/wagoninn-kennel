@@ -6,17 +6,25 @@ import { getIncome, clearIncome } from '../actions/incomeActions'
 class BarChart extends React.Component {
 
   componentDidMount() {
-    this.props.getIncome({ year: this.props.year });
+    this.props.getIncome({ year: this.props.year, type: this.props.type });
   }
 
-  data = () => ({
-    labels: this.props.months.map(month => month.month),
-    datasets: [{
-      label: "2019",
-      backgroundColor: 'rgba(57, 63, 56, 0.8)',
-      data: this.props.months.map(month => month.amount)
-    }]
-  })
+  dataColours = () => ['#394039', '#5e695e', '#839083']
+
+  data = () => {
+    if (this.props.years.length === 0) return {}
+
+    return (
+      {
+        labels: this.props.years[0].months.map(month => month.month),
+        datasets: this.props.years.map((year, index) => ({
+          label: year.year,
+          backgroundColor: this.dataColours()[index],
+          data: year.months.map(month => month.amount)
+        }))
+      }
+    )
+  }
 
   render() {
     return (
@@ -28,7 +36,7 @@ class BarChart extends React.Component {
 const mapStateToProps = state => {
   return {
     year: state.income.year,
-    months: state.income.months
+    years: state.income.years
   }
 }
 

@@ -59,7 +59,8 @@ class App extends React.Component {
               <Route exact path='/pets/:id/edit' component={PetForm} />
               <Route exact path='/bookings/new' component={BookingForm} />
               <Route exact path='/bookings/:id/edit' component={BookingForm} />
-              <Route exact path='/reports/income' component={BarChart} />
+              <Route exact path='/reports/monthly' component={() => <BarChart type={'year'} />} />
+              <Route exact path='/reports/compare_years' component={() => <BarChart type={'compare_years'} />} />
               <Route path='/' component={Dashboard} />
             </Switch>
             : ''}

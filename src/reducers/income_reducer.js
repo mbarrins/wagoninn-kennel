@@ -2,7 +2,7 @@ const moment = require('moment');
 
 const initialState = {
   year: moment().format('YYYY'),
-  months: [],
+  years: [],
   loading: false,
   errors: []
 }

@@ -58,15 +58,15 @@ const getDashboard = ({ date }) => {
     .catch(handleServerError)
 }
 
-const getAnnualIncome = ({ year }) => {
-  return fetch(`${bookingsUrl}?year=${year}`, {
+const getAnnualIncome = ({ year, type }) => {
+  return fetch(`${bookingsUrl}?${type}=${year}`, {
     headers: constructHeaders()
   }).then(jsonify)
     .then(data => {
       if (data.errors) {
         return { errors: data.errors }
       } else {
-        return { months: data }
+        return { years: data.years }
       }
     })
     .catch(handleServerError)

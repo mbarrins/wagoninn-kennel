@@ -26,7 +26,8 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
             <Nav.Link className='text-dark' href="/owners/new">New Boarder</Nav.Link>
             <Nav.Link className='text-dark' href="/search">Search</Nav.Link>
             <NavDropdown className='text-dark' title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item className='text-dark' href="/reports/income">Monthly Income</NavDropdown.Item>
+              <NavDropdown.Item className='text-dark' href="/reports/monthly">Monthly Income</NavDropdown.Item>
+              <NavDropdown.Item className='text-dark' href="/reports/compare_years">Last 3 Years Income</NavDropdown.Item>
               {/* <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
