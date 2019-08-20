@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
 import FieldInput from '../formComponents/FieldInput'
 import SelectInput from '../formComponents/SelectInput'
@@ -101,6 +102,12 @@ class PetForm extends React.Component {
         .then(data => this.props.history.push(`/owners/${data.payload.pet.owner_id}`))
         .then(() => this.props.clearPet())
     }
+  }
+
+  handleCancel = e => {
+    this.props.clearPet()
+
+    this.props.history.push(`/owners/${this.props.owner.id}`);
   }
 
   render() {
@@ -718,9 +725,11 @@ class PetForm extends React.Component {
 
               <hr />
 
-              <div className='text-center'>
-                <Button variant='secondary' type='submit'>Submit</Button>
-              </div>
+              <ButtonToolbar className='justify-content-center mt-3'>
+                <Button variant='secondary' className='btn-lg mr-3' onClick={this.handleCancel} >Cancel</Button>
+                <Button variant='outline-dark' className='btn-lg ml-3' type='submit'>Submit</Button>
+              </ButtonToolbar>
+
             </Form>
           </Col>
         </Row>
