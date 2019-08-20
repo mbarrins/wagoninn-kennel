@@ -49,7 +49,7 @@ class SearchForm extends React.Component {
                   />
                 </Col>
                 <div className='text-left'>
-                  <Button variant='secondary' type='submit'>Submit</Button>
+                  <Button variant='secondary' type='submit'>Search</Button>
                 </div>
               </Row>
             </Form>
