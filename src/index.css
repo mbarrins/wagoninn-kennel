@@ -66,3 +66,11 @@ code {
 .nav-link {
   color:  #343a40!important;
 }
+
+.book-sum-item {
+  cursor: pointer;
+}
+
+.book-sum-item:hover {
+  text-shadow: 0 0 8px #87acd3;
+}
