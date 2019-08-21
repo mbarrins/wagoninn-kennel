@@ -24,7 +24,7 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto" >
             <Nav.Link as={Link} className='text-dark' to="/main">Home</Nav.Link>
-            <Nav.Link as={Link} className='text-dark' to="/owners/new">New Boarder</Nav.Link>
+            <Nav.Link as={Link} className='text-dark' to="/owners/new">New Owner</Nav.Link>
             <Nav.Link as={Link} className='text-dark' to="/search">Search</Nav.Link>
             <NavDropdown as={Link} className='text-dark' title="Reports" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} className='text-dark' to="/reports/occupancy">Occupancy</NavDropdown.Item>
