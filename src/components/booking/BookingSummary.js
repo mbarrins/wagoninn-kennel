@@ -16,6 +16,8 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
     updateBookingStatus({ booking: { booking_status_id: new_status.id }, id })
   }
 
+  const bookingEnded = moment(check_out).isBefore(moment(), 'day')
+
   const popover = (
     <Popover id="popover-basic">
       <Popover.Title as="h3">
@@ -78,7 +80,7 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
 
           <ButtonToolbar className='justify-content-center mt-3'>
             <Link to={`/bookings/${id}/edit`} >
-              <Button variant='secondary' className='mr-3' >Edit Booking</Button>
+              <Button variant='secondary' className='mr-3' >{bookingEnded ? 'View Booking' : 'Edit Booking'}</Button>
             </Link>
 
             {moment(check_in).isSame(moment(), 'days') && type === 'dropoff' && status === 'Reservation' && < Button variant='outline-dark' className='ml-3' type='submit' >Check In</Button>}
