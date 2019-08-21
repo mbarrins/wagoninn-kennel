@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import moment from 'moment'
 import BookingSummary from './booking/BookingSummary'
 
@@ -53,6 +54,16 @@ class MainContainer extends React.Component {
   render() {
     const { date, today_drop_off, today_pick_up, todays_pens, tomorrow_drop_off, available_pens } = this.props.dashboard
     const pen_order = [[8, 9], [7, 10], [6, 11], [5, 12], [4, 13], [3, 14], [2, 15], [1, null]]
+
+    if (this.props.lookupsLoading) return (
+      <Row className='min-vh-100'>
+        <Col className='text-center offset-sm-1 my-5'>
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </Col>
+      </Row>
+    )
 
     return (
       <Container className='mt-3' fluid={true}>
