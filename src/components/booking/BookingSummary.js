@@ -9,7 +9,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
-const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time, owner_name, pens, status, pet_listing, all_pens, available_pens, type, updateBookingStatus, updatePenNo, new_status }) => {
+const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time, owner_id, owner_name, pens, status, pet_listing, all_pens, available_pens, type, updateBookingStatus, updatePenNo, new_status }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -21,7 +21,7 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
       <Popover.Title as="h3">
         <Row>
           <Col className='ml-3'>
-            <Row>
+            <Row as={Link} className='text-dark' to={`/owners/${owner_id}`}>
               Owner: {owner_name}
             </Row>
             <Row>
@@ -45,7 +45,7 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
               <Row>
                 <Col className='ml-3'>
                   {pen.pets_detail.map(pet => (
-                    <Row key={`pen${pen.id}pet${pet.id}`}>
+                    <Row key={`pen${pen.id}pet${pet.id}`} as={Link} className='text-dark' to={`/pets/${pet.id}/edit`}>
                       <Col>{pet.name}, {pet.breed ? pet.breed : pet.color} ({pet.size})</Col>
                     </Row>
                   ))}
@@ -77,6 +77,11 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
             <Link to={`/bookings/${id}/edit`} >
               <Button variant='secondary' className='mr-3' >Edit Booking</Button>
             </Link>
+            {/* {type === 'today' && (
+              <Link to={`/pets/${id}/edit`} >
+                <Button variant='secondary' className='mr-3' >Edit Booking</Button>
+              </Link>
+            )} */}
             {moment(check_in).isSame(moment(), 'days') && type === 'dropoff' && status === 'Reservation' && < Button variant='outline-dark' className='ml-3' type='submit' >Check In</Button>}
             {moment(check_out).isSame(moment(), 'days') && type === 'pickup' && status === 'Active' && < Button variant='outline-dark' className='ml-3' type='submit' >Check Out</Button>}
           </ButtonToolbar>
