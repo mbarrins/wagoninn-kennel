@@ -262,6 +262,7 @@ class PetForm extends React.Component {
                       options={lookups.validity}
                       section='immunisations'
                       handleChange={this.handleNestedChange}
+                      required={false}
                     />
                   </Col>
                   <Col className='col-4'>
@@ -275,6 +276,7 @@ class PetForm extends React.Component {
                       value={shot.effective_date}
                       section='immunisations'
                       handleChange={this.handleNestedChange}
+                      required={false}
                     />
                   </Col>
                   <Col className='col-4'>
