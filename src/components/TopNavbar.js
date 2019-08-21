@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom'
 
 const TopNavbar = ({ isAuthenticated, logoutUser }) => {
   return (
@@ -22,13 +23,13 @@ const TopNavbar = ({ isAuthenticated, logoutUser }) => {
       {isAuthenticated ?
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto" >
-            <Nav.Link className='text-dark' href="/main">Home</Nav.Link>
-            <Nav.Link className='text-dark' href="/owners/new">New Boarder</Nav.Link>
-            <Nav.Link className='text-dark' href="/search">Search</Nav.Link>
-            <NavDropdown className='text-dark' title="Reports" id="basic-nav-dropdown">
-              <NavDropdown.Item className='text-dark' href="/reports/occupancy">Occupancy</NavDropdown.Item>
-              <NavDropdown.Item className='text-dark' href="/reports/monthly">Monthly Income</NavDropdown.Item>
-              <NavDropdown.Item className='text-dark' href="/reports/compare_years">Last 3 Years Income</NavDropdown.Item>
+            <Nav.Link as={Link} className='text-dark' to="/main">Home</Nav.Link>
+            <Nav.Link as={Link} className='text-dark' to="/owners/new">New Boarder</Nav.Link>
+            <Nav.Link as={Link} className='text-dark' to="/search">Search</Nav.Link>
+            <NavDropdown as={Link} className='text-dark' title="Reports" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} className='text-dark' to="/reports/occupancy">Occupancy</NavDropdown.Item>
+              <NavDropdown.Item as={Link} className='text-dark' to="/reports/monthly">Monthly Income</NavDropdown.Item>
+              <NavDropdown.Item as={Link} className='text-dark' to="/reports/compare_years">Last 3 Years Income</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav className="ml-auto">
