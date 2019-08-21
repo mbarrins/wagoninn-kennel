@@ -9,7 +9,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
-const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time, owner_id, owner_name, pens, status, pet_listing, all_pens, available_pens, type, updateBookingStatus, updatePenNo, new_status }) => {
+const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time, owner_id, owner_name, pens, status, pet_listing, all_pens, available_pens, type, updateBookingStatus, updatePenNo, new_status, addClass }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -30,17 +30,17 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
           </Col>
           <Col>
             <Row>
-              Check in: {moment(check_in).format('MM/DD/YYYY')} {check_in_time}
+              Check in: {moment(check_in).format('MMM-DD-YYYY')} ({check_in_time})
             </Row>
             <Row>
-              Check out: {moment(check_out).format('MM/DD/YYYY')} {check_out_time}
+              Check out: {moment(check_out).format('MMM-DD-YYYY')} ({check_out_time})
             </Row>
           </Col>
         </Row>
       </Popover.Title>
       <Popover.Content>
         <Form onSubmit={e => handleSubmit(e)}>
-          {all_pens && pens.map(pen => (
+          {pens.map(pen => (
             <React.Fragment key={`booking_pen${pen.id}`}>
               <Row>
                 <Col className='ml-3'>
@@ -50,49 +50,51 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
                     </Row>
                   ))}
                 </Col>
-                <Col>{pen.pet_type === 'Dog' &&
-                  <Form.Group as={Row}>
-                    <Form.Label column xs={5} htmlFor='pen_id'>Dog Run</Form.Label>
-                    <Col xs={10}>
-                      <Form.Control
-                        as='select'
-                        id='pen_id'
-                        name='pen_id'
-                        required={true}
-                        value={pen.pen_id}
-                        onChange={(e) => updatePenNo(parseInt(e.target.value, 10), pen.id)}
-                        disabled={type === 'pickup'}
-                      >
-                        <option value="" disabled>Select</option>
-                        {((pen.pen_id === '' || type === 'pickup') ? available_pens : [...available_pens, all_pens.find(dogPen => dogPen.id === pen.pen_id)]).map(option => <option key={`booking_pen-${pen.id}-pen_id-${option.id}`} value={option.id}>{option.name}</option>)}
-                      </Form.Control>
-                    </Col>
-                  </Form.Group>}
-                </Col>
+                {all_pens &&
+                  <Col>{pen.pet_type === 'Dog' &&
+                    <Form.Group as={Row}>
+                      <Form.Label column xs={5} htmlFor='pen_id'>Dog Run</Form.Label>
+                      <Col xs={10}>
+                        <Form.Control
+                          as='select'
+                          id='pen_id'
+                          name='pen_id'
+                          required={true}
+                          value={pen.pen_id}
+                          onChange={(e) => updatePenNo(parseInt(e.target.value, 10), pen.id)}
+                          disabled={type === 'pickup'}
+                        >
+                          <option value="" disabled>Select</option>
+                          {((pen.pen_id === '' || type === 'pickup') ? available_pens : [...available_pens, all_pens.find(dogPen => dogPen.id === pen.pen_id)]).map(option => <option key={`booking_pen-${pen.id}-pen_id-${option.id}`} value={option.id}>{option.name}</option>)}
+                        </Form.Control>
+                      </Col>
+                    </Form.Group>}
+                  </Col>
+                }
               </Row>
               <hr />
             </React.Fragment>
           ))}
+
           <ButtonToolbar className='justify-content-center mt-3'>
             <Link to={`/bookings/${id}/edit`} >
               <Button variant='secondary' className='mr-3' >Edit Booking</Button>
             </Link>
-            {/* {type === 'today' && (
-              <Link to={`/pets/${id}/edit`} >
-                <Button variant='secondary' className='mr-3' >Edit Booking</Button>
-              </Link>
-            )} */}
+
             {moment(check_in).isSame(moment(), 'days') && type === 'dropoff' && status === 'Reservation' && < Button variant='outline-dark' className='ml-3' type='submit' >Check In</Button>}
+
             {moment(check_out).isSame(moment(), 'days') && type === 'pickup' && status === 'Active' && < Button variant='outline-dark' className='ml-3' type='submit' >Check Out</Button>}
+
           </ButtonToolbar>
+
         </Form>
       </Popover.Content>
     </Popover >
   );
 
   return (
-    <OverlayTrigger trigger='click' placement='bottom' overlay={popover} >
-      <h6>{((type === 'pickup' && status === 'Completed') || (type === 'dropoff' && status === 'Active')) ? <strike>{pet_listing}</strike> : pet_listing}</h6>
+    <OverlayTrigger trigger='click' placement='auto' overlay={popover} >
+      <h6 className={`book-sum-item${addClass ? ` ${addClass}` : ''}`}>{((type === 'pickup' && status === 'Completed') || (type === 'dropoff' && status === 'Active')) ? <strike>{pet_listing}</strike> : pet_listing}</h6>
     </OverlayTrigger>
   )
 }

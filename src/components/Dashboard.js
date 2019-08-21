@@ -178,11 +178,20 @@ class MainContainer extends React.Component {
                           key={`catroom${booking.id}`}
                           {...booking}
                           type='today'
+                          addClass={this.displayColor(booking)}
                         />
                       ))}
                     </Col>
                     <Col>
-                      {todays_pens.CatRoom && Object.values(todays_pens.CatRoom).filter((cat, index) => index % 2 === 1).map(booking => <p key={`catbooking${booking.id}`} className={this.displayColor(booking)} >{booking.pet_listing}</p>)}
+                      {todays_pens.CatRoom && Object.values(todays_pens.CatRoom).filter((cat, index) => index % 2 === 1).map(booking => (
+                        // <p key={`catbooking${booking.id}`} className={this.displayColor(booking)} >{booking.pet_listing}</p>
+                        <BookingSummary
+                          key={`catroom${booking.id}`}
+                          {...booking}
+                          type='today'
+                          addClass={this.displayColor(booking)}
+                        />
+                      ))}
                     </Col>
                   </Row>
                 </Card.Body>
@@ -199,7 +208,12 @@ class MainContainer extends React.Component {
                     </div>
                   </div>
                   {todays_pens.DogRun && todays_pens.DogRun[pens[0]] ?
-                    <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[0]])}`} >{todays_pens.DogRun[pens[0]].pet_listing}</span>
+                    // <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[0]])}`} >{todays_pens.DogRun[pens[0]].pet_listing}</span>
+                    <BookingSummary
+                      {...todays_pens.DogRun[pens[0]]}
+                      type='today'
+                      addClass={`dog_run ${this.displayColor(todays_pens.DogRun[pens[0]])}`}
+                    />
                     : ''}
                 </Card>
                 <Card>
@@ -211,7 +225,12 @@ class MainContainer extends React.Component {
                         </div>
                       </div>
                       {todays_pens.DogRun && todays_pens.DogRun[pens[1]] ?
-                        <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[1]])}`} >{todays_pens.DogRun[pens[1]].pet_listing}</span>
+                        // <span className={`dog_run ${this.displayColor(todays_pens.DogRun[pens[1]])}`} >{todays_pens.DogRun[pens[1]].pet_listing}</span>
+                        <BookingSummary
+                          {...todays_pens.DogRun[pens[1]]}
+                          type='today'
+                          addClass={`dog_run ${this.displayColor(todays_pens.DogRun[pens[1]])}`}
+                        />
                         : ''}
                     </>
                     : ''}
