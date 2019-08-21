@@ -42,7 +42,10 @@ class BookingForm extends React.Component {
     key === 'check_in' && (check_in = value)
     key === 'check_out' && (check_out = value)
 
+    const errors = []
+
     if ((key === 'check_in' && check_out !== '' && value !== '') || (key === 'check_out' && check_in !== '' && value !== '')) {
+
       this.props.getAvailability({ dateFrom: check_in, dateTo: check_out });
     }
 
@@ -135,17 +138,32 @@ class BookingForm extends React.Component {
     e.preventDefault();
 
     const { booking } = this.props
+    const errors = []
 
-    if (this.props.match.path === bookingEdit) {
-      this.props.submitUpdateBooking({ booking, id: booking.id })
-        .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
-        .then(() => this.props.clearBooking())
-        .then(() => this.props.clearAvailability())
+    if (booking.check_in === '') errors.push('Please select a check in date')
+    if (booking.check_out === '') errors.push('Please select a check out date')
+    if (moment(booking.check_in).isAfter(booking.check_out, 'day')) errors.push('The check out date must be after the check in date.')
+    if (this.props.match.path !== bookingEdit && moment(booking.check_in).isBefore(moment(), 'day')) errors.push('Booking cannot be made before today.')
+
+    if (errors.length > 0) {
+
+      this.props.updateBooking({ errors })
+
     } else {
-      this.props.postBooking(booking)
-        .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
-        .then(() => this.props.clearBooking())
-        .then(() => this.props.clearAvailability())
+
+      this.props.updateBooking({ errors: [] })
+
+      if (this.props.match.path === bookingEdit) {
+        this.props.submitUpdateBooking({ booking, id: booking.id })
+          .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
+          .then(() => this.props.clearBooking())
+          .then(() => this.props.clearAvailability())
+      } else {
+        this.props.postBooking(booking)
+          .then(() => this.props.history.push(`/owners/${this.props.owner.id}`))
+          .then(() => this.props.clearBooking())
+          .then(() => this.props.clearAvailability())
+      }
     }
   }
 
@@ -200,7 +218,7 @@ class BookingForm extends React.Component {
       </Row>
     )
 
-    const { lookups, lookups: { errors }, ownerPets, booking: { id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
+    const { lookups, booking: { errors }, ownerPets, booking: { id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
 
     const booked_pets = booking_pens.map(pen => pen.booking_pen_pets.reduce((acc, pet) => pet.pet_id !== '' ? [...acc, pet.pet_id] : acc, [])).flat()
     const available_pets = ownerPets.filter(pet => !booked_pets.includes(pet.id))
@@ -227,6 +245,8 @@ class BookingForm extends React.Component {
     const no_days = !(check_in === '' || check_out === '') ? moment(check_out).diff(moment(check_in), 'days') + (check_out_time === 'AM' ? 0 : 1) : 0
     const total = no_days * per_day_total
 
+    const bookingStarted = this.props.match.path === bookingEdit && moment(check_in).isBefore(moment(), 'day')
+    const bookingEnded = this.props.match.path === bookingEdit && moment(check_out).isBefore(moment(), 'day')
 
     return (
       <Container className='mt-5' fluid={true} >
@@ -235,7 +255,7 @@ class BookingForm extends React.Component {
             <Form onSubmit={this.handleSubmit}>
 
               <Row>
-                <Col><h1 className='text-center'>{id === '' ? 'New Booking' : 'Edit Booking'}</h1></Col>
+                <Col><h1 className='text-center'>{id === '' ? 'New Booking' : (bookingEnded ? 'View Booking' : 'Edit Booking')}</h1></Col>
                 {total !== 0 && <Col><h2>{per_day_total > 0 && `$${per_day_total} x ${no_days} days = $${total}`}</h2></Col>}
               </Row>
 
@@ -254,6 +274,7 @@ class BookingForm extends React.Component {
                     selectField='check_in_time'
                     selectValue={check_in_time}
                     options={[{ id: 'AM', name: 'AM' }, { id: 'PM', name: 'PM' }]}
+                    disabled={bookingStarted}
                   />
                 </Col>
                 <Col className='col-sm-6 text-center my-auto'>
@@ -268,6 +289,7 @@ class BookingForm extends React.Component {
                     selectField='check_out_time'
                     selectValue={check_out_time}
                     options={['AM', 'PM']}
+                    disabled={bookingEnded}
                   />
                 </Col>
               </Row>
@@ -292,6 +314,7 @@ class BookingForm extends React.Component {
                                 options={lookups.penTypes}
                                 section='booking_pens'
                                 handleChange={this.handleNestedChange}
+                                disabled={bookingStarted}
                               />
                             </Col>
                             <Col xs={4} className='text-center my-auto'>
@@ -309,15 +332,18 @@ class BookingForm extends React.Component {
                             </Col>
                           </Row>
                           <Row>
-                            <Col xs={3} className='text-center' >
-                              <Button size='sm' variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >Remove Pen</Button>
-                            </Col>
-                            {lookups.penTypes && pen.pen_type_id && lookups.penTypes.find(type => type.id === pen.pen_type_id).max_per_pen > pen.booking_pen_pets.length
+                            {bookingStarted ? '' :
+                              <Col xs={3} className='text-center' >
+                                <Button size='sm' variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >Remove Pen</Button>
+                              </Col>
+                            }
+                            {!bookingStarted && lookups.penTypes && pen.pen_type_id && lookups.penTypes.find(type => type.id === pen.pen_type_id).max_per_pen > pen.booking_pen_pets.length
                               ?
                               <Col xs={4} className='text-center' >
                                 <Button size='sm' variant='outline-dark' id='booking_pen_pets' name={`booking_pens[${index}]booking_pen_pets`} onClick={this.addItem} >Add Pet to Pen</Button>
                               </Col>
                               : ''}
+
                           </Row>
                         </Col>
 
@@ -337,10 +363,11 @@ class BookingForm extends React.Component {
                                     options={(ownerPets && pen.pen_type_id !== '') ? (pet.pet_id !== '' ? [...available_pets, ownerPets.find(ownerPet => ownerPet.id === pet.pet_id)] : available_pets).filter(pet => pet.pet_type_id === lookups.penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
                                     section='booking_pen_pets'
                                     handleChange={this.handlePetChange}
+                                    disabled={bookingStarted}
                                   />
                                 </Col>
                                 <Col xs={4} className='text-center' >
-                                  {pen.booking_pen_pets.length > 1 ?
+                                  {!bookingStarted && pen.booking_pen_pets.length > 1 ?
                                     <Button size='sm' variant='outline-dark' onClick={e => this.removeNestedItem('booking_pen_pets', i, 'booking_pens', index)} >
                                       Remove Pet
                           </Button>
@@ -357,16 +384,17 @@ class BookingForm extends React.Component {
                   ))}
                 </Col>
               </Row>
-
-              <div className='text-center mt-5'>
-                <Button variant='lg link light' id='booking_pens' onClick={this.addItem} >+ Add Pen</Button>
-              </div>
+              {bookingStarted ? '' :
+                <div className='text-center mt-5'>
+                  <Button variant='lg link light' id='booking_pens' onClick={this.addItem} >+ Add Pen</Button>
+                </div>}
 
               <hr />
 
               <ButtonToolbar className='justify-content-center mt-3'>
                 <Button variant='secondary' className='btn-lg mr-3' onClick={this.handleCancel} >Cancel</Button>
-                <Button variant='outline-dark' className='btn-lg ml-3' type='submit'>Submit</Button>
+                {bookingEnded ? '' :
+                  <Button variant='outline-dark' className='btn-lg ml-3' type='submit'>Submit</Button>}
               </ButtonToolbar>
 
             </Form>
