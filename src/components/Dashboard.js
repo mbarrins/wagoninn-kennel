@@ -93,34 +93,49 @@ class MainContainer extends React.Component {
                 <Col xs={2} className='text-center'>
                   <h4>AM</h4>
                 </Col>
-                <Col className='text-left'>
-                  {today_pick_up.am.map(booking => (
-                    <BookingSummary
-                      key={`pickup${booking.id}`}
-                      {...booking}
-                      all_pens={this.props.dogPens}
-                      available_pens={available_pens}
-                      type='pickup'
-                      updateBookingStatus={this.updateBookingStatus}
-                      updatePenNo={this.updatePenNo}
-                      new_status={this.props.bookingStatuses.find(status => status.name === 'Completed')}
-                    />
-                  ))}
-                </Col>
-                <Col className='text-left'>
-                  {today_drop_off.am.map(booking => (
-                    <BookingSummary
-                      key={`dropoff${booking.id}`}
-                      {...booking}
-                      all_pens={this.props.dogPens}
-                      available_pens={available_pens}
-                      type='dropoff'
-                      updateBookingStatus={this.updateBookingStatus}
-                      updatePenNo={this.updatePenNo}
-                      new_status={this.props.bookingStatuses.find(status => status.name === 'Active')}
-                    />
-                  ))}
-                </Col>
+
+                {this.props.dashboard.loading ? (
+                  <Row style={{
+                    width: '100%'
+                  }}>
+                    < Col className='mx-auto' >
+                      <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </Spinner>
+                    </Col>
+                  </Row>
+                ) : (
+                    <>
+                      <Col className='text-left'>
+                        {today_pick_up.am.map(booking => (
+                          <BookingSummary
+                            key={`pickup${booking.id}`}
+                            {...booking}
+                            all_pens={this.props.dogPens}
+                            available_pens={available_pens}
+                            type='pickup'
+                            updateBookingStatus={this.updateBookingStatus}
+                            updatePenNo={this.updatePenNo}
+                            new_status={this.props.bookingStatuses.find(status => status.name === 'Completed')}
+                          />
+                        ))}
+                      </Col>
+                      <Col className='text-left'>
+                        {today_drop_off.am.map(booking => (
+                          <BookingSummary
+                            key={`dropoff${booking.id}`}
+                            {...booking}
+                            all_pens={this.props.dogPens}
+                            available_pens={available_pens}
+                            type='dropoff'
+                            updateBookingStatus={this.updateBookingStatus}
+                            updatePenNo={this.updatePenNo}
+                            new_status={this.props.bookingStatuses.find(status => status.name === 'Active')}
+                          />
+                        ))}
+                      </Col>
+                    </>
+                  )}
               </Row>
               <hr />
               <Row style={{ marginTop: '3px', height: '20vh' }}>
@@ -250,7 +265,7 @@ class MainContainer extends React.Component {
             ))}
           </Col>
         </Row>
-      </Container>
+      </Container >
     );
   }
 }
