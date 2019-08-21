@@ -172,7 +172,14 @@ class MainContainer extends React.Component {
                 <Card.Body>
                   <Row>
                     <Col>
-                      {todays_pens.CatRoom && Object.values(todays_pens.CatRoom).filter((cat, index) => index % 2 === 0).map(booking => <p key={`catbooking${booking.id}`} className={this.displayColor(booking)} >{booking.pet_listing}</p>)}
+                      {todays_pens.CatRoom && Object.values(todays_pens.CatRoom).filter((cat, index) => index % 2 === 0).map(booking => (
+                        // <p key={`catbooking${booking.id}`} className={this.displayColor(booking)} >{booking.pet_listing}</p>
+                        <BookingSummary
+                          key={`catroom${booking.id}`}
+                          {...booking}
+                          type='today'
+                        />
+                      ))}
                     </Col>
                     <Col>
                       {todays_pens.CatRoom && Object.values(todays_pens.CatRoom).filter((cat, index) => index % 2 === 1).map(booking => <p key={`catbooking${booking.id}`} className={this.displayColor(booking)} >{booking.pet_listing}</p>)}
