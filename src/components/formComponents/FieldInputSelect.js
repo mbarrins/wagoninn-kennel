@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 const FieldInputSelect = ({ inputType, field, label, value, handleChange, labelSize, inputSize,
-  selectField, selectValue, options, required = true }) => {
+  selectField, selectValue, options, required = true, disabled = false }) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column xs={labelSize} htmlFor={field}>{label}</Form.Label>
@@ -18,6 +18,7 @@ const FieldInputSelect = ({ inputType, field, label, value, handleChange, labelS
             required={required}
             value={value}
             onChange={(e) => handleChange(field, e.target.value)}
+            disabled={disabled}
           />
           <Form.Control
             as='select'
@@ -27,6 +28,7 @@ const FieldInputSelect = ({ inputType, field, label, value, handleChange, labelS
             value={selectValue}
             onChange={(e) => handleChange(selectField, (['AM', 'PM'].includes(e.target.value) ? e.target.value : parseInt(e.target.value, 10)))}
             className='col-3'
+            disabled={disabled}
           >
             <option value="" disabled>Select</option>
             {options && options.map((option, index) => <option key={`${field}-${option.id || index}`} value={option.id || option}>{option.name || option}</option>)}
