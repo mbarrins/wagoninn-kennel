@@ -96,7 +96,7 @@ const BookingSummary = ({ id, check_in, check_in_time, check_out, check_out_time
 
   return (
     <OverlayTrigger trigger='click' placement='auto' overlay={popover} >
-      <h6 className={`book-sum-item${addClass ? ` ${addClass}` : ''}`}>{((type === 'pickup' && status === 'Completed') || (type === 'dropoff' && status === 'Active')) ? <strike>{pet_listing}</strike> : pet_listing}</h6>
+      <h6 className={`clickable-item${addClass ? ` ${addClass}` : ''}`}>{((type === 'pickup' && status === 'Completed') || (type === 'dropoff' && status === 'Active')) ? <strike>{pet_listing}</strike> : pet_listing}</h6>
     </OverlayTrigger>
   )
 }

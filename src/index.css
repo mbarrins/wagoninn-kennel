@@ -67,10 +67,14 @@ code {
   color:  #343a40!important;
 }
 
-.book-sum-item {
+.clickable-item {
   cursor: pointer;
 }
 
-.book-sum-item:hover {
+.clickable-item:hover {
   text-shadow: 0 0 8px #87acd3;
+}
+
+.clickable-item.blue:hover {
+  text-shadow: 0 0 8px #ffffff;
 }

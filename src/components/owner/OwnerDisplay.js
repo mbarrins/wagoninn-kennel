@@ -112,8 +112,8 @@ class OwnerDisplay extends React.Component {
 
             <Accordion className='mt-3'>
               <Card>
-                <Accordion.Toggle as={Card.Header} eventKey="0">
-                  Click for more owner details
+                <Accordion.Toggle as={Card.Header} className='clickable-item' eventKey="0">
+                  <h6 className='clickable-item blue'>Click for more owner details</h6>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>
@@ -250,8 +250,8 @@ class OwnerDisplay extends React.Component {
 
               {past_bookings.length > 0 ?
                 <Card>
-                  <Accordion.Toggle as={Card.Header} eventKey="1">
-                    Click for past booking{past_bookings.length === 1 ? '' : 's'}
+                  <Accordion.Toggle as={Card.Header} className='clickable-item' eventKey="1">
+                    <h6 className='clickable-item blue'>Click for past booking{past_bookings.length === 1 ? '' : 's'}</h6>
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="1">
                     <OwnerBookings bookings={past_bookings} pets={pets} lookups={lookups} edit={false} />
