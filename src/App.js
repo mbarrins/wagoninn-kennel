@@ -7,6 +7,7 @@ import { getLookups } from './actions/lookupsActions'
 import TopNavbar from './components/TopNavbar';
 import Dashboard from './components/Dashboard'
 import PetForm from './components/pet/PetForm';
+import PetDisplay from './components/pet/PetDisplay';
 import OwnerForm from './components/owner/OwnerForm';
 import OwnerDisplay from './components/owner/OwnerDisplay';
 import BookingForm from './components/booking/BookingForm';
@@ -58,6 +59,7 @@ class App extends React.Component {
               <Route exact path='/owners/:id' component={OwnerDisplay} />
               <Route exact path='/pets/new' component={PetForm} />
               <Route exact path='/pets/:id/edit' component={PetForm} />
+              <Route exact path='/pets/:id' component={PetDisplay} />
               <Route exact path='/bookings/new' component={BookingForm} />
               <Route exact path='/bookings/:id/edit' component={BookingForm} />
               <Route exact path='/reports/occupancy' component={Occupancy} />
