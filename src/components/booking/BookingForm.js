@@ -42,8 +42,6 @@ class BookingForm extends React.Component {
     key === 'check_in' && (check_in = value)
     key === 'check_out' && (check_out = value)
 
-    const errors = []
-
     if ((key === 'check_in' && check_out !== '' && value !== '') || (key === 'check_out' && check_in !== '' && value !== '')) {
 
       this.props.getAvailability({ dateFrom: check_in, dateTo: check_out });
