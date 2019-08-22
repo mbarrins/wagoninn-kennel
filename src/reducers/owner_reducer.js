@@ -1,4 +1,4 @@
-export default function ownerReducer(state = {
+const initialState = {
   id: '',
   first_name: '',
   last_name: '',
@@ -25,7 +25,9 @@ export default function ownerReducer(state = {
   concerns: [],
   loading: false,
   errors: []
-}, action) {
+}
+
+export default function ownerReducer(state = initialState, action) {
   switch (action.type) {
     case 'LOADING_OWNER':
 
@@ -56,6 +58,10 @@ export default function ownerReducer(state = {
         errors: action.payload.errors,
         loading: false
       }
+
+    case 'CLEAR_OWNER':
+
+      return initialState;
 
     default:
 
