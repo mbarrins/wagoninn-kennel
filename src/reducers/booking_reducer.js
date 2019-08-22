@@ -5,7 +5,7 @@ const intialState = {
   check_in_time: '',
   check_out: '',
   check_out_time: '',
-  booking_status_id: 1,
+  booking_status_id: 2,
   booking_ref: '',
   booking_pens: [],
   loading: false,
