@@ -14,6 +14,7 @@ import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../../actions/bookingActions'
 import { getAvailability, clearAvailability } from '../../actions/availabilityActions'
 import { getOwner } from '../../actions/ownerActions'
+import { getLookups } from '../../actions/lookupsActions'
 import moment from 'moment'
 import { bookingEdit } from '../../constants'
 
@@ -21,6 +22,10 @@ class BookingForm extends React.Component {
 
   componentDidMount() {
     if (this.props.match.path === bookingEdit && this.props.match.params) {
+      if (this.props.currentRates.length === 0 || this.props.petTypes.length === 0) {
+        this.props.getLookups();
+      }
+
       this.props.getBooking(this.props.match.params.id)
         .then(data => {
           if (data.payload.booking.owner_id && this.props.owner.id !== data.payload.booking.owner_id) {
@@ -55,8 +60,8 @@ class BookingForm extends React.Component {
     if (key === 'pen_type_id') {
       this.props.updateBooking({
         booking_pens: this.props.booking.booking_pens.map((pen, i) => {
-          const { lookups } = this.props
-          const rate_id = value && (lookups.currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length) || { id: undefined }).id
+          const { currentRates } = this.props
+          const rate_id = value && (currentRates.find(rate => rate.pen_type_id === value && rate.no === pen.booking_pen_pets.length) || { id: undefined }).id
 
           if (i === index) {
             return { ...pen, rate_id, [key]: value }
@@ -99,11 +104,11 @@ class BookingForm extends React.Component {
 
       case 'booking_pen_pets':
         const pen_index = e.target.name.slice(e.target.name.indexOf('[') + 1, e.target.name.indexOf(']'))
-        const { lookups } = this.props
+        const { currentRates } = this.props
 
         return this.props.updateBooking({
           booking_pens: [...this.props.booking.booking_pens.map((pen, i) => {
-            const rate_id = pen.pen_type_id && (lookups.currentRates.find(rate => rate.pen_type_id === pen.pen_type_id && rate.no === (pen.booking_pen_pets.length + 1)) || { id: undefined }).id
+            const rate_id = pen.pen_type_id && (currentRates.find(rate => rate.pen_type_id === pen.pen_type_id && rate.no === (pen.booking_pen_pets.length + 1)) || { id: undefined }).id
 
             if (i === parseInt(pen_index, 10)) {
               return { ...pen, rate_id, booking_pen_pets: [...pen.booking_pen_pets, { booking_pen_id: '', pet_id: '', special_needs_fee: false }] }
@@ -210,13 +215,13 @@ class BookingForm extends React.Component {
   }
 
   render() {
-    if (this.props.booking.owner_id === '' || this.props.owner.id === '' || this.props.owner.id !== this.props.booking.owner_id || this.props.lookups.loading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return (
+    if (this.props.booking.owner_id === '' || this.props.owner.id === '' || this.props.owner.id !== this.props.booking.owner_id || this.props.lookupsLoading || this.props.owner.loading || this.props.booking.loading || this.props.availability.loading) return (
       <Row className='justify-content-center'>
         <Spinner animation="border" role="status" />
       </Row>
     )
 
-    const { lookups, booking: { errors }, ownerPets, booking: { id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
+    const { currentRates, penTypes, booking: { errors }, ownerPets, booking: { id, check_in, check_in_time, check_out, check_out_time, booking_pens } } = this.props
 
     const booked_pets = booking_pens.map(pen => pen.booking_pen_pets.reduce((acc, pet) => pet.pet_id !== '' ? [...acc, pet.pet_id] : acc, [])).flat()
     const available_pets = ownerPets.filter(pet => !booked_pets.includes(pet.id))
@@ -229,16 +234,16 @@ class BookingForm extends React.Component {
       } else {
         acc[pen.pen_type_id] = {
           ...acc[pen.pen_type_id],
-          pen_count: acc[pen.pen_type_id].pen_count + 1,
-          pet_count: acc[pen.pen_type_id].pet_count + pen.booking_pen_pets.length
+          pen_count: (acc[pen.pen_type_id] ? acc[pen.pen_type_id].pen_count : 0) + 1,
+          pet_count: (acc[pen.pen_type_id] ? acc[pen.pen_type_id].pet_count : 0) + pen.booking_pen_pets.length
         }
         return acc
       }
-    }, lookups.penTypes.reduce((acc, type) => ({ ...acc, [type.id]: { pen_count: 0, pet_count: 0 } }), {}))
+    }, penTypes.reduce((acc, type) => ({ ...acc, [type.id]: { pen_count: 0, pet_count: 0 } }), {}))
 
     const all_pens_have_type = booking_pens.every(pen => pen.pen_type_id !== '')
 
-    const per_day_total = all_pens_have_type ? booking_pens.map(pen => parseInt(lookups.currentRates.find(rate => rate.id === pen.rate_id).amount, 10)).reduce((total, amount) => total + amount, 0) : 0
+    const per_day_total = all_pens_have_type ? booking_pens.map(pen => parseInt(currentRates.find(rate => rate.id === pen.rate_id).amount, 10)).reduce((total, amount) => total + amount, 0) : 0
 
     const no_days = !(check_in === '' || check_out === '') ? moment(check_out).diff(moment(check_in), 'days') + (check_out_time === 'AM' ? 0 : 1) : 0
     const total = no_days * per_day_total
@@ -309,7 +314,7 @@ class BookingForm extends React.Component {
                                 labelSize={4}
                                 selectSize={8}
                                 value={pen.pen_type_id}
-                                options={lookups.penTypes}
+                                options={penTypes}
                                 section='booking_pens'
                                 handleChange={this.handleNestedChange}
                                 disabled={bookingStarted}
@@ -322,10 +327,10 @@ class BookingForm extends React.Component {
                                   type="hidden"
                                   id="rate_id"
                                   name="rate_id"
-                                  value={pen.pen_type_id && lookups.currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length).id}
+                                  value={pen.pen_type_id && currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length).id}
                                   onChange={e => this.handleNestedChange('rate_id', parseInt(e.target.value, 10), index, 'booking_pens')}
                                 />
-                                <Col xs={4} className='text-center' ><h4>{pen.pen_type_id && '$' + parseFloat(lookups.currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length).amount)}</h4></Col>
+                                <Col xs={4} className='text-center' ><h4>{pen.pen_type_id && '$' + parseFloat(currentRates.find(rate => rate.pen_type_id === parseInt(pen.pen_type_id) && rate.no === pen.booking_pen_pets.length).amount)}</h4></Col>
                               </Row>
                             </Col>
                           </Row>
@@ -335,7 +340,7 @@ class BookingForm extends React.Component {
                                 <Button size='sm' variant='outline-dark' onClick={e => this.removeItem('booking_pens', index)} >Remove Pen</Button>
                               </Col>
                             }
-                            {!bookingStarted && lookups.penTypes && pen.pen_type_id && lookups.penTypes.find(type => type.id === pen.pen_type_id).max_per_pen > pen.booking_pen_pets.length
+                            {!bookingStarted && penTypes && pen.pen_type_id && penTypes.find(type => type.id === pen.pen_type_id).max_per_pen > pen.booking_pen_pets.length
                               ?
                               <Col xs={4} className='text-center' >
                                 <Button size='sm' variant='outline-dark' id='booking_pen_pets' name={`booking_pens[${index}]booking_pen_pets`} onClick={this.addItem} >Add Pet to Pen</Button>
@@ -358,7 +363,7 @@ class BookingForm extends React.Component {
                                     labelSize={3}
                                     selectSize={9}
                                     value={pet.pet_id}
-                                    options={(ownerPets && pen.pen_type_id !== '') ? (pet.pet_id !== '' ? [...available_pets, ownerPets.find(ownerPet => ownerPet.id === pet.pet_id)] : available_pets).filter(pet => pet.pet_type_id === lookups.penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
+                                    options={(ownerPets && pen.pen_type_id !== '') ? (pet.pet_id !== '' ? [...available_pets, ownerPets.find(ownerPet => ownerPet.id === pet.pet_id)] : available_pets).filter(pet => pet.pet_type_id === penTypes.find(type => type.id === pen.pen_type_id).pet_type_id) : []}
                                     section='booking_pen_pets'
                                     handleChange={this.handlePetChange}
                                     disabled={bookingStarted}
@@ -457,8 +462,9 @@ class BookingForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    lookups: state.lookups,
+    lookupsLoading: state.lookups.loading,
     currentRates: state.lookups.currentRates,
+    penTypes: state.lookups.penTypes,
     owner: state.owner,
     ownerPets: state.owner.pets,
     booking: state.booking,
@@ -476,7 +482,8 @@ const mapDispatchToProps = dispatch => {
     clearBooking: () => dispatch(clearBooking()),
     getAvailability: props => dispatch(getAvailability(props)),
     getOwner: props => dispatch(getOwner(props)),
-    clearAvailability: () => dispatch(clearAvailability())
+    clearAvailability: () => dispatch(clearAvailability()),
+    getLookups: props => dispatch(getLookups(props))
   }
 }
 
