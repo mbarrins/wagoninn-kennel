@@ -8,13 +8,15 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import FieldInput from '../formComponents/FieldInput'
 import FieldInputSelect from '../formComponents/FieldInputSelect'
-import { postOwner, updateOwner, submitUpdateOwner, getOwner } from '../../actions/ownerActions'
+import { postOwner, updateOwner, submitUpdateOwner, getOwner, clearOwner } from '../../actions/ownerActions'
 import moment from 'moment'
 import { ownerEdit } from '../../constants'
 
 class OwnerForm extends React.Component {
   componentDidMount() {
     if (!this.props.owner.id && this.props.match.path === ownerEdit) return this.props.getOwner(this.props.match.params.id);
+
+    this.props.clearOwner();
   }
 
   handleChange = (key, value) => {
@@ -342,7 +344,8 @@ const mapDispatchToProps = dispatch => {
     getOwner: props => dispatch(getOwner(props)),
     postOwner: props => dispatch(postOwner(props)),
     updateOwner: props => dispatch(updateOwner(props)),
-    submitUpdateOwner: props => dispatch(submitUpdateOwner(props))
+    submitUpdateOwner: props => dispatch(submitUpdateOwner(props)),
+    clearOwner: props => dispatch(clearOwner(props))
   }
 }
 
