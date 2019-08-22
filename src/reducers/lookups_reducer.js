@@ -20,6 +20,9 @@ export default function lookupsReducer(state = {
   issues: [],
   concerns: [],
   penTypes: [],
+  rates: [],
+  currentRates: [],
+  dogPens: [],
   errors: [],
   loading: false
 }, action) {
