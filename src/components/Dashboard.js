@@ -23,6 +23,13 @@ class MainContainer extends React.Component {
     this.props.getDashboard({ date })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      this.props.updateDashboard({ date: moment().format('YYYY-MM-DD') })
+      this.props.getDashboard({ date: moment().format('YYYY-MM-DD') })
+    }
+  }
+
   changeDate = e => {
     const { date } = this.props.dashboard
     const newDate = (e.target.name === 'next' ? moment(date).add(1, 'd') : moment(date).add(-1, 'd')).format('YYYY-MM-DD')
