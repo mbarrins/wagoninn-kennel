@@ -22,7 +22,7 @@ class BookingForm extends React.Component {
 
   componentDidMount() {
     if (this.props.match.path === bookingEdit && this.props.match.params) {
-      if (this.props.currentRates.length === 0 || this.props.petTypes.length === 0) {
+      if (this.props.currentRates.length === 0 || this.props.penTypes.length === 0) {
         this.props.getLookups();
       }
 
