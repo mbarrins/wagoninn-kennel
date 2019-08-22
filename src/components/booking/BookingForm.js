@@ -14,7 +14,6 @@ import FieldInputSelect from '../formComponents/FieldInputSelect'
 import { postBooking, updateBooking, clearBooking, getBooking, submitUpdateBooking } from '../../actions/bookingActions'
 import { getAvailability, clearAvailability } from '../../actions/availabilityActions'
 import { getOwner } from '../../actions/ownerActions'
-import { getLookups } from '../../actions/lookupsActions'
 import moment from 'moment'
 import { bookingEdit } from '../../constants'
 
@@ -22,9 +21,6 @@ class BookingForm extends React.Component {
 
   componentDidMount() {
     if (this.props.match.path === bookingEdit && this.props.match.params) {
-      if (this.props.currentRates.length === 0 || this.props.penTypes.length === 0) {
-        this.props.getLookups();
-      }
 
       this.props.getBooking(this.props.match.params.id)
         .then(data => {
@@ -482,8 +478,7 @@ const mapDispatchToProps = dispatch => {
     clearBooking: () => dispatch(clearBooking()),
     getAvailability: props => dispatch(getAvailability(props)),
     getOwner: props => dispatch(getOwner(props)),
-    clearAvailability: () => dispatch(clearAvailability()),
-    getLookups: props => dispatch(getLookups(props))
+    clearAvailability: () => dispatch(clearAvailability())
   }
 }
 

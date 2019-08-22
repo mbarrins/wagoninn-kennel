@@ -18,7 +18,9 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     const { date } = this.props.dashboard
-    this.props.getDashboard({ date });
+
+    this.props.getLookups()
+    this.props.getDashboard({ date })
   }
 
   changeDate = e => {

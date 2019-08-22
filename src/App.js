@@ -2,8 +2,7 @@ import React from 'react';
 import LoginForm from './components/LoginForm'
 import { connect } from 'react-redux'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
-import { validateUser, logoutUser } from './actions/userActions'
-import { getLookups } from './actions/lookupsActions'
+import { validateUser } from './actions/userActions'
 import TopNavbar from './components/TopNavbar';
 import Dashboard from './components/Dashboard'
 import PetForm from './components/pet/PetForm';
@@ -24,10 +23,6 @@ class App extends React.Component {
     this.props.validateUser()
       .then(data => {
         this.setState({ loading: false })
-
-        if (data.payload) {
-          this.props.getLookups()
-        }
       })
   }
 
@@ -82,9 +77,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    validateUser: props => dispatch(validateUser(props)),
-    logoutUser: props => dispatch(logoutUser(props)),
-    getLookups: props => dispatch(getLookups(props))
+    validateUser: props => dispatch(validateUser(props))
   }
 }
 
