@@ -36,12 +36,22 @@ const logIn = (user) => {
 }
 
 const validateUser = () => {
-  if (!localStorage.getItem('token')) return Promise.resolve({ error: 'no token' })
+
+  if (localStorage.getItem('token') === "undefined") clearToken();
+
+  if (!localStorage.getItem('token')) {
+    return Promise.resolve({ error: 'no token' })
+  }
 
   return fetch(validateUrl, {
     headers: constructHeaders()
   }).then(jsonify)
     .then(data => {
+
+      if (data.error) {
+        return Promise.resolve({ error: 'no token' })
+      }
+
       localStorage.setItem('token', data.token)
       return data.user
     })
